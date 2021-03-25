@@ -19,7 +19,7 @@ namespace RogueLike
             this.tex = tex;
             this.hitbox = hitbox;
         }
-
+        //pog
 
     }
 }
