@@ -24,6 +24,8 @@ namespace RogueLike
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             kub = Content.Load<Texture2D>(@"kub");
+            Spriteclass.LoadContent(Content);
+            Level.Load_Level();
         }
 
         protected override void UnloadContent()
@@ -34,7 +36,7 @@ namespace RogueLike
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+            Level.Update();
 
 
             base.Update(gameTime);
@@ -47,6 +49,8 @@ namespace RogueLike
             spriteBatch.Begin();
 
             spriteBatch.Draw(kub, Vector2.Zero, Color.White);
+
+            Level.Draw(spriteBatch);
 
             spriteBatch.End();
 

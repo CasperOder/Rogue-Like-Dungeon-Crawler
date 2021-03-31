@@ -13,9 +13,16 @@ namespace RogueLike
     {
         Rectangle playerStartPos;
 
-        public Player(Texture2D tex, Rectangle hitbox) : base(tex, hitbox)
-        {
+        Color playerColor=Color.White;
 
+        public Player(Texture2D tex, Vector2 startPos) : base(tex)
+        {
+            hitbox.Width = tex.Width;
+            hitbox.Height = tex.Height;
+            hitbox.X = (int)startPos.X;
+            hitbox.Y = (int)startPos.Y;
+            speed = 10;
+            
         }
 
         public void Movement()
@@ -38,7 +45,7 @@ namespace RogueLike
                     //isColliding = false;
                 }
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Right)) //right
+            if (Keyboard.GetState().IsKeyDown(Keys.Right)) //right
             {
                 //Game1.GetPlayerCollision(new Rectangle(hitbox.X + speed, hitbox.Y, tileSize, tileSize));
 
@@ -52,16 +59,41 @@ namespace RogueLike
                     //isColliding = false;
                 }
             }
-
-            else if (Keyboard.GetState().IsKeyDown(Keys.Down)) //down
+            if (Keyboard.GetState().IsKeyDown(Keys.Down)) //down
             {
+                hitbox.Y += speed;
                 hasMoved = true;
             }
+            if (Keyboard.GetState().IsKeyDown(Keys.Up))//up
+            {
+                hitbox.Y -= speed;
+                hasMoved = true;
+            }            
+            if(Keyboard.GetState().IsKeyUp(Keys.Up) && Keyboard.GetState().IsKeyUp(Keys.Down) && Keyboard.GetState().IsKeyUp(Keys.Left) && Keyboard.GetState().IsKeyUp(Keys.Right))
+            {
+                hasMoved = false;
+            }
+
+            if(hasMoved)
+            {
+                playerColor = Color.White;
+            }
+            else
+            {
+                playerColor = Color.Black;
+            }
+
+
             //else
             //{
             //    isColliding = false;
 
             //}
+        }
+
+        public void Draw(SpriteBatch sb)
+        {
+            sb.Draw(tex, hitbox, playerColor);
         }
 
     }

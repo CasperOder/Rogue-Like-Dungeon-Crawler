@@ -6,22 +6,18 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Content;
 
 namespace RogueLike
 {
-    class Moveable_Object : GameObject
+    public static class Spriteclass
     {
-        protected int speed;
-        protected bool hasMoved;
+        public static Texture2D ballTex;
 
-
-
-        public Moveable_Object(Texture2D tex) : base(tex)
+        public static void LoadContent(ContentManager c)
         {
-
+            ballTex = c.Load<Texture2D>("ball");
         }
-
-        
 
     }
 }

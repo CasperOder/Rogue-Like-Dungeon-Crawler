@@ -14,10 +14,10 @@ namespace RogueLike
         //public Rectangle pos;
         public Rectangle hitbox; //är pos och hitbox densamma?
     
-        public GameObject(Texture2D tex, Rectangle hitbox)
+        public GameObject(Texture2D tex)
         {
             this.tex = tex;
-            this.hitbox = hitbox;
+//            this.hitbox = hitbox;
         }
         //pog
 
