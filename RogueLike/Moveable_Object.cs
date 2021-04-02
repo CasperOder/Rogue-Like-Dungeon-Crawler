@@ -16,7 +16,7 @@ namespace RogueLike
 
 
 
-        public Moveable_Object(Texture2D tex) : base(tex)
+        public Moveable_Object(SpriteSheet spriteSheet) : base(spriteSheet)
         {
 
         }

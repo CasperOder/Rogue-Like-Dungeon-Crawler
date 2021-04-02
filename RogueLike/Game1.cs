@@ -24,7 +24,7 @@ namespace RogueLike
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             kub = Content.Load<Texture2D>(@"kub");
-            Spriteclass.LoadContent(Content);
+            SpriteSheetManager.LoadContent(Content);
             Level.Load_Level();
         }
 

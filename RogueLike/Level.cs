@@ -17,7 +17,7 @@ namespace RogueLike
         public static void Load_Level()
         {
             playerStartPos = new Vector2(100, 100);
-            player = new Player(Spriteclass.ballTex, playerStartPos);
+            player = new Player(SpriteSheetManager.ball, playerStartPos);
         }
 
 

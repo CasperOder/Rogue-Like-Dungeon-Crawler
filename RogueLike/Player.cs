@@ -15,10 +15,9 @@ namespace RogueLike
 
         Color playerColor=Color.White;
 
-        public Player(Texture2D tex, Vector2 startPos) : base(tex)
+        public Player(SpriteSheet spriteSheet, Vector2 startPos) : base(spriteSheet)
         {
-            hitbox.Width = tex.Width;
-            hitbox.Height = tex.Height;
+            hitbox.Size = spriteSheet.frameSize;
             hitbox.X = (int)startPos.X;
             hitbox.Y = (int)startPos.Y;
             speed = 10;
@@ -83,7 +82,6 @@ namespace RogueLike
                 playerColor = Color.Black;
             }
 
-
             //else
             //{
             //    isColliding = false;
@@ -93,7 +91,7 @@ namespace RogueLike
 
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(tex, hitbox, playerColor);
+            sb.Draw(spriteSheet.texture, hitbox, playerColor);
         }
 
     }
