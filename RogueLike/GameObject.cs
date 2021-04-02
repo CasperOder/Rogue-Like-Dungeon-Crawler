@@ -10,13 +10,13 @@ namespace RogueLike
 {
     class GameObject
     {
-        public Texture2D tex;
+        public SpriteSheet spriteSheet;
         //public Rectangle pos;
         public Rectangle hitbox; //är pos och hitbox densamma?
     
-        public GameObject(Texture2D tex)
+        public GameObject(SpriteSheet spriteSheet)
         {
-            this.tex = tex;
+            this.spriteSheet = spriteSheet;
 //            this.hitbox = hitbox;
         }
         //pog

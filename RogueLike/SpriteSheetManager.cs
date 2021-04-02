@@ -10,13 +10,19 @@ using Microsoft.Xna.Framework.Content;
 
 namespace RogueLike
 {
-    public static class Spriteclass
+    public static class SpriteSheetManager
     {
-        public static Texture2D ballTex;
+        public static SpriteSheet ball { get; private set; }
 
         public static void LoadContent(ContentManager c)
         {
-            ballTex = c.Load<Texture2D>("ball");
+            Point sheetSize;
+            Texture2D texture;
+            //Ball
+            sheetSize = new Point(0, 0);
+            texture = c.Load<Texture2D>("ball");
+
+            ball = new SpriteSheet(texture, sheetSize);
         }
 
     }
