@@ -15,6 +15,8 @@ namespace RogueLike
             Content.RootDirectory = "Content";
         }
 
+        //Test adding document
+
         protected override void Initialize()
         {
             base.Initialize();
