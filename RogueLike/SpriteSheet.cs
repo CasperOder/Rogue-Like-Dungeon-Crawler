@@ -15,6 +15,19 @@ namespace RogueLike
         public Point sheetSize { get; }
         public Point frameSize { get; }
 
+        public List<Point[]> animationSequence { get; } = new List<Point[]>();
+
+        //Animated sprite
+        public SpriteSheet(Texture2D texture, Point sheetSize, List<Point[]> animationSequence)
+        {
+            this.texture = texture;
+            this.sheetSize = sheetSize;
+
+            this.animationSequence = animationSequence;
+
+            frameSize = new Point(texture.Width / (sheetSize.X + 1), texture.Height / (sheetSize.Y + 1));
+        }
+        //Single frame sprite
         public SpriteSheet(Texture2D texture, Point sheetSize)
         {
             this.texture = texture;

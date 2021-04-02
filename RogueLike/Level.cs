@@ -17,13 +17,13 @@ namespace RogueLike
         public static void Load_Level()
         {
             playerStartPos = new Vector2(100, 100);
-            player = new Player(SpriteSheetManager.ball, playerStartPos);
+            player = new Player(SpriteSheetManager.player, playerStartPos, 0.1d);
         }
 
 
-        public static void Update()
+        public static void Update(GameTime gameTime)
         {
-            player.Movement();
+            player.Movement(gameTime);
         }
 
         public static void Draw(SpriteBatch sb)
