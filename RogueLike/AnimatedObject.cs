@@ -27,25 +27,24 @@ namespace RogueLike
 
         public void Animate(GameTime gameTime, int animationIndex)
         {
-            timeSinceLastFrame += gameTime.ElapsedGameTime.TotalSeconds;
-
             if (spriteSheet.animationSequence.Count != 0)
             {
+                timeSinceLastFrame += gameTime.ElapsedGameTime.TotalSeconds;
+
                 if (timeSinceLastFrame >= timeBetweenFrames)
                 {
                     timeSinceLastFrame -= timeBetweenFrames;
 
-                    if (currentFrame != spriteSheet.animationSequence[animationIndex].Last())
-                        currentFrame = spriteSheet.animationSequence[animationIndex][sequenceIndex];
+                    currentFrame = spriteSheet.animationSequence[animationIndex][sequenceIndex];
+
+                    if (sequenceIndex == spriteSheet.animationSequence[animationIndex].Count() - 1)
+                    {
+                        sequenceIndex = 0;
+                    }
                     else
                     {
-                        currentFrame = spriteSheet.animationSequence[animationIndex].First();
-                    }
-
-                    if (sequenceIndex == spriteSheet.animationSequence[animationIndex].Count())
-                        sequenceIndex = 0;
-                    else
                         sequenceIndex++;
+                    }
                 }
             }
             else
