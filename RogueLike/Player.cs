@@ -15,7 +15,7 @@ namespace RogueLike
 
         Color playerColor=Color.White;
 
-        public Player(SpriteSheet spriteSheet, Vector2 startPos) : base(spriteSheet)
+        public Player(SpriteSheet spriteSheet, Vector2 startPos, double timeBetweenFrames) : base(spriteSheet, timeBetweenFrames)
         {
             hitbox.Size = spriteSheet.frameSize;
             hitbox.X = (int)startPos.X;
@@ -24,7 +24,7 @@ namespace RogueLike
             
         }
 
-        public void Movement()
+        public void Movement(GameTime gameTime)
         {
             if (!hasMoved)
             {
@@ -73,14 +73,19 @@ namespace RogueLike
                 hasMoved = false;
             }
 
-            if(hasMoved)
-            {
-                playerColor = Color.White;
-            }
+            if (!hasMoved)
+                Animate(gameTime, 0);
             else
-            {
-                playerColor = Color.Black;
-            }
+                ResetFrame();
+
+            //if(hasMoved)
+            //{
+            //    playerColor = Color.White;
+            //}
+            //else
+            //{
+            //    playerColor = Color.Black;
+            //}
 
             //else
             //{
@@ -91,7 +96,7 @@ namespace RogueLike
 
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(spriteSheet.texture, hitbox, playerColor);
+            sb.Draw(spriteSheet.texture, hitbox.Location.ToVector2(), null, new Rectangle(spriteSheet.frameSize.X * currentFrame.X, spriteSheet.frameSize.Y * currentFrame.Y, spriteSheet.frameSize.X, spriteSheet.frameSize.Y), Vector2.Zero, 0, Vector2.One, playerColor, SpriteEffects.None, 1f);
         }
 
     }

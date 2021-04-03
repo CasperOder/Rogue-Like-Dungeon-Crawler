@@ -38,7 +38,7 @@ namespace RogueLike
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            Level.Update();
+            Level.Update(gameTime);
 
 
             base.Update(gameTime);
