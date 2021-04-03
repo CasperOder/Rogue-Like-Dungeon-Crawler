@@ -9,14 +9,14 @@ using Microsoft.Xna.Framework.Input;
 
 namespace RogueLike
 {
-    class Moveable_Object : GameObject
+    class Moveable_Object : AnimatedObject
     {
         protected int speed;
         protected bool hasMoved;
 
 
 
-        public Moveable_Object(Texture2D tex) : base(tex)
+        public Moveable_Object(SpriteSheet spriteSheet, double timeBetweenFrames) : base(spriteSheet, timeBetweenFrames)
         {
 
         }

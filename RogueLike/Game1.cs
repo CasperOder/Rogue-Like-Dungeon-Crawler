@@ -15,6 +15,8 @@ namespace RogueLike
             Content.RootDirectory = "Content";
         }
 
+        //Test adding document
+
         protected override void Initialize()
         {
             base.Initialize();
@@ -63,8 +65,12 @@ namespace RogueLike
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             kub = Content.Load<Texture2D>(@"kub");
+
             Spriteclass.LoadContent(Content);
             Level.LoadBackgroundTiles(GraphicsDevice);
+
+            SpriteSheetManager.LoadContent(Content);
+
             Level.Load_Level();
 
             graphics.PreferredBackBufferWidth = 1850;
@@ -86,7 +92,7 @@ namespace RogueLike
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            Level.Update();
+            Level.Update(gameTime);
 
             
             DrawOnFrontRenderTarget();

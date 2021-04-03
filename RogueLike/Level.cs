@@ -49,6 +49,7 @@ namespace RogueLike
         public static void Load_Level()
         {
             playerStartPos = new Vector2(100, 100);
+
             player = new Player(Spriteclass.ballTex, playerStartPos);
 
             StreamReader sr = new StreamReader("Level1.txt");
@@ -76,12 +77,15 @@ namespace RogueLike
                     }
                 }
             }
+
+            player = new Player(SpriteSheetManager.fire, playerStartPos, 0.1d);
+
         }
 
 
-        public static void Update()
+        public static void Update(GameTime gameTime)
         {
-            player.Movement();
+            player.Movement(gameTime);
         }
 
         public static void Draw(SpriteBatch sb)
