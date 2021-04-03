@@ -21,13 +21,67 @@ namespace RogueLike
         {
             base.Initialize();
         }
+        private void DrawOnFrontRenderTarget()
+        {
+
+            GraphicsDevice.SetRenderTarget(Level.frontRenderTarget);
+            GraphicsDevice.Clear(Color.Transparent);
+            spriteBatch.Begin();
+
+            for (int a = 0; a < Level.foregroundTiles.GetLength(0); a++)
+            {
+                for (int b = 0; b < Level.foregroundTiles.GetLength(1); b++)
+                {
+                       Level.foregroundTiles[a, b].Draw(spriteBatch);
+                }
+                
+            }
+
+            spriteBatch.End();
+
+            GraphicsDevice.SetRenderTarget(null);
+        }
+
+        private void DrawOnBackRenderTarget()
+        {
+            GraphicsDevice.SetRenderTarget(Level.backRenderTarget);
+            GraphicsDevice.Clear(Color.Transparent);
+            spriteBatch.Begin();
+
+            for (int a = 0; a < Level.backgroundTiles.GetLength(0); a++)
+            {
+                for (int b = 0; b < Level.backgroundTiles.GetLength(1); b++)
+                {
+                    Level.backgroundTiles[a, b].Draw(spriteBatch);
+                    
+                }
+            }
+
+            spriteBatch.End();
+            GraphicsDevice.SetRenderTarget(null);
+        }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             kub = Content.Load<Texture2D>(@"kub");
+
+            Spriteclass.LoadContent(Content);
+            Level.LoadBackgroundTiles(GraphicsDevice);
+
             SpriteSheetManager.LoadContent(Content);
+
             Level.Load_Level();
+
+            graphics.PreferredBackBufferWidth = 1850;
+            graphics.PreferredBackBufferHeight = 1000;
+            graphics.ApplyChanges();
+
+            Level.backRenderTarget = new RenderTarget2D(GraphicsDevice, Window.ClientBounds.Width, Window.ClientBounds.Height);
+            Level.frontRenderTarget = new RenderTarget2D(GraphicsDevice, Window.ClientBounds.Width, Window.ClientBounds.Height);
+
+            DrawOnBackRenderTarget();
+
         }
 
         protected override void UnloadContent()
@@ -40,6 +94,8 @@ namespace RogueLike
                 Exit();
             Level.Update(gameTime);
 
+            
+            DrawOnFrontRenderTarget();
 
             base.Update(gameTime);
         }
@@ -50,7 +106,8 @@ namespace RogueLike
 
             spriteBatch.Begin();
 
-            spriteBatch.Draw(kub, Vector2.Zero, Color.White);
+            spriteBatch.Draw(Level.backRenderTarget, Vector2.Zero, Color.White);
+            spriteBatch.Draw(Level.frontRenderTarget, Vector2.Zero, Color.White);
 
             Level.Draw(spriteBatch);
 
