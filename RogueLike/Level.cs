@@ -14,11 +14,11 @@ namespace RogueLike
     {
         static Player player;
         static Vector2 playerStartPos;
-        public static int tileSize = 50;
-        public static Tile[,] foregroundTiles;
         public static Tile[,] backgroundTiles;
         public static RenderTarget2D backRenderTarget;
         public static RenderTarget2D frontRenderTarget;
+
+        public static Room testRoom; //tillfälligt room, för att testa och se så att allt fungerar
 
         public static void LoadBackgroundTiles(GraphicsDevice graphicsDevice)
         {
@@ -39,8 +39,7 @@ namespace RogueLike
                 {
                     if (levelReader[a][b] == 'w')
                     {
-                        backgroundTiles[b, a] = new Tile(Spriteclass.ballTex, new Rectangle(tileSize * b, tileSize * a, tileSize, tileSize));
-                        
+                        backgroundTiles[b, a] = new Tile(SpriteSheetManager.ball, new Rectangle(Constants.tileSize * b, Constants.tileSize * a, Constants.tileSize, Constants.tileSize));                        
                     }
                 }
             }
@@ -50,36 +49,11 @@ namespace RogueLike
         {
             playerStartPos = new Vector2(100, 100);
 
-            player = new Player(Spriteclass.ballTex, playerStartPos);
+            player = new Player(SpriteSheetManager.player, playerStartPos, 0.1d);
 
-            StreamReader sr = new StreamReader("Level1.txt");
-            List<string> levelReader = new List<string>();
-            while (!sr.EndOfStream)
-            {
-                levelReader.Add(sr.ReadLine());
-            }
-            sr.Close();
-
-            foregroundTiles = new Tile[levelReader[0].Length, levelReader.Count];
-
-            for (int a = 0; a < levelReader.Count; a++)
-            {
-                for (int b = 0; b < levelReader[a].Length; b++)
-                {
-                    if (levelReader[a][b] == '-')
-                    {
-                        foregroundTiles[b, a] = new Tile(Spriteclass.ballTex, new Rectangle(tileSize * b, tileSize * a, tileSize, tileSize));
-
-                    }
-                    else if (levelReader[a][b] == 'w')
-                    {
-                        foregroundTiles[b, a] = new Tile(Spriteclass.ballTex, new Rectangle(tileSize * b, tileSize * a, tileSize, tileSize));
-                    }
-                }
-            }
-
-            player = new Player(SpriteSheetManager.fire, playerStartPos, 0.1d);
-
+            testRoom = new Room(new Vector2(600, 400), "smallRoom.txt", SpriteSheetManager.ball);
+            testRoom.leftConnection = true;
+            testRoom.CreateLevel();
         }
 
 
@@ -91,6 +65,8 @@ namespace RogueLike
         public static void Draw(SpriteBatch sb)
         {
             player.Draw(sb);
+
+            testRoom.Draw(sb);
         }
 
     }

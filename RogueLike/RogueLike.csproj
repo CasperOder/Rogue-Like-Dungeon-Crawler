@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AnimatedObject.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="Level.cs" />
@@ -49,14 +50,11 @@
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Room.cs" />
     <Compile Include="s.cs" />
-
-    <Compile Include="Spriteclass.cs" />
     <Compile Include="Tile.cs" />
-
     <Compile Include="SpriteSheetManager.cs" />
     <Compile Include="SpriteSheet.cs" />
-
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -73,6 +71,7 @@
     <Content Include="Level1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="smallRoom.txt" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
