@@ -10,7 +10,7 @@ namespace RogueLike
 {
     class GameObject
     {
-        public SpriteSheet spriteSheet;
+        protected SpriteSheet spriteSheet;
         //public Rectangle pos;
         public Rectangle hitbox; //är pos och hitbox densamma?
     

@@ -11,14 +11,14 @@ namespace RogueLike
     class Tile : GameObject
     {
         Rectangle pos;
-        public Tile(Texture2D tex, Rectangle pos) : base(tex)
+        public Tile(SpriteSheet spriteSheet, Rectangle pos) : base(spriteSheet)
         {
             this.pos = pos;
 
         }
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(tex, pos,Color.White);
+            sb.Draw(spriteSheet.texture, pos,Color.White);
         }
     }
     
