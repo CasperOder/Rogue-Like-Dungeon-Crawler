@@ -66,10 +66,9 @@ namespace RogueLike
             spriteBatch = new SpriteBatch(GraphicsDevice);
             kub = Content.Load<Texture2D>(@"kub");
 
-            Spriteclass.LoadContent(Content);
-            Level.LoadBackgroundTiles(GraphicsDevice);
-
             SpriteSheetManager.LoadContent(Content);
+
+            Level.LoadBackgroundTiles(GraphicsDevice);
 
             Level.Load_Level();
 

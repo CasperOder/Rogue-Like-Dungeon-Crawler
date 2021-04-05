@@ -50,13 +50,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="s.cs" />
-
-    <Compile Include="Spriteclass.cs" />
     <Compile Include="Tile.cs" />
-
     <Compile Include="SpriteSheetManager.cs" />
     <Compile Include="SpriteSheet.cs" />
-
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

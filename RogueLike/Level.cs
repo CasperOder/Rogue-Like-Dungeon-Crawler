@@ -39,7 +39,7 @@ namespace RogueLike
                 {
                     if (levelReader[a][b] == 'w')
                     {
-                        backgroundTiles[b, a] = new Tile(Spriteclass.ballTex, new Rectangle(tileSize * b, tileSize * a, tileSize, tileSize));
+                        backgroundTiles[b, a] = new Tile(SpriteSheetManager.ball, new Rectangle(tileSize * b, tileSize * a, tileSize, tileSize));
                         
                     }
                 }
@@ -50,7 +50,7 @@ namespace RogueLike
         {
             playerStartPos = new Vector2(100, 100);
 
-            player = new Player(Spriteclass.ballTex, playerStartPos);
+            player = new Player(SpriteSheetManager.player, playerStartPos, 0.1d);
 
             StreamReader sr = new StreamReader("Level1.txt");
             List<string> levelReader = new List<string>();
@@ -68,18 +68,15 @@ namespace RogueLike
                 {
                     if (levelReader[a][b] == '-')
                     {
-                        foregroundTiles[b, a] = new Tile(Spriteclass.ballTex, new Rectangle(tileSize * b, tileSize * a, tileSize, tileSize));
+                        foregroundTiles[b, a] = new Tile(SpriteSheetManager.ball, new Rectangle(tileSize * b, tileSize * a, tileSize, tileSize));
 
                     }
                     else if (levelReader[a][b] == 'w')
                     {
-                        foregroundTiles[b, a] = new Tile(Spriteclass.ballTex, new Rectangle(tileSize * b, tileSize * a, tileSize, tileSize));
+                        foregroundTiles[b, a] = new Tile(SpriteSheetManager.ball, new Rectangle(tileSize * b, tileSize * a, tileSize, tileSize));
                     }
                 }
             }
-
-            player = new Player(SpriteSheetManager.fire, playerStartPos, 0.1d);
-
         }
 
 
