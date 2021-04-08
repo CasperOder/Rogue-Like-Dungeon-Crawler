@@ -8,13 +8,17 @@ namespace RogueLike
 {
     public static class Constants
     {
-        public static int tileSize;
+        public static int tileSize, roomWidth, roomHeight, startRoomCoords, minimumNumberOfRooms;
 
 
 
         public static void LoadConstants()
         {
             tileSize = 50;
+            roomWidth = tileSize * 10;
+            roomHeight = tileSize * 8;
+            startRoomCoords = 4;
+            minimumNumberOfRooms = 30;
         }
 
     }

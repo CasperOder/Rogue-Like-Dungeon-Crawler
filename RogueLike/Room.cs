@@ -12,7 +12,7 @@ namespace RogueLike
 {
     class Room
     {
-        public bool upConnection, downConnection, rightConnection, leftConnection;
+        public bool upConnection, downConnection, rightConnection, leftConnection, exitRoom;
         public Point pos;
         public Tile[,] tileArray;
         public SpriteSheet spriteSheet;
@@ -27,7 +27,7 @@ namespace RogueLike
         }
 
 
-        //I Level avgörs åt vilka håll det finns connections, sen kallar man på varje rooms CreateLevel() för att skapa rummet
+        //I Level avgörs åt vilka håll det finns connections, sen kallar man på varje rooms CreateLevel() för att skapa rummet. Måste kallas för att programmet ska fungera
         public void CreateLevel()
         {
             List<string> stringList = ReadFromFile(fileName);
@@ -70,7 +70,22 @@ namespace RogueLike
                             tileArray[i, j] = new Tile(spriteSheet, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize));
                         }
                     }
+                    else if (stringList[j][i] == 'B')
+                    {                        
+                            tileArray[i, j] = new Tile(spriteSheet, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize));                        
+                    }
+                    else if (stringList[j][i] == 'E')
+                    {
+                        if(exitRoom)
+                        {
 
+                        }
+                        else if (!upConnection)
+                        {
+                            tileArray[i, j] = new Tile(spriteSheet, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize));
+                        }
+
+                    }
                 }
             }
 
