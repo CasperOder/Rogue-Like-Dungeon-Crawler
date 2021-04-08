@@ -18,6 +18,7 @@ namespace RogueLike
         public static RenderTarget2D backRenderTarget;
         public static RenderTarget2D frontRenderTarget;
 
+        
         public static Room testRoom; //tillfälligt room, för att testa och se så att allt fungerar
 
         public static void LoadBackgroundTiles(GraphicsDevice graphicsDevice)
@@ -54,42 +55,19 @@ namespace RogueLike
             playerStartPos = new Vector2(100, 100);
 
             player = new Player(SpriteSheetManager.player, playerStartPos, 0.1d);
-
+            
             testRoom = new Room(new Vector2(600, 400), "smallRoom.txt", SpriteSheetManager.ball);
             testRoom.leftConnection = true;
             testRoom.CreateLevel();
 
-            StreamReader sr = new StreamReader("Level1.txt");
-            List<string> levelReader = new List<string>();
-            while (!sr.EndOfStream)
-            {
-                levelReader.Add(sr.ReadLine());
-            }
-            sr.Close();
-
-            foregroundTiles = new Tile[levelReader[0].Length, levelReader.Count];
-
-            for (int a = 0; a < levelReader.Count; a++)
-            {
-                for (int b = 0; b < levelReader[a].Length; b++)
-                {
-                    if (levelReader[a][b] == '-')
-                    {
-                        foregroundTiles[b, a] = new Tile(SpriteSheetManager.ball, new Rectangle(tileSize * b, tileSize * a, tileSize, tileSize));
-
-                    }
-                    else if (levelReader[a][b] == 'w')
-                    {
-                        foregroundTiles[b, a] = new Tile(SpriteSheetManager.ball, new Rectangle(tileSize * b, tileSize * a, tileSize, tileSize));
-                    }
-                }
-            }
         }
 
 
         public static void Update(GameTime gameTime)
         {
             player.Movement(gameTime);
+            Game1.camera.SetPosition(new Vector2(player.hitbox.X + player.hitbox.Width / 2, player.hitbox.Y + player.hitbox.Height / 2));
+
         }
 
         public static void Draw(SpriteBatch sb)

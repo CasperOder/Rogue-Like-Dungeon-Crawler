@@ -6,6 +6,7 @@ namespace RogueLike
 {
     public class Game1 : Game
     {
+        public static Camera camera;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D kub;
@@ -15,10 +16,14 @@ namespace RogueLike
             Content.RootDirectory = "Content";
         }
 
-        //Test adding document
+        
 
         protected override void Initialize()
         {
+            graphics.PreferredBackBufferWidth = 1850;
+            graphics.PreferredBackBufferHeight = 1000;
+            graphics.ApplyChanges();
+
             base.Initialize();
         }
         private void DrawOnFrontRenderTarget()
@@ -63,12 +68,9 @@ namespace RogueLike
 
             Level.LoadBackgroundTiles(GraphicsDevice);
 
+            camera = new Camera(GraphicsDevice.Viewport);
             Level.Load_Level();
-
-            graphics.PreferredBackBufferWidth = 1850;
-            graphics.PreferredBackBufferHeight = 1000;
-            graphics.ApplyChanges();
-
+            
             Level.backRenderTarget = new RenderTarget2D(GraphicsDevice, Window.ClientBounds.Width, Window.ClientBounds.Height);
             Level.frontRenderTarget = new RenderTarget2D(GraphicsDevice, Window.ClientBounds.Width, Window.ClientBounds.Height);
 
@@ -96,7 +98,7 @@ namespace RogueLike
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.Transform);
 
             spriteBatch.Draw(Level.backRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.Draw(Level.frontRenderTarget, Vector2.Zero, Color.White);
