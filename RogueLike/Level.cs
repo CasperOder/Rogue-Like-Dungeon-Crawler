@@ -39,7 +39,11 @@ namespace RogueLike
                 {
                     if (levelReader[a][b] == 'w')
                     {
+
                         backgroundTiles[b, a] = new Tile(SpriteSheetManager.ball, new Rectangle(Constants.tileSize * b, Constants.tileSize * a, Constants.tileSize, Constants.tileSize));                        
+
+                        
+
                     }
                 }
             }
@@ -54,6 +58,32 @@ namespace RogueLike
             testRoom = new Room(new Vector2(600, 400), "smallRoom.txt", SpriteSheetManager.ball);
             testRoom.leftConnection = true;
             testRoom.CreateLevel();
+
+            StreamReader sr = new StreamReader("Level1.txt");
+            List<string> levelReader = new List<string>();
+            while (!sr.EndOfStream)
+            {
+                levelReader.Add(sr.ReadLine());
+            }
+            sr.Close();
+
+            foregroundTiles = new Tile[levelReader[0].Length, levelReader.Count];
+
+            for (int a = 0; a < levelReader.Count; a++)
+            {
+                for (int b = 0; b < levelReader[a].Length; b++)
+                {
+                    if (levelReader[a][b] == '-')
+                    {
+                        foregroundTiles[b, a] = new Tile(SpriteSheetManager.ball, new Rectangle(tileSize * b, tileSize * a, tileSize, tileSize));
+
+                    }
+                    else if (levelReader[a][b] == 'w')
+                    {
+                        foregroundTiles[b, a] = new Tile(SpriteSheetManager.ball, new Rectangle(tileSize * b, tileSize * a, tileSize, tileSize));
+                    }
+                }
+            }
         }
 
 
