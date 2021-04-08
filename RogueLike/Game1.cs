@@ -28,15 +28,7 @@ namespace RogueLike
             GraphicsDevice.Clear(Color.Transparent);
             spriteBatch.Begin();
 
-            for (int a = 0; a < Level.foregroundTiles.GetLength(0); a++)
-            {
-                for (int b = 0; b < Level.foregroundTiles.GetLength(1); b++)
-                {
-                       Level.foregroundTiles[a, b].Draw(spriteBatch);
-                }
-                
-            }
-
+            
             spriteBatch.End();
 
             GraphicsDevice.SetRenderTarget(null);
@@ -53,7 +45,7 @@ namespace RogueLike
                 for (int b = 0; b < Level.backgroundTiles.GetLength(1); b++)
                 {
                     Level.backgroundTiles[a, b].Draw(spriteBatch);
-                    
+
                 }
             }
 
@@ -64,6 +56,7 @@ namespace RogueLike
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            Constants.LoadConstants();
             kub = Content.Load<Texture2D>(@"kub");
 
             SpriteSheetManager.LoadContent(Content);
