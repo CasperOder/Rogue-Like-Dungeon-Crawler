@@ -60,10 +60,6 @@ namespace RogueLike
 
             player = new Player(SpriteSheetManager.player, playerStartPos, 0.1d);
 
-            //    testRoom = new Room(new Vector2(600, 400), "smallRoom.txt", SpriteSheetManager.ball);
-            //    testRoom.leftConnection = true;
-            //    testRoom.CreateLevel();
-
             roomArray[Constants.startRoomCoords, Constants.startRoomCoords] = new Room(new Vector2(Constants.roomWidth * Constants.startRoomCoords, Constants.roomHeight * Constants.startRoomCoords), "smallRoom.txt", SpriteSheetManager.ball);
 
             generatedRoomList.Add(roomArray[Constants.startRoomCoords, Constants.startRoomCoords]);
@@ -94,10 +90,15 @@ namespace RogueLike
                                     chance = rnd.Next(1, 101);
                                     if (chance == 1)
                                     {
-                                        NewRoom(x - 1, y);
+                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * (x-1), Constants.roomHeight * y), "smallRoom.txt", SpriteSheetManager.ball);
+                                        newRoom.rightConnection = true;
+                                        roomArray[x, y].leftConnection = true;
+                                        roomArray[x-1, y] = newRoom;
+                                        generatedRoomList.Add(newRoom);
                                     }
                                 }
                             }
+
                             if (y > 0)
                             {
                                 if (roomArray[x, y - 1] == null)
@@ -105,10 +106,13 @@ namespace RogueLike
                                     chance = rnd.Next(1, 101);
                                     if (chance == 1)
                                     {
-                                        NewRoom(x, y - 1);
+                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * x, Constants.roomHeight * (y-1)), "smallRoom.txt", SpriteSheetManager.ball);
+                                        newRoom.downConnection = true;
+                                        roomArray[x, y].upConnection = true;
+                                        roomArray[x, y-1] = newRoom;
+                                        generatedRoomList.Add(newRoom);
                                     }
                                 }
-
                             }
 
                             if (x + 1 < roomArray.GetLength(0))
@@ -118,10 +122,13 @@ namespace RogueLike
                                     chance = rnd.Next(1, 101);
                                     if (chance == 1)
                                     {
-                                        NewRoom(x + 1, y);
+                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * (x+1), Constants.roomHeight * y), "smallRoom.txt", SpriteSheetManager.ball);
+                                        newRoom.leftConnection = true;
+                                        roomArray[x, y].rightConnection = true;
+                                        roomArray[x+1, y] = newRoom;
+                                        generatedRoomList.Add(newRoom);
                                     }
                                 }
-
                             }
 
                             if (y + 1 < roomArray.GetLength(1))
@@ -131,10 +138,13 @@ namespace RogueLike
                                     chance = rnd.Next(1, 101);
                                     if (chance == 1)
                                     {
-                                        NewRoom(x, y + 1);
+                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * x, Constants.roomHeight * (y+1)), "smallRoom.txt", SpriteSheetManager.ball);
+                                        newRoom.upConnection = true;
+                                        roomArray[x, y].downConnection = true;
+                                        roomArray[x, y+1] = newRoom;
+                                        generatedRoomList.Add(newRoom);
                                     }
                                 }
-
                             }
                         }
                     }
@@ -150,44 +160,64 @@ namespace RogueLike
                 {
                     if(roomArray[x,y]!=null)
                     {
-                        if(y==0)
+                        if (y == 0)
                         {
                             topRooms.Add(roomArray[x, y]);
                         }
-                        else if(roomArray[x,y-1]==null)
+                        else if (roomArray[x, y - 1] == null)
                         {
                             topRooms.Add(roomArray[x, y]);
                         }
 
-                        if(x>0)
+                        if (x > 0)
                         {
-                            if(roomArray[x-1,y] != null)
+                            if (roomArray[x - 1, y] != null)
                             {
-                                roomArray[x, y].leftConnection = true;
+                                chance = rnd.Next(1, 11);
+                                if (chance == 1)
+                                {
+                                    roomArray[x, y].leftConnection = true;
+                                    roomArray[x - 1, y].rightConnection = true;
+                                }
                             }
                         }
 
-                        if(y>0)
+                        if (y > 0)
                         {
-                            if (roomArray[x, y-1] != null)
+                            if (roomArray[x, y - 1] != null)
                             {
-                                roomArray[x, y].upConnection = true;
-                            }                            
-                        }
-
-                        if(x + 1 < roomArray.GetLength(0))
-                        {
-                            if (roomArray[x+1, y] != null)
-                            {
-                                roomArray[x, y].rightConnection = true;
+                                chance = rnd.Next(1, 11);
+                                if (chance == 1)
+                                {
+                                    roomArray[x, y].upConnection = true;
+                                    roomArray[x, y-1].downConnection = true;
+                                }
                             }
                         }
 
-                        if(y + 1 < roomArray.GetLength(1))
+                        if (x + 1 < roomArray.GetLength(0))
                         {
-                            if (roomArray[x, y+1] != null)
+                            if (roomArray[x + 1, y] != null)
                             {
-                                roomArray[x, y].downConnection = true;
+                                chance = rnd.Next(1, 11);
+                                if (chance == 1)
+                                {
+                                    roomArray[x, y].rightConnection = true;
+                                    roomArray[x + 1, y].leftConnection = true;
+                                }
+                            }
+                        }
+
+                        if (y + 1 < roomArray.GetLength(1))
+                        {
+                            if (roomArray[x, y + 1] != null)
+                            {
+                                chance = rnd.Next(1, 11);
+                                if (chance == 1)
+                                {
+                                    roomArray[x, y].downConnection = true;
+                                    roomArray[x, y+1].upConnection = true;
+                                }
                             }
                         }
                     }
@@ -212,12 +242,13 @@ namespace RogueLike
             }
         }
 
-        public static void NewRoom(int x, int y) //Metod för att skapa nytt room, så slipper jag skriva om samma sak 1000 ggr
-        {
-            Room newRoom = new Room(new Vector2(Constants.roomWidth * x, Constants.roomHeight * y), "smallRoom.txt", SpriteSheetManager.ball);
-            roomArray[x, y] = newRoom;
-            generatedRoomList.Add(newRoom);
-        }
+        
+        //public static void NewRoom(int x, int y) //Metod för att skapa nytt room, så slipper jag skriva om samma sak 1000 ggr
+        //{
+        //    Room newRoom = new Room(new Vector2(Constants.roomWidth * x, Constants.roomHeight * y), "smallRoom.txt", SpriteSheetManager.ball);
+        //    roomArray[x, y] = newRoom;
+        //    generatedRoomList.Add(newRoom);
+        //}
 
         public static void Update(GameTime gameTime)
         {
@@ -237,9 +268,6 @@ namespace RogueLike
             {
                 r.Draw(sb);
             }
-
-
-            //testRoom.Draw(sb);
         }
 
     }

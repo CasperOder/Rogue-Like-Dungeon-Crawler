@@ -26,7 +26,6 @@ namespace RogueLike
             this.fileName = fileName;
         }
 
-
         //I Level avgörs åt vilka håll det finns connections, sen kallar man på varje rooms CreateLevel() för att skapa rummet. Måste kallas för att programmet ska fungera
         public void CreateLevel()
         {
