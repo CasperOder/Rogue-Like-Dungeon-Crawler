@@ -10,15 +10,15 @@ namespace RogueLike
 {
     class Tile : GameObject
     {
-        Rectangle pos;
+        public Vector2 middlepos;
         public Tile(SpriteSheet spriteSheet, Rectangle pos) : base(spriteSheet)
         {
-            this.pos = pos;
-
+            this.hitbox = pos;
+            middlepos = new Vector2(hitbox.Center.X, hitbox.Center.Y);
         }
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(spriteSheet.texture, pos,Color.White);
+            sb.Draw(spriteSheet.texture, hitbox,Color.White);
         }
     }
     
