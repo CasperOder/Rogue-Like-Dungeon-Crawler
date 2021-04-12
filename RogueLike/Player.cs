@@ -11,88 +11,86 @@ namespace RogueLike
 {
     class Player : Moveable_Object
     {
-        Rectangle playerStartPos;
+        Vector2 currentPos;
 
         Color playerColor=Color.White;
 
         public Player(SpriteSheet spriteSheet, Vector2 startPos, double timeBetweenFrames) : base(spriteSheet, timeBetweenFrames)
         {
+            this.currentPos = startPos;
             hitbox.Size = spriteSheet.frameSize;
-            hitbox.X = (int)startPos.X;
-            hitbox.Y = (int)startPos.Y;
+            hitbox.X = (int)startPos.X - hitbox.Width/2;
+            hitbox.Y = (int)startPos.Y - hitbox.Height/2;
             speed = 10;
-            
         }
 
         public void Movement(GameTime gameTime)
         {
-            if (!hasMoved)
+            if(Keyboard.GetState().IsKeyDown(Keys.Left) && Keyboard.GetState().IsKeyDown(Keys.Up))
             {
-                playerStartPos = hitbox;
+                direction = new Vector2(-(float)Math.Sqrt(0.5),-(float)Math.Sqrt(0.5));
+                moving = true;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Left)) //left
+            else if (Keyboard.GetState().IsKeyDown(Keys.Right) && Keyboard.GetState().IsKeyDown(Keys.Up))
             {
-                //Game1.GetPlayerCollision(new Rectangle(hitbox.X - speed, hitbox.Y, tileSize, tileSize));
-
-                //if (!isColliding)
-                {
-                    hitbox.X -= speed;
-                    hasMoved = true;
-
-
-
-                    //isColliding = false;
-                }
+                direction = new Vector2((float)Math.Sqrt(0.5), -(float)Math.Sqrt(0.5));
+                moving = true;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Right)) //right
+            else if (Keyboard.GetState().IsKeyDown(Keys.Right) && Keyboard.GetState().IsKeyDown(Keys.Down))
             {
-                //Game1.GetPlayerCollision(new Rectangle(hitbox.X + speed, hitbox.Y, tileSize, tileSize));
-
-                //if (!isColliding)
-                {
-                    hitbox.X += speed;
-                    hasMoved = true;
-
-
-
-                    //isColliding = false;
-                }
+                direction = new Vector2((float)Math.Sqrt(0.5), (float)Math.Sqrt(0.5));
+                moving = true;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Down)) //down
+            else if (Keyboard.GetState().IsKeyDown(Keys.Left) && Keyboard.GetState().IsKeyDown(Keys.Down))
             {
-                hitbox.Y += speed;
-                hasMoved = true;
+                direction = new Vector2(-(float)Math.Sqrt(0.5), (float)Math.Sqrt(0.5));
+                moving = true;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Up))//up
+            else if (Keyboard.GetState().IsKeyDown(Keys.Left)) //left
             {
-                hitbox.Y -= speed;
-                hasMoved = true;
+                direction = new Vector2(-1,0);
+                moving = true;                
+            }
+            else if (Keyboard.GetState().IsKeyDown(Keys.Right)) //right
+            {
+                direction = new Vector2(1,0);
+                moving = true;
+            }
+            else if (Keyboard.GetState().IsKeyDown(Keys.Down)) //down
+            {
+                direction = new Vector2(0,1);
+                moving = true;
+            }
+            else if (Keyboard.GetState().IsKeyDown(Keys.Up))//up
+            {
+                direction = new Vector2(0,-1);
+                moving = true;
             }            
-            if(Keyboard.GetState().IsKeyUp(Keys.Up) && Keyboard.GetState().IsKeyUp(Keys.Down) && Keyboard.GetState().IsKeyUp(Keys.Left) && Keyboard.GetState().IsKeyUp(Keys.Right))
+            else if(Keyboard.GetState().IsKeyUp(Keys.Up) && Keyboard.GetState().IsKeyUp(Keys.Down) && Keyboard.GetState().IsKeyUp(Keys.Left) && Keyboard.GetState().IsKeyUp(Keys.Right))
             {
-                hasMoved = false;
+                direction = Vector2.Zero;
+                moving = false;
             }
 
-            if (!hasMoved)
-                Animate(gameTime, 0);
-            else
+            if(moving)
+            {
+                currentPos += speed* direction;
+                hitbox.Location = new Point((int)currentPos.X, (int)currentPos.Y) - new Point(hitbox.Width / 2, hitbox.Height / 2);
                 ResetFrame();
-
-            //if(hasMoved)
-            //{
-            //    playerColor = Color.White;
-            //}
-            //else
-            //{
-            //    playerColor = Color.Black;
-            //}
-
-            //else
-            //{
-            //    isColliding = false;
-
-            //}
+            }
+            else
+            {
+                Animate(gameTime, 0);
+            }
         }
+
+        public void TileCollisionHandler (Tile t)
+        {
+            Vector2 diff = (currentPos - t.middlepos) / Vector2.Distance(currentPos, t.middlepos);
+            currentPos += diff * speed;
+            hitbox.Location = new Point((int)currentPos.X, (int)currentPos.Y) - new Point(hitbox.Width / 2, hitbox.Height / 2);
+        }
+
 
         public void Draw(SpriteBatch sb)
         {

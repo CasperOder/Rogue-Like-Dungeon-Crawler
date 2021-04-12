@@ -12,7 +12,8 @@ namespace RogueLike
     class Moveable_Object : AnimatedObject
     {
         protected int speed;
-        protected bool hasMoved;
+        protected Vector2 direction;
+        protected bool moving;
 
 
 

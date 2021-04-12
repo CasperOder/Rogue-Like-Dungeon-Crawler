@@ -10,53 +10,32 @@ using Microsoft.Xna.Framework.Input;
 
 namespace RogueLike
 {
-    class Level
+    static class Level
     {
+        static SpriteBatch sb;
         static Player player;
         static Vector2 playerStartPos;
         public static Tile[,] backgroundTiles;
-        public static RenderTarget2D backRenderTarget;
-        public static RenderTarget2D frontRenderTarget;
-
+        private static RenderTarget2D backRenderTarget;
+        private static RenderTarget2D frontRenderTarget;
+        static int noOfRoomsX, noOfRoomsY;
         static List<Room> generatedRoomList = new List<Room>();
         static List<Room> backgroundRoomList = new List<Room>();
-        static Room[,] roomArray = new Room[9, 9];
+        static Room[,] roomArray;
         
         public static Room testRoom; //tillfälligt room, för att testa och se så att allt fungerar
 
-
-        public static void LoadBackgroundTiles(GraphicsDevice graphicsDevice)
+  
+        public static void Load_Level(GraphicsDeviceManager g)
         {
-            List<string> levelReader = new List<string>();
+            sb = new SpriteBatch(g.GraphicsDevice);
+            noOfRoomsX = 8;
+            noOfRoomsY = 8;
+            roomArray = new Room[noOfRoomsX, noOfRoomsY];
+            frontRenderTarget = new RenderTarget2D(g.GraphicsDevice, Constants.roomWidth*noOfRoomsX, Constants.roomHeight*noOfRoomsY);
+            backRenderTarget = new RenderTarget2D(g.GraphicsDevice, Constants.roomWidth*noOfRoomsX, Constants.roomHeight*noOfRoomsY);
 
-            StreamReader sr = new StreamReader("Background.txt");
-            while (!sr.EndOfStream)
-            {
-                levelReader.Add(sr.ReadLine());
-            }
-            sr.Close();
-
-            backgroundTiles = new Tile[levelReader[0].Length, levelReader.Count];
-
-            for (int a = 0; a < levelReader.Count; a++)
-            {
-                for (int b = 0; b < levelReader[a].Length; b++)
-                {
-                    if (levelReader[a][b] == 'w')
-                    {
-
-                        backgroundTiles[b, a] = new Tile(SpriteSheetManager.ball, new Rectangle(Constants.tileSize * b, Constants.tileSize * a, Constants.tileSize, Constants.tileSize));                        
-
-                        
-
-                    }
-                }
-            }
-        }
-
-        public static void Load_Level()
-        {
-            playerStartPos = new Vector2(Constants.roomWidth * Constants.startRoomCoords, Constants.roomHeight * Constants.startRoomCoords);
+            playerStartPos = new Vector2(Constants.roomWidth * Constants.startRoomCoords+Constants.roomWidth/2, Constants.roomHeight * Constants.startRoomCoords+Constants.roomHeight/2);
 
             player = new Player(SpriteSheetManager.player, playerStartPos, 0.1d);
 
@@ -67,6 +46,8 @@ namespace RogueLike
             Random rnd = new Random();
             LoadLayout(rnd);
 
+            DrawOnFrontRenderTarget(g.GraphicsDevice);
+            DrawOnBackRenderTarget(g.GraphicsDevice);
         }
 
         //Ritar room Layouten
@@ -240,35 +221,70 @@ namespace RogueLike
             {
                 r.CreateLevel();
             }
+
         }
-
         
-        //public static void NewRoom(int x, int y) //Metod för att skapa nytt room, så slipper jag skriva om samma sak 1000 ggr
-        //{
-        //    Room newRoom = new Room(new Vector2(Constants.roomWidth * x, Constants.roomHeight * y), "smallRoom.txt", SpriteSheetManager.ball);
-        //    roomArray[x, y] = newRoom;
-        //    generatedRoomList.Add(newRoom);
-        //}
-
         public static void Update(GameTime gameTime)
         {
             player.Movement(gameTime);
+
+            foreach(Room r in generatedRoomList)
+            {
+                foreach(Tile t in r.tileArray)
+                {
+                    if(t!=null)
+                    {
+                        if (t.hitbox.Intersects(player.hitbox)) 
+                        {
+                            player.TileCollisionHandler(t);
+                        }
+                    }
+                }
+            }
+
+
             Game1.camera.SetPosition(new Vector2(player.hitbox.X + player.hitbox.Width / 2, player.hitbox.Y + player.hitbox.Height / 2));
+        }
+
+        public static void DrawOnFrontRenderTarget(GraphicsDevice g)
+        {
+
+            g.SetRenderTarget(frontRenderTarget);
+            g.Clear(Color.Transparent);
+            sb.Begin();
+
+            foreach(Room r in generatedRoomList)
+            {
+                r.Draw(sb);
+            }
+
+            sb.End();
+            g.SetRenderTarget(null);
+        }
+
+        public static void DrawOnBackRenderTarget(GraphicsDevice g)
+        {
+            g.SetRenderTarget(backRenderTarget);
+            g.Clear(Color.Transparent);
+            sb.Begin();
+
+            foreach (Room r in backgroundRoomList)
+            {
+                r.Draw(sb);
+            }
+
+            sb.End();
+            g.SetRenderTarget(null);
         }
 
         public static void Draw(SpriteBatch sb)
         {
             player.Draw(sb);
 
-            foreach(Room r in generatedRoomList)
-            {
-                r.Draw(sb);                
-            }
-            foreach(Room r in backgroundRoomList)
-            {
-                r.Draw(sb);
-            }
-        }
+            sb.Draw(frontRenderTarget, Vector2.Zero, Color.White);
+            sb.Draw(backRenderTarget, Vector2.Zero, Color.White);
 
+
+        }        
     }
 }
