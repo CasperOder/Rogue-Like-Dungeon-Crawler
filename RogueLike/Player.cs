@@ -10,17 +10,16 @@ using System.Threading.Tasks;
 namespace RogueLike
 {
     class Player : Moveable_Object
-    {
-        Vector2 currentPos;
-
+    {        
         Color playerColor=Color.White;
 
         public Player(SpriteSheet spriteSheet, Vector2 startPos, double timeBetweenFrames) : base(spriteSheet, timeBetweenFrames)
         {
-            this.currentPos = startPos;
             hitbox.Size = spriteSheet.frameSize;
             hitbox.X = (int)startPos.X - hitbox.Width/2;
             hitbox.Y = (int)startPos.Y - hitbox.Height/2;
+            middlepos = new Vector2(hitbox.Center.X, hitbox.Center.Y);
+
             speed = 10;
         }
 
@@ -74,8 +73,8 @@ namespace RogueLike
 
             if(moving)
             {
-                currentPos += speed* direction;
-                hitbox.Location = new Point((int)currentPos.X, (int)currentPos.Y) - new Point(hitbox.Width / 2, hitbox.Height / 2);
+                middlepos += speed* direction;
+                hitbox.Location = new Point((int)middlepos.X, (int)middlepos.Y) - new Point(hitbox.Width / 2, hitbox.Height / 2);
                 ResetFrame();
             }
             else
@@ -86,9 +85,10 @@ namespace RogueLike
 
         public void TileCollisionHandler (Tile t)
         {
-            Vector2 diff = (currentPos - t.middlepos) / Vector2.Distance(currentPos, t.middlepos);
-            currentPos += diff * speed;
-            hitbox.Location = new Point((int)currentPos.X, (int)currentPos.Y) - new Point(hitbox.Width / 2, hitbox.Height / 2);
+            Vector2 diff = (middlepos - t.middlepos) / Vector2.Distance(middlepos, t.middlepos);
+            middlepos += diff * speed;
+            hitbox.Location = new Point((int)middlepos.X, (int)middlepos.Y) - new Point(hitbox.Width / 2, hitbox.Height / 2);
+            moving = false;
         }
 
 

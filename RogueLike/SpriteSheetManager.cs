@@ -16,7 +16,7 @@ namespace RogueLike
         public static SpriteSheet player { get; private set; }
         public static SpriteSheet fire { get; private set; }
         public static SpriteSheet tempTile { get; private set; }
-
+        public static SpriteSheet dummy;
         private static List<Point[]> playerAnimations = new List<Point[]>();
         private static List<Point[]> fireAnimations = new List<Point[]>();
 
@@ -44,6 +44,8 @@ namespace RogueLike
 
             ball = new SpriteSheet(c.Load<Texture2D>("ball"), sheetSize);
 
+            dummy = new SpriteSheet(c.Load<Texture2D>("dummy"), sheetSize);
+
             //Player
             sheetSize = new Point(3, 0);
             texture = c.Load<Texture2D>("IdleSpriteSheet");
@@ -57,7 +59,7 @@ namespace RogueLike
             });
 
             player = new SpriteSheet(texture, sheetSize, playerAnimations);
-
+            
             //Fire
             sheetSize = new Point(4, 0);
             texture = c.Load<Texture2D>("Fire");
