@@ -10,7 +10,6 @@ namespace RogueLike
 {
     class Tile : GameObject
     {
-        public Vector2 middlepos;
         public Tile(SpriteSheet spriteSheet, Rectangle pos) : base(spriteSheet)
         {
             this.hitbox = pos;

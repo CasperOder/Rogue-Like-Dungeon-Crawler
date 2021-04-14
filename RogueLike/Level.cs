@@ -22,8 +22,9 @@ namespace RogueLike
         static List<Room> generatedRoomList = new List<Room>();
         static List<Room> backgroundRoomList = new List<Room>();
         static Room[,] roomArray;
-        
-        public static Room testRoom; //tillfälligt room, för att testa och se så att allt fungerar
+        static Texture2D lineTex;
+        static List<Enemy> enemyList= new List<Enemy>();
+
 
   
         public static void Load_Level(GraphicsDeviceManager g)
@@ -35,11 +36,14 @@ namespace RogueLike
             frontRenderTarget = new RenderTarget2D(g.GraphicsDevice, Constants.roomWidth*noOfRoomsX, Constants.roomHeight*noOfRoomsY);
             backRenderTarget = new RenderTarget2D(g.GraphicsDevice, Constants.roomWidth*noOfRoomsX, Constants.roomHeight*noOfRoomsY);
 
-            playerStartPos = new Vector2(Constants.roomWidth * Constants.startRoomCoords+Constants.roomWidth/2, Constants.roomHeight * Constants.startRoomCoords+Constants.roomHeight/2);
+            //playerStartPos = new Vector2(Constants.roomWidth * Constants.startRoomCoords+Constants.roomWidth/2, Constants.roomHeight * Constants.startRoomCoords+Constants.roomHeight/2);
 
             player = new Player(SpriteSheetManager.player, playerStartPos, 0.1d);
 
             roomArray[Constants.startRoomCoords, Constants.startRoomCoords] = new Room(new Vector2(Constants.roomWidth * Constants.startRoomCoords, Constants.roomHeight * Constants.startRoomCoords), "smallRoom.txt", SpriteSheetManager.ball);
+
+            player = new Player(SpriteSheetManager.player, roomArray[Constants.startRoomCoords, Constants.startRoomCoords].middlepos, 0.1d);
+
 
             generatedRoomList.Add(roomArray[Constants.startRoomCoords, Constants.startRoomCoords]);
 
@@ -48,6 +52,8 @@ namespace RogueLike
 
             DrawOnFrontRenderTarget(g.GraphicsDevice);
             DrawOnBackRenderTarget(g.GraphicsDevice);
+
+            
         }
 
         //Ritar room Layouten
@@ -201,6 +207,14 @@ namespace RogueLike
                                 }
                             }
                         }
+
+                        chance = rnd.Next(1, 10);
+                        
+                        if(chance==1)
+                        {
+                            Enemy dummy = new DummyEnemy(SpriteSheetManager.dummy,1,roomArray[x,y].middlepos);
+                            enemyList.Add(dummy);
+                        }
                     }
                     else
                     {
@@ -242,6 +256,26 @@ namespace RogueLike
                 }
             }
 
+            foreach(Enemy e in enemyList)
+            {
+                if(e.GetPlayerDistance(player)<e.enemySpottingRange)
+                {
+                    Vector2 direction = player.middlepos - e.middlepos; 
+                    direction.Normalize();
+
+                    foreach (Room r in generatedRoomList)
+                    {
+                        foreach(Tile t in r.tileArray)
+                        {
+                            if(t!=null)
+                            {
+                                //metod för att upptäcka om någon tile är ivägen                                 
+                            }
+                        }
+                        
+                    }                    
+                }
+            }
 
             Game1.camera.SetPosition(new Vector2(player.hitbox.X + player.hitbox.Width / 2, player.hitbox.Y + player.hitbox.Height / 2));
         }
@@ -284,7 +318,10 @@ namespace RogueLike
             sb.Draw(frontRenderTarget, Vector2.Zero, Color.White);
             sb.Draw(backRenderTarget, Vector2.Zero, Color.White);
 
-
+            foreach(Enemy e in enemyList)
+            {
+                e.Draw(sb);
+            }
         }        
     }
 }

@@ -11,9 +11,11 @@ namespace RogueLike
     class GameObject
     {
         protected SpriteSheet spriteSheet;
-        //public Rectangle pos;
-        public Rectangle hitbox; //är pos och hitbox densamma?
-    
+
+        public Rectangle hitbox;
+        public Vector2 middlepos;
+
+
         public GameObject(SpriteSheet spriteSheet)
         {
             this.spriteSheet = spriteSheet;

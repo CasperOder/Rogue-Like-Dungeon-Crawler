@@ -10,16 +10,17 @@ using System.IO;
 
 namespace RogueLike
 {
-    class Room
+    class Room:GameObject
     {
         public bool upConnection, downConnection, rightConnection, leftConnection, exitRoom;
-        public Point pos;
+        public Point pos; //upperleft corner
         public Tile[,] tileArray;
-        public SpriteSheet spriteSheet;
         string fileName;
 
-        public Room(Vector2 pos, string fileName, SpriteSheet spriteSheet)
+        public Room(Vector2 pos, string fileName, SpriteSheet spriteSheet):base(spriteSheet)
         {
+            this.hitbox = new Rectangle((int)pos.X, (int)pos.Y, Constants.roomWidth, Constants.roomHeight);
+            middlepos = new Vector2(hitbox.Center.X, hitbox.Center.Y);
             this.pos.X = (int)pos.X;
             this.pos.Y = (int)pos.Y;
             this.spriteSheet = spriteSheet;
