@@ -13,6 +13,8 @@ namespace RogueLike
     {        
         Color playerColor=Color.White;
 
+        Weapon equippedWeapon;
+
         public Player(SpriteSheet spriteSheet, Vector2 startPos, double timeBetweenFrames) : base(spriteSheet, timeBetweenFrames)
         {
             hitbox.Size = spriteSheet.frameSize;
