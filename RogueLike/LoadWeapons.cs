@@ -8,14 +8,14 @@ namespace RogueLike
 {
     static class LoadWeapons
     {
-        public static MeleeWeapon testMelee;
+        public static MeleeWeapon testMelee, sweepMelee;
 
 
 
         public static void LoadAllWeapons()
         {
-            testMelee = new MeleeWeapon(120, 40, 20, 2, SpriteSheetManager.arrow);
-
+            testMelee = new MeleeWeapon(120, 40, 20, 2, SpriteSheetManager.arrow, SpriteSheetManager.arrowItem, 0.9f);
+            sweepMelee = new MeleeWeapon(60, 180, 40, 1, SpriteSheetManager.sweep, SpriteSheetManager.sweepItem, 0.69f);
 
 
         }

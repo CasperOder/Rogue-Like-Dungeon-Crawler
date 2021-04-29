@@ -57,7 +57,7 @@ namespace RogueLike
             
             Level.Update(gameTime);
 
-            
+            Window.Title = Level.currency.ToString();   
             
             base.Update(gameTime);
         }

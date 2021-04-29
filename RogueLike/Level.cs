@@ -24,6 +24,11 @@ namespace RogueLike
         static Room[,] roomArray;
         static Texture2D lineTex;
         static List<Enemy> enemyList= new List<Enemy>();
+        public static List<Item> itemsList = new List<Item>();
+
+        public static KeyboardState keyboardState, oldKeyboardState = Keyboard.GetState();
+
+        public static int currency;
 
   
         public static void Load_Level(GraphicsDeviceManager g)
@@ -42,6 +47,8 @@ namespace RogueLike
             roomArray[Constants.startRoomCoords, Constants.startRoomCoords] = new Room(new Vector2(Constants.roomWidth * Constants.startRoomCoords, Constants.roomHeight * Constants.startRoomCoords), "smallRoom.txt", SpriteSheetManager.ball);
 
             player = new Player(SpriteSheetManager.player, roomArray[Constants.startRoomCoords, Constants.startRoomCoords].middlepos, 0.1d);
+
+            
 
             player.ChangeWeapon(LoadWeapons.testMelee);
 
@@ -215,6 +222,10 @@ namespace RogueLike
                             Enemy dummy = new DummyEnemy(SpriteSheetManager.dummy,1,roomArray[x,y].middlepos);
                             enemyList.Add(dummy);
                         }
+
+                        Item coin = new Item(10, true, SpriteSheetManager.coin, roomArray[x, y].middlepos);
+                        itemsList.Add(coin);
+
                     }
                     else
                     {
@@ -226,6 +237,11 @@ namespace RogueLike
 
             chance = rnd.Next(1, topRooms.Count);
             topRooms[chance].exitRoom = true; //Bestämmer vilket rum som ska leda till nästa krets
+
+            WeaponItem sweepItem = new WeaponItem(LoadWeapons.sweepMelee, 0, false, LoadWeapons.sweepMelee.itemSpriteSheet, topRooms[chance].middlepos);
+            itemsList.Add(sweepItem);
+
+
 
             foreach(Room r in generatedRoomList)
             {
@@ -240,7 +256,40 @@ namespace RogueLike
         
         public static void Update(GameTime gameTime)
         {
+            oldKeyboardState = keyboardState;
+            keyboardState = Keyboard.GetState();
+
             player.Movement(gameTime);
+
+            for(int i=0;i<itemsList.Count;i++)
+            {
+                if(player.hitbox.Intersects(itemsList[i].hitbox))
+                {
+                    if(itemsList[i].autoPickUp || (keyboardState.IsKeyDown(Keys.Enter) && oldKeyboardState.IsKeyUp(Keys.Enter)))
+                    {
+
+                        if (itemsList[i] is WeaponItem)
+                        {
+                            if (!player.isAttacking)
+                            {
+                                player.ChangeWeapon(itemsList[i].weaponItem);
+                                currency += itemsList[i].coinGain;
+                                itemsList.RemoveAt(i);
+                            }
+                            break;
+                        }
+                        else
+                        {
+                            currency += itemsList[i].coinGain;
+                            itemsList.RemoveAt(i);
+                            break;
+                        }
+
+
+
+                    }
+                }
+            }
 
             foreach(Room r in generatedRoomList)
             {
@@ -317,6 +366,11 @@ namespace RogueLike
 
             sb.Draw(frontRenderTarget, Vector2.Zero, Color.White);
             sb.Draw(backRenderTarget, Vector2.Zero, Color.White);
+
+            foreach(Item i in itemsList)
+            {
+                i.Draw(sb);
+            }
 
             foreach(Enemy e in enemyList)
             {

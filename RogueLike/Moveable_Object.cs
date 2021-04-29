@@ -12,6 +12,7 @@ namespace RogueLike
     class Moveable_Object : AnimatedObject
     {
         protected int speed;
+        protected float speedMultiplier;
         protected Vector2 direction;
         protected bool moving;
 
@@ -19,7 +20,7 @@ namespace RogueLike
 
         public Moveable_Object(SpriteSheet spriteSheet, double timeBetweenFrames) : base(spriteSheet, timeBetweenFrames)
         {
-
+            speedMultiplier = 1;
         }
 
         

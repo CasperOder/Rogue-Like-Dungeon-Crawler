@@ -29,11 +29,11 @@ namespace RogueLike
         public static float mouseDistanceX;
         public static float mouseDistanceY;
 
-        float weaponRotation;
-
+        float weaponSpeedMultiplier;
+        
         Vector2 middleOfMap = new Vector2(Constants.windowWidth / 2, Constants.windowHeight / 2);
 
-        bool isAttacking;
+        public bool isAttacking;
 
         float attackTime, timeTillMovable;
 
@@ -63,6 +63,7 @@ namespace RogueLike
             {
                 if (!isAttacking)
                 {
+                    speedMultiplier *= weaponSpeedMultiplier;
                     isAttacking = true;
                     moving = false;
                     GetAttackingDirection();
@@ -119,7 +120,7 @@ namespace RogueLike
 
             if (moving)
             {
-                middlepos += speed * direction;
+                middlepos += speed * direction * speedMultiplier;
                 hitbox.Location = new Point((int)middlepos.X, (int)middlepos.Y) - new Point(hitbox.Width / 2, hitbox.Height / 2);
                 ResetFrame();
             }
@@ -130,7 +131,6 @@ namespace RogueLike
 
             if (!isAttacking)
             {
-
             }
             else
             {
@@ -165,6 +165,9 @@ namespace RogueLike
                 {
                     isAttacking = false;
                     timeTillMovable = 0;
+
+
+                    speedMultiplier /= weaponSpeedMultiplier;
 
                     if (equippedMelee != null)
                     {
@@ -202,15 +205,21 @@ namespace RogueLike
 
         public void ChangeWeapon(Weapon newWeapon)
         {
+            if (equippedMelee != null)
+            {
+                WeaponItem droppedWeapon = new WeaponItem(equippedMelee, 0, false, equippedMelee.itemSpriteSheet, middlepos);
+                Level.itemsList.Add(droppedWeapon);
+            }
 
             if (newWeapon is MeleeWeapon)
-            {
+            {             
                 equippedMelee = (MeleeWeapon)newWeapon;
                 attackTime = 1 / (equippedMelee.baseAttackSpeed * equippedMelee.attackSpeedMultiplyier);
                 equippedRange = null;
+                weaponSpeedMultiplier= equippedMelee.speedMultiplier ;
             }
-
         }
+        
 
         public void TileCollisionHandler(Tile t)
         {
@@ -219,6 +228,9 @@ namespace RogueLike
             hitbox.Location = new Point((int)middlepos.X, (int)middlepos.Y) - new Point(hitbox.Width / 2, hitbox.Height / 2);
             moving = false;
         }
+
+
+
 
 
         public void Draw(SpriteBatch sb)

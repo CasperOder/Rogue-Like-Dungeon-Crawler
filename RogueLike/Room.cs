@@ -54,7 +54,7 @@ namespace RogueLike
                         if(!leftConnection)
                         {
                             tileArray[i, j] = new Tile(spriteSheet, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize));
-                        }
+                        }                        
                     }
                     else if (stringList[j][i] == 'R')
                     {
