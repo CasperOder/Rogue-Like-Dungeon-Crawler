@@ -25,7 +25,6 @@ namespace RogueLike
         static Texture2D lineTex;
         static List<Enemy> enemyList= new List<Enemy>();
 
-
   
         public static void Load_Level(GraphicsDeviceManager g)
         {
@@ -38,12 +37,13 @@ namespace RogueLike
 
             //playerStartPos = new Vector2(Constants.roomWidth * Constants.startRoomCoords+Constants.roomWidth/2, Constants.roomHeight * Constants.startRoomCoords+Constants.roomHeight/2);
 
-            player = new Player(SpriteSheetManager.player, playerStartPos, 0.1d);
+            //player = new Player(SpriteSheetManager.player, playerStartPos, 0.1d);
 
             roomArray[Constants.startRoomCoords, Constants.startRoomCoords] = new Room(new Vector2(Constants.roomWidth * Constants.startRoomCoords, Constants.roomHeight * Constants.startRoomCoords), "smallRoom.txt", SpriteSheetManager.ball);
 
             player = new Player(SpriteSheetManager.player, roomArray[Constants.startRoomCoords, Constants.startRoomCoords].middlepos, 0.1d);
 
+            player.ChangeWeapon(LoadWeapons.testMelee);
 
             generatedRoomList.Add(roomArray[Constants.startRoomCoords, Constants.startRoomCoords]);
 

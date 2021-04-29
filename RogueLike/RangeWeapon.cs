@@ -15,8 +15,10 @@ namespace RogueLike
         SpriteSheet projectileSpriteSheet;
         double projectileTimeBetweenFrames;
 
-        public RangeWeapon(int baseDamage, int baseRange, float baseAttackSpeed, SpriteSheet projectileSpriteSheet, double projectileTimeBetweenFrames) :base(baseDamage, baseRange, baseAttackSpeed)
+        public RangeWeapon(int baseDamage, int baseRange, float baseAttackSpeed, SpriteSheet projectileSpriteSheet, double projectileTimeBetweenFrames) :base(baseDamage, baseAttackSpeed)
         {
+            this.baseRange = baseRange;
+            rangeMultiplyier = 1;
             this.projectileSpriteSheet = projectileSpriteSheet;
             this.projectileTimeBetweenFrames = projectileTimeBetweenFrames;
         }
