@@ -16,13 +16,11 @@ namespace RogueLike
         public float attackSpeedMultiplyier;
 
 
-        public Weapon(int baseDamage, int baseRange, float baseAttackSpeed)
+        public Weapon(int baseDamage, float baseAttackSpeed)
         {
             this.baseAttackSpeed = baseAttackSpeed;
-            this.baseRange = baseRange;
             this.baseDamage = baseDamage;
             damageMultiplyier = 1;
-            rangeMultiplyier = 1;
             attackSpeedMultiplyier = 1;
         }
 
