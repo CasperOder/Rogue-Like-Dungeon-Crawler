@@ -14,12 +14,15 @@ namespace RogueLike
         public float damageMultiplyier;
         public float rangeMultiplyier;
         public float attackSpeedMultiplyier;
+        public float speedMultiplier; //ändrar spelarens hastighet under attacken
+        public SpriteSheet itemSpriteSheet;
 
-
-        public Weapon(int baseDamage, float baseAttackSpeed)
+        public Weapon(int baseDamage, float baseAttackSpeed, SpriteSheet itemSpriteSheet, float speedMultiplier)
         {
             this.baseAttackSpeed = baseAttackSpeed;
             this.baseDamage = baseDamage;
+            this.itemSpriteSheet = itemSpriteSheet;
+            this.speedMultiplier = speedMultiplier;
             damageMultiplyier = 1;
             attackSpeedMultiplyier = 1;
         }
