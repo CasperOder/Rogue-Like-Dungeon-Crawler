@@ -23,6 +23,10 @@ namespace RogueLike
         public static SpriteSheet coin;
         public static SpriteSheet sweep;
         public static SpriteSheet sweepItem;
+        public static SpriteSheet stairTile;
+        public static SpriteSheet rock;
+        public static SpriteSheet knife;
+        public static SpriteSheet knifeItem;
 
         private static List<Point[]> playerAnimations = new List<Point[]>();
         private static List<Point[]> fireAnimations = new List<Point[]>();
@@ -58,6 +62,10 @@ namespace RogueLike
             coin = new SpriteSheet(c.Load<Texture2D>("coinitem"), sheetSize);
             sweep = new SpriteSheet(c.Load<Texture2D>("sweep"), sheetSize);
             sweepItem = new SpriteSheet(c.Load<Texture2D>("sweepitem"), sheetSize);
+            stairTile = new SpriteSheet(c.Load<Texture2D>("stairtile"), sheetSize);
+            rock = new SpriteSheet(c.Load<Texture2D>("rock"), sheetSize);
+            knife = new SpriteSheet(c.Load<Texture2D>("knife"), sheetSize);
+            knifeItem = new SpriteSheet(c.Load<Texture2D>("knifeitem"), sheetSize);
 
             //Player
             sheetSize = new Point(3, 0);

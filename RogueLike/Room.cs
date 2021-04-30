@@ -16,11 +16,13 @@ namespace RogueLike
         public Point pos; //upperleft corner
         public Tile[,] tileArray;
         string fileName;
+        public Vector2 playerSpawnPoint;
 
         public Room(Vector2 pos, string fileName, SpriteSheet spriteSheet):base(spriteSheet)
         {
             this.hitbox = new Rectangle((int)pos.X, (int)pos.Y, Constants.roomWidth, Constants.roomHeight);
             middlepos = new Vector2(hitbox.Center.X, hitbox.Center.Y);
+            playerSpawnPoint = middlepos;
             this.pos.X = (int)pos.X;
             this.pos.Y = (int)pos.Y;
             this.spriteSheet = spriteSheet;
@@ -78,7 +80,8 @@ namespace RogueLike
                     {
                         if(exitRoom)
                         {
-
+                            Tile endTile = new Tile(SpriteSheetManager.stairTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize));
+                            Level.endTileList.Add(endTile);
                         }
                         else if (!upConnection)
                         {
@@ -86,6 +89,19 @@ namespace RogueLike
                         }
 
                     }
+                    else if (stringList[j][i] == 'S')
+                    {
+                        tileArray[i, j] = new Tile(spriteSheet, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize));
+                        playerSpawnPoint = tileArray[i, j].middlepos;
+                        tileArray[i, j] = null;
+
+                    }
+                    else if (stringList[j][i] == 'G')
+                    {
+                        Tile rockTile = new Tile(SpriteSheetManager.rock, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize));
+                        Level.rockTiles.Add(rockTile);
+                    }
+
                 }
             }
 
