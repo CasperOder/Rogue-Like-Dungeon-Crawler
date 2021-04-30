@@ -29,14 +29,6 @@ namespace RogueLike
         
     
 
-        public void InflictDamage(Enemy e)
-        {
-            if(e.hitbox.Intersects(hitbox))
-            {
-
-            }
-        }
-
 
 
     }

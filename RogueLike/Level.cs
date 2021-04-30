@@ -220,6 +220,7 @@ namespace RogueLike
                         if(chance==1)
                         {
                             Enemy dummy = new DummyEnemy(SpriteSheetManager.dummy,1,roomArray[x,y].middlepos);
+                            dummy.health = 50;
                             enemyList.Add(dummy);
                         }
 
@@ -260,6 +261,8 @@ namespace RogueLike
             keyboardState = Keyboard.GetState();
 
             player.Movement(gameTime);
+
+            
 
             for(int i=0;i<itemsList.Count;i++)
             {
@@ -305,6 +308,16 @@ namespace RogueLike
                 }
             }
 
+            for (int e = 0; e < enemyList.Count; e++)
+            {
+                player.InflictDamage(enemyList[e]);
+                if(enemyList[e].health<=0)
+                {
+                    enemyList.RemoveAt(e);
+                    e--;
+                }
+            }
+
             foreach(Enemy e in enemyList)
             {
                 if(e.GetPlayerDistance(player)<e.enemySpottingRange)
@@ -343,6 +356,14 @@ namespace RogueLike
 
             sb.End();
             g.SetRenderTarget(null);
+        }
+
+        public static void UnhitAllEnemies()
+        {
+            foreach(Enemy e in enemyList)
+            {
+                e.beenHit = false;
+            }
         }
 
         public static void DrawOnBackRenderTarget(GraphicsDevice g)

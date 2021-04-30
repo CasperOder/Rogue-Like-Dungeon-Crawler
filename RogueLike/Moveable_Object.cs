@@ -16,6 +16,8 @@ namespace RogueLike
         protected Vector2 direction;
         protected bool moving;
 
+        public float health;
+
 
 
         public Moveable_Object(SpriteSheet spriteSheet, double timeBetweenFrames) : base(spriteSheet, timeBetweenFrames)

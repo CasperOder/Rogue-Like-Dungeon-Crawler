@@ -14,6 +14,7 @@ namespace RogueLike
         public int enemySpottingRange;
 
         public Color enemyColor;
+        public bool beenHit;
 
         public Enemy(SpriteSheet spriteSheet, double timeBetweenFrames, Vector2 startPos):base (spriteSheet, timeBetweenFrames)
         {

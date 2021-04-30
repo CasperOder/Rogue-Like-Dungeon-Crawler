@@ -45,11 +45,10 @@ namespace RogueLike
             middlepos = new Vector2(hitbox.Center.X, hitbox.Center.Y);
 
             speed = 10;
-            if (equippedMelee == null)
-            {
-                attackTime = 0;
-            }
-
+            //if (equippedMelee == null)
+            //{
+            //    attackTime = 0;
+            //}
         }
 
         public void Movement(GameTime gameTime)
@@ -169,6 +168,8 @@ namespace RogueLike
 
                     speedMultiplier /= weaponSpeedMultiplier;
 
+                    Level.UnhitAllEnemies();
+
                     if (equippedMelee != null)
                     {
                         equippedMelee.hitbox = new Rectangle(0, 0, 0, 0);
@@ -176,7 +177,7 @@ namespace RogueLike
                 }
             }
         }
-
+        
         public void GetAttackingDirection()
         {
             if (Math.Abs(mouseDistanceX) > Math.Abs(mouseDistanceY))
@@ -199,6 +200,19 @@ namespace RogueLike
                 else
                 {
                     mouseDirection = Direction.up;
+                }
+            }
+        }
+
+
+        public void InflictDamage(Enemy e)
+        {
+            if (equippedMelee != null && !e.beenHit)
+            {
+                if (e.hitbox.Intersects(equippedMelee.hitbox))
+                {
+                    e.health -= (equippedMelee.baseDamage * equippedMelee.damageMultiplyier);
+                    e.beenHit = true;
                 }
             }
         }
@@ -242,6 +256,7 @@ namespace RogueLike
             {
                 sb.Draw(equippedMelee.spriteSheet.texture, equippedMelee.hitbox, Color.White);
 
+              
                 //switch (mouseDirection)
                 //{
                 //    case Direction.up:
