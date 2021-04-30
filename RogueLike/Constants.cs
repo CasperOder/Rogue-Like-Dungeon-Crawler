@@ -18,7 +18,7 @@ namespace RogueLike
             roomWidth = tileSize * 10;
             roomHeight = tileSize * 8;
             startRoomCoords = 4;
-            minimumNumberOfRooms = 45;
+            //minimumNumberOfRooms = 45;
             windowWidth = 1850;
             windowHeight = 1000;
             itemSize = 16;

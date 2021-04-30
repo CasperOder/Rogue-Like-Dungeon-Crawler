@@ -55,7 +55,7 @@ namespace RogueLike
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             
-            Level.Update(gameTime);
+            Level.Update(gameTime, graphics);
 
             Window.Title = Level.currency.ToString();   
             

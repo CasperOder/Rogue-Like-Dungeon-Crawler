@@ -8,7 +8,7 @@ namespace RogueLike
 {
     static class LoadWeapons
     {
-        public static MeleeWeapon testMelee, sweepMelee;
+        public static MeleeWeapon testMelee, sweepMelee, knifeMelee;
 
 
 
@@ -16,7 +16,7 @@ namespace RogueLike
         {
             testMelee = new MeleeWeapon(120, 40, 20, 2, SpriteSheetManager.arrow, SpriteSheetManager.arrowItem, 0.9f);
             sweepMelee = new MeleeWeapon(60, 180, 40, 1, SpriteSheetManager.sweep, SpriteSheetManager.sweepItem, 0.69f);
-
+            knifeMelee = new MeleeWeapon(30, 25, 5, 10, SpriteSheetManager.knife, SpriteSheetManager.knifeItem, 1.5f);
 
         }
 

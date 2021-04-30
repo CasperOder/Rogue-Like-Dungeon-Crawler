@@ -37,11 +37,11 @@ namespace RogueLike
 
         float attackTime, timeTillMovable;
 
-        public Player(SpriteSheet spriteSheet, Vector2 startPos, double timeBetweenFrames) : base(spriteSheet, timeBetweenFrames)
+        public Player(SpriteSheet spriteSheet, /*Vector2 startPos,*/ double timeBetweenFrames) : base(spriteSheet, timeBetweenFrames)
         {
             hitbox.Size = spriteSheet.frameSize;
-            hitbox.X = (int)startPos.X - hitbox.Width / 2;
-            hitbox.Y = (int)startPos.Y - hitbox.Height / 2;
+            //hitbox.X = (int)startPos.X - hitbox.Width / 2;
+            //hitbox.Y = (int)startPos.Y - hitbox.Height / 2;
             middlepos = new Vector2(hitbox.Center.X, hitbox.Center.Y);
 
             speed = 10;
@@ -243,7 +243,12 @@ namespace RogueLike
             moving = false;
         }
 
+        public void SetPlayerPosition(Vector2 newPos)
+        {
+            middlepos = newPos;
+            hitbox.Location = new Point((int)middlepos.X, (int)middlepos.Y) - new Point(hitbox.Width / 2, hitbox.Height / 2);
 
+        }
 
 
 
