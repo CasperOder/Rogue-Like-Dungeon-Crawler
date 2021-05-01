@@ -16,7 +16,11 @@ namespace RogueLike
         public Point pos; //upperleft corner
         public Tile[,] tileArray;
         string fileName;
+
+        public static List<Tile> wallTiles = new List<Tile>();
+
         public Vector2 playerSpawnPoint;
+
 
         public Room(Vector2 pos, string fileName, SpriteSheet spriteSheet):base(spriteSheet)
         {
@@ -42,12 +46,14 @@ namespace RogueLike
                     if(stringList[j][i] == 'C')
                     {
                         tileArray[i, j] = new Tile(spriteSheet, new Rectangle(pos.X+Constants.tileSize * i, pos.Y+Constants.tileSize * j, Constants.tileSize, Constants.tileSize));
+                        wallTiles.Add(tileArray[i, j]);
                     }
                     else if (stringList[j][i] == 'U')
                     {
                         if(!upConnection)
                         {
                             tileArray[i, j] = new Tile(spriteSheet, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize));
+                            wallTiles.Add(tileArray[i, j]);
                         }
                         
                     }
@@ -56,13 +62,19 @@ namespace RogueLike
                         if(!leftConnection)
                         {
                             tileArray[i, j] = new Tile(spriteSheet, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize));
-                        }                        
+
+                            wallTiles.Add(tileArray[i, j]);
+                        }
+
+                                             
+
                     }
                     else if (stringList[j][i] == 'R')
                     {
                         if(!rightConnection)
                         {
                             tileArray[i, j] = new Tile(spriteSheet, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize));
+                            wallTiles.Add(tileArray[i, j]);
                         }
                     }
                     else if (stringList[j][i] == 'D')
@@ -70,11 +82,13 @@ namespace RogueLike
                         if (!downConnection)
                         {
                             tileArray[i, j] = new Tile(spriteSheet, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize));
+                            wallTiles.Add(tileArray[i, j]);
                         }
                     }
                     else if (stringList[j][i] == 'B')
                     {                        
-                            tileArray[i, j] = new Tile(spriteSheet, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize));                        
+                        tileArray[i, j] = new Tile(spriteSheet, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize));
+                        wallTiles.Add(tileArray[i, j]);
                     }
                     else if (stringList[j][i] == 'E')
                     {
@@ -86,6 +100,7 @@ namespace RogueLike
                         else if (!upConnection)
                         {
                             tileArray[i, j] = new Tile(spriteSheet, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize));
+                            wallTiles.Add(tileArray[i, j]);
                         }
 
                     }

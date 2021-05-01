@@ -19,7 +19,7 @@ namespace RogueLike
         private static RenderTarget2D backRenderTarget;
         private static RenderTarget2D frontRenderTarget;
         static int noOfRoomsX, noOfRoomsY;
-        static List<Room> generatedRoomList = new List<Room>();
+        public static List<Room> generatedRoomList = new List<Room>();
         static List<Room> backgroundRoomList = new List<Room>();
         static Room[,] roomArray;
         static Texture2D lineTex;
@@ -398,8 +398,10 @@ namespace RogueLike
                     {
                         if (t.hitbox.Intersects(player.hitbox)) 
                         {
-                            player.TileCollisionHandler(t);
+                            //Player.isColliding = true;
+                            //player.TileCollisionHandler(t);
                         }
+                        
                     }
                 }
             }

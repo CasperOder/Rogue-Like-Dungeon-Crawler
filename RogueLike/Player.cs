@@ -10,8 +10,12 @@ using System.Threading.Tasks;
 namespace RogueLike
 {
     class Player : Moveable_Object
-    {
-        Color playerColor = Color.White;
+
+    {        
+        Color playerColor=Color.White;
+        public static bool isColliding = false;
+
+
 
         public static MouseState mouseState;
 
@@ -58,8 +62,41 @@ namespace RogueLike
             mouseDistanceY = mouseState.Position.Y - middleOfMap.Y;
 
 
+            
+            if (Keyboard.GetState().IsKeyDown(Keys.Left) && Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.A) && Keyboard.GetState().IsKeyDown(Keys.W))
+            {
+
+                TileCollisionHandler(new Rectangle(hitbox.X - speed, hitbox.Y - speed, hitbox.Width, hitbox.Height));
+                if (!isColliding)
+                {
+                    hitbox.X -= (int)(Math.Sqrt(0.5) * speed);
+                    hitbox.Y -= (int)(Math.Sqrt(0.5) * speed); ;
+                    moving = true;
+                    isColliding = false;
+                }
+                else
+                {
+                    TileCollisionHandler(new Rectangle(hitbox.X, hitbox.Y - speed, hitbox.Width, hitbox.Height));
+                    if (!isColliding)
+                    {
+                        hitbox.Y -= speed;
+                        moving = true;
+                        isColliding = false;
+                    }
+                    TileCollisionHandler(new Rectangle(hitbox.X - speed, hitbox.Y, hitbox.Width, hitbox.Height));
+                    if (!isColliding)
+                    {
+                        hitbox.X -= speed;
+                        moving = true;
+                        isColliding = false;
+                    }
+                }
+            }
+                //direction = new Vector2(-(float)Math.Sqrt(0.5),-(float)Math.Sqrt(0.5));
+                //moving = true;
             if (Keyboard.GetState().IsKeyDown(Keys.Space) || mouseState.LeftButton == ButtonState.Pressed)  //vänsterklick funkar ej när man går?
             {
+
                 if (!isAttacking)
                 {
                     speedMultiplier *= weaponSpeedMultiplier;
@@ -70,57 +107,170 @@ namespace RogueLike
             }
 
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Left) && Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.A) && Keyboard.GetState().IsKeyDown(Keys.W))
-            {
-                direction = new Vector2(-(float)Math.Sqrt(0.5), -(float)Math.Sqrt(0.5));
-                moving = true;
-            }
+            
+                
+
+            
             else if (Keyboard.GetState().IsKeyDown(Keys.Right) && Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.D) && Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                direction = new Vector2((float)Math.Sqrt(0.5), -(float)Math.Sqrt(0.5));
-                moving = true;
+                TileCollisionHandler(new Rectangle(hitbox.X + speed, hitbox.Y - speed, hitbox.Width, hitbox.Height));
+                if (!isColliding)
+                {
+                    hitbox.X += (int)(Math.Sqrt(0.5) * speed); ;
+                    hitbox.Y -= (int)(Math.Sqrt(0.5) * speed); ;
+                    moving = true;
+                    isColliding = false;
+                }
+                else
+                {
+                    TileCollisionHandler(new Rectangle(hitbox.X, hitbox.Y - speed, hitbox.Width, hitbox.Height));
+                    if (!isColliding)
+                    {
+                        hitbox.Y -= speed;
+                        moving = true;
+                        isColliding = false;
+                    }
+                    TileCollisionHandler(new Rectangle(hitbox.X + speed, hitbox.Y, hitbox.Width, hitbox.Height));
+                    if (!isColliding)
+                    {
+                        hitbox.X += speed;
+                        moving = true;
+                        isColliding = false;
+                    }
+                }
+                //direction = new Vector2((float)Math.Sqrt(0.5), -(float)Math.Sqrt(0.5));
+                //moving = true;
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Right) && Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.D) && Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                direction = new Vector2((float)Math.Sqrt(0.5), (float)Math.Sqrt(0.5));
-                moving = true;
+                TileCollisionHandler(new Rectangle(hitbox.X + speed, hitbox.Y + speed, hitbox.Width, hitbox.Height));
+                if (!isColliding)
+                {
+                    hitbox.X += (int)(Math.Sqrt(0.5) * speed); ;
+                    hitbox.Y += (int)(Math.Sqrt(0.5) * speed); ;
+                    moving = true;
+                    isColliding = false;
+                }
+                else
+                {
+                    TileCollisionHandler(new Rectangle(hitbox.X, hitbox.Y + speed, hitbox.Width, hitbox.Height));
+                    if (!isColliding)
+                    {
+                        hitbox.Y += speed;
+                        moving = true;
+                        isColliding = false;
+                    }
+                    TileCollisionHandler(new Rectangle(hitbox.X + speed, hitbox.Y, hitbox.Width, hitbox.Height));
+                    if (!isColliding)
+                    {
+                        hitbox.X += speed;
+                        moving = true;
+                        isColliding = false;
+                    }
+                }
+                //direction = new Vector2((float)Math.Sqrt(0.5), (float)Math.Sqrt(0.5));
+                //moving = true;
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Left) && Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.A) && Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                direction = new Vector2(-(float)Math.Sqrt(0.5), (float)Math.Sqrt(0.5));
-                moving = true;
+                TileCollisionHandler(new Rectangle(hitbox.X - speed, hitbox.Y + speed, hitbox.Width, hitbox.Height));
+                if (!isColliding)
+                {
+                    hitbox.X -= (int)(Math.Sqrt(0.5) * speed); ;
+                    hitbox.Y += (int)(Math.Sqrt(0.5) * speed); ;
+                    moving = true;
+                    isColliding = false;
+                }
+                else
+                {
+                    TileCollisionHandler(new Rectangle(hitbox.X, hitbox.Y + speed, hitbox.Width, hitbox.Height));
+                    if (!isColliding)
+                    {
+                        hitbox.Y += speed;
+                        moving = true;
+                        isColliding = false;
+                    }
+                    TileCollisionHandler(new Rectangle(hitbox.X - speed, hitbox.Y, hitbox.Width, hitbox.Height));
+                    if (!isColliding)
+                    {
+                        hitbox.X -= speed;
+                        moving = true;
+                        isColliding = false;
+                    }
+                }
+                //direction = new Vector2(-(float)Math.Sqrt(0.5), (float)Math.Sqrt(0.5));
+                //moving = true;
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A)) //left
             {
-                direction = new Vector2(-1, 0);
-                moving = true;
+
+                TileCollisionHandler(new Rectangle(hitbox.X - speed, hitbox.Y, hitbox.Width, hitbox.Height));
+
+                if (!isColliding)
+                {
+                    hitbox.X -= speed;
+                    moving = true;
+                    isColliding = false;
+                }
+                //direction = new Vector2(-1,0);
+                //moving = true;                
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D)) //right
+
+            else if (Keyboard.GetState().IsKeyDown(Keys.Right)) //right
             {
-                direction = new Vector2(1, 0);
-                moving = true;
+                TileCollisionHandler(new Rectangle(hitbox.X + speed, hitbox.Y, hitbox.Width, hitbox.Height));
+                if (!isColliding)
+                {
+                    hitbox.X += speed;
+                    moving = true;
+                    isColliding = false;
+                }
+                //direction = new Vector2(1,0);
+                //moving = true;
+
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S)) //down
             {
-                direction = new Vector2(0, 1);
-                moving = true;
+
+                TileCollisionHandler(new Rectangle(hitbox.X, hitbox.Y + speed, hitbox.Width, hitbox.Height));
+                if (!isColliding)
+                {
+                    hitbox.Y += speed;
+                    moving = true;
+                    isColliding = false;
+                }
+                //direction = new Vector2(0,1);
+                //moving = true;
+
+               
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))//up
             {
-                direction = new Vector2(0, -1);
-                moving = true;
-            }
-            else if (Keyboard.GetState().IsKeyUp(Keys.Up) && Keyboard.GetState().IsKeyUp(Keys.Down) && Keyboard.GetState().IsKeyUp(Keys.Left) && Keyboard.GetState().IsKeyUp(Keys.Right))
-            {
-                direction = Vector2.Zero;
-                moving = false;
-            }
+
+                TileCollisionHandler(new Rectangle(hitbox.X, hitbox.Y - speed, hitbox.Width, hitbox.Height));
+                if (!isColliding)
+                {
+                    hitbox.Y -= speed;
+                    moving = true;
+                    isColliding = false;
+                }
+                //direction = new Vector2(0,-1);
+                //moving = true;
+            }            
+            
+            
+            middlepos = new Vector2(hitbox.Center.X, hitbox.Center.Y);
 
 
             if (moving)
             {
-                middlepos += speed * direction * speedMultiplier;
-                hitbox.Location = new Point((int)middlepos.X, (int)middlepos.Y) - new Point(hitbox.Width / 2, hitbox.Height / 2);
+                //if (!isColliding)
+                //{
+                //    middlepos += speed * direction;
+                //    hitbox.Location = new Point((int)middlepos.X, (int)middlepos.Y) - new Point(hitbox.Width / 2, hitbox.Height / 2);
+                //}
+
+
                 ResetFrame();
             }
             else
@@ -217,6 +367,9 @@ namespace RogueLike
             }
         }
 
+
+        
+
         public void ChangeWeapon(Weapon newWeapon)
         {
             if (equippedMelee != null)
@@ -235,12 +388,29 @@ namespace RogueLike
         }
         
 
-        public void TileCollisionHandler(Tile t)
+
+        public void TileCollisionHandler (Rectangle rect)
         {
-            Vector2 diff = (middlepos - t.middlepos) / Vector2.Distance(middlepos, t.middlepos);
-            middlepos += diff * speed;
-            hitbox.Location = new Point((int)middlepos.X, (int)middlepos.Y) - new Point(hitbox.Width / 2, hitbox.Height / 2);
-            moving = false;
+            
+            
+            for (int i = 0; i < Room.wallTiles.Count; i++)
+            {
+                if (Room.wallTiles[i].hitbox.Intersects(rect))
+                {
+                    isColliding = true;
+                    break;
+                }
+                else if (i == Room.wallTiles.Count - 1)
+                {
+                    isColliding = false;
+                        
+                }
+            }
+            
+        //    Vector2 diff = (middlepos - t.middlepos) / Vector2.Distance(middlepos, t.middlepos);
+        //    middlepos += diff * speed;
+        //    hitbox.Location = new Point((int)middlepos.X, (int)middlepos.Y) - new Point(hitbox.Width / 2, hitbox.Height / 2);
+        //    moving = false;
         }
 
         public void SetPlayerPosition(Vector2 newPos)
@@ -249,6 +419,7 @@ namespace RogueLike
             hitbox.Location = new Point((int)middlepos.X, (int)middlepos.Y) - new Point(hitbox.Width / 2, hitbox.Height / 2);
 
         }
+
 
 
 
