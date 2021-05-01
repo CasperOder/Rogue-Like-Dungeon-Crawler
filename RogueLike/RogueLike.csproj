@@ -48,7 +48,9 @@
     <Compile Include="Enemy.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameObject.cs" />
+    <Compile Include="Item.cs" />
     <Compile Include="Level.cs" />
+    <Compile Include="LoadWeapons.cs" />
     <Compile Include="MeleeWeapon.cs" />
     <Compile Include="Moveable_Object.cs" />
     <Compile Include="Player.cs" />
@@ -62,6 +64,7 @@
     <Compile Include="SpriteSheetManager.cs" />
     <Compile Include="SpriteSheet.cs" />
     <Compile Include="Weapon.cs" />
+    <Compile Include="WeaponItems.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -82,6 +85,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="backRoom.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="bossRoom.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

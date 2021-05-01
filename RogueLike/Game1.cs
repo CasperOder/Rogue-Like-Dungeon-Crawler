@@ -20,7 +20,7 @@ namespace RogueLike
 
         protected override void Initialize()
         {
-            
+            IsMouseVisible = true;
             base.Initialize();
         }
 
@@ -37,7 +37,7 @@ namespace RogueLike
             //kub = Content.Load<Texture2D>(@"kub");
 
             SpriteSheetManager.LoadContent(Content);
-
+            LoadWeapons.LoadAllWeapons();
             
             camera = new Camera(GraphicsDevice.Viewport);
             Level.Load_Level(graphics);
@@ -54,9 +54,10 @@ namespace RogueLike
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            Level.Update(gameTime);
-
             
+            Level.Update(gameTime, graphics);
+
+            Window.Title = Level.currency.ToString();   
             
             base.Update(gameTime);
         }

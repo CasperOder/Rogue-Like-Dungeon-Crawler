@@ -14,13 +14,13 @@ namespace RogueLike
         public int enemySpottingRange;
 
         public Color enemyColor;
+        public bool beenHit;
 
         public Enemy(SpriteSheet spriteSheet, double timeBetweenFrames, Vector2 startPos):base (spriteSheet, timeBetweenFrames)
         {
             hitbox.Size = spriteSheet.frameSize;
             hitbox.X = (int)startPos.X - hitbox.Width / 2;
             hitbox.Y = (int)startPos.Y - hitbox.Height / 2;
-
             middlepos = new Vector2(hitbox.Center.X, hitbox.Center.Y);
         }
 
@@ -29,15 +29,11 @@ namespace RogueLike
             enemyColor = Color.Red;
         }
 
-
         public float GetPlayerDistance (Player p)
         {
             float playerDistance = Vector2.Distance(middlepos,p.middlepos);
-
             return playerDistance;
         }
-
-
 
         public void Draw(SpriteBatch sb)
         {

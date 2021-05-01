@@ -12,22 +12,22 @@ namespace RogueLike
 {
     class MeleeWeapon:Weapon
     {
-        Rectangle hitbox;
+        public Rectangle hitbox;
 
-        public MeleeWeapon(Rectangle hitbox, int damage, int range, float attackSpeed) : base(damage, range, attackSpeed)
+        public SpriteSheet spriteSheet;
+
+        public int hitboxLength, hitboxWidth; //Length is how far FROM the player the weapon points.
+
+        public MeleeWeapon(int hitboxLength, int hitboxWidth, int baseDamage, float baseAttackSpeed, SpriteSheet spriteSheet, SpriteSheet itemSpriteSheet, float speedMultiplier) : base(baseDamage, baseAttackSpeed, itemSpriteSheet, speedMultiplier)
         {
-            this.hitbox = hitbox;
+            this.spriteSheet = spriteSheet;
+            this.hitboxLength = hitboxLength;
+            this.hitboxWidth = hitboxWidth;
+            //hitbox = new Rectangle(-100, -100, hitboxWidth, hitboxLength);
+
         }
         
     
-
-        public void InflictDamage(Enemy e)
-        {
-            if(e.hitbox.Intersects(hitbox))
-            {
-
-            }
-        }
 
 
 
