@@ -61,8 +61,18 @@ namespace RogueLike
             mouseDistanceX = mouseState.Position.X - middleOfMap.X;
             mouseDistanceY = mouseState.Position.Y - middleOfMap.Y;
 
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) || mouseState.LeftButton == ButtonState.Pressed)  //vänsterklick funkar ej när man går?
+            {
 
-            
+                if (!isAttacking)
+                {
+                    speedMultiplier *= weaponSpeedMultiplier;
+                    isAttacking = true;
+                    moving = false;
+                    GetAttackingDirection();
+                }
+            }
+
             if (Keyboard.GetState().IsKeyDown(Keys.Left) && Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.A) && Keyboard.GetState().IsKeyDown(Keys.W))
             {
 
@@ -94,17 +104,7 @@ namespace RogueLike
             }
                 //direction = new Vector2(-(float)Math.Sqrt(0.5),-(float)Math.Sqrt(0.5));
                 //moving = true;
-            if (Keyboard.GetState().IsKeyDown(Keys.Space) || mouseState.LeftButton == ButtonState.Pressed)  //vänsterklick funkar ej när man går?
-            {
-
-                if (!isAttacking)
-                {
-                    speedMultiplier *= weaponSpeedMultiplier;
-                    isAttacking = true;
-                    moving = false;
-                    GetAttackingDirection();
-                }
-            }
+            
 
 
             
@@ -146,8 +146,8 @@ namespace RogueLike
                 TileCollisionHandler(new Rectangle(hitbox.X + speed, hitbox.Y + speed, hitbox.Width, hitbox.Height));
                 if (!isColliding)
                 {
-                    hitbox.X += (int)(Math.Sqrt(0.5) * speed); ;
-                    hitbox.Y += (int)(Math.Sqrt(0.5) * speed); ;
+                    hitbox.X += (int)(Math.Sqrt(0.5) * speed); 
+                    hitbox.Y += (int)(Math.Sqrt(0.5) * speed); 
                     moving = true;
                     isColliding = false;
                 }
@@ -176,8 +176,8 @@ namespace RogueLike
                 TileCollisionHandler(new Rectangle(hitbox.X - speed, hitbox.Y + speed, hitbox.Width, hitbox.Height));
                 if (!isColliding)
                 {
-                    hitbox.X -= (int)(Math.Sqrt(0.5) * speed); ;
-                    hitbox.Y += (int)(Math.Sqrt(0.5) * speed); ;
+                    hitbox.X -= (int)(Math.Sqrt(0.5) * speed); 
+                    hitbox.Y += (int)(Math.Sqrt(0.5) * speed); 
                     moving = true;
                     isColliding = false;
                 }

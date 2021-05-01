@@ -410,7 +410,7 @@ namespace RogueLike
             {
                 if(player.hitbox.Intersects(r.hitbox))
                 {
-                    player.TileCollisionHandler(r);
+                   
                 }
             }
 
