@@ -38,6 +38,7 @@ namespace RogueLike
 
             SpriteSheetManager.LoadContent(Content);
             LoadWeapons.LoadAllWeapons();
+            HUD.Load(Content);
             
             camera = new Camera(GraphicsDevice.Viewport);
             Level.Load_Level(graphics);

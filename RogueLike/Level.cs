@@ -44,7 +44,7 @@ namespace RogueLike
             roomArray = new Room[noOfRoomsX, noOfRoomsY];
             frontRenderTarget = new RenderTarget2D(g.GraphicsDevice, Constants.roomWidth*noOfRoomsX, Constants.roomHeight*noOfRoomsY);
             backRenderTarget = new RenderTarget2D(g.GraphicsDevice, Constants.roomWidth*noOfRoomsX, Constants.roomHeight*noOfRoomsY);
-
+            
             //playerStartPos = new Vector2(Constants.roomWidth * Constants.startRoomCoords+Constants.roomWidth/2, Constants.roomHeight * Constants.startRoomCoords+Constants.roomHeight/2);
 
             //player = new Player(SpriteSheetManager.player, playerStartPos, 0.1d);
@@ -53,7 +53,8 @@ namespace RogueLike
 
             player = new Player(SpriteSheetManager.player, 0.1d);
 
-            
+            HUD.UpdateMaxHealthHUD((int)player.maxHealth);
+            HUD.UpdateCurrentHealthHUD((int)player.health);
 
             player.ChangeWeapon(LoadWeapons.testMelee);
 
@@ -384,6 +385,7 @@ namespace RogueLike
                         {
                             currency += itemsList[i].coinGain;
                             itemsList.RemoveAt(i);
+                            HUD.UpdateCurrencyHUD(currency);
                             break;
                         }
 
@@ -469,6 +471,7 @@ namespace RogueLike
 
 
             Game1.camera.SetPosition(new Vector2(player.hitbox.X + player.hitbox.Width / 2, player.hitbox.Y + player.hitbox.Height / 2));
+            HUD.Update(player.middlepos); //positionerar HUD:en, måste ligga bland det sista i denna metoden.
         }
 
         public static void RemoveRockTiles(GraphicsDevice g)
@@ -515,6 +518,8 @@ namespace RogueLike
             }
         }
 
+
+
         public static void DrawOnBackRenderTarget(GraphicsDevice g)
         {
             g.SetRenderTarget(backRenderTarget);
@@ -538,6 +543,8 @@ namespace RogueLike
 
         public static void Draw(SpriteBatch sb)
         {
+
+
             player.Draw(sb);
 
             sb.Draw(frontRenderTarget, Vector2.Zero, Color.White);
@@ -553,6 +560,8 @@ namespace RogueLike
             {
                 e.Draw(sb);
             }
+
+            HUD.Draw(sb);
         }        
     }
 }

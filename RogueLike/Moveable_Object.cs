@@ -16,7 +16,7 @@ namespace RogueLike
         protected Vector2 direction;
         protected bool moving;
 
-        public float health;
+        public float maxHealth, health;
 
 
 

@@ -47,7 +47,9 @@ namespace RogueLike
             //hitbox.X = (int)startPos.X - hitbox.Width / 2;
             //hitbox.Y = (int)startPos.Y - hitbox.Height / 2;
             middlepos = new Vector2(hitbox.Center.X, hitbox.Center.Y);
-
+            maxHealth = 100;
+            health = maxHealth;
+            
             speed = 10;
             //if (equippedMelee == null)
             //{
