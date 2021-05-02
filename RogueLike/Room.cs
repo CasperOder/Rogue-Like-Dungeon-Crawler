@@ -114,7 +114,10 @@ namespace RogueLike
                     else if (stringList[j][i] == 'G')
                     {
                         Tile rockTile = new Tile(SpriteSheetManager.rock, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize));
+                        rockTile.isRock = true;
+                        wallTiles.Add(rockTile);
                         Level.rockTiles.Add(rockTile);
+
                     }
 
                 }

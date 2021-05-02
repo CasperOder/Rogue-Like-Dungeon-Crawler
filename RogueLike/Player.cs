@@ -76,27 +76,27 @@ namespace RogueLike
             if (Keyboard.GetState().IsKeyDown(Keys.Left) && Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.A) && Keyboard.GetState().IsKeyDown(Keys.W))
             {
 
-                TileCollisionHandler(new Rectangle(hitbox.X - speed, hitbox.Y - speed, hitbox.Width, hitbox.Height));
+                TileCollisionHandler(new Rectangle(hitbox.X - (int)(speed * speedMultiplier), hitbox.Y - (int)(speed * speedMultiplier), hitbox.Width, hitbox.Height));
                 if (!isColliding)
                 {
-                    hitbox.X -= (int)(Math.Sqrt(0.5) * speed);
-                    hitbox.Y -= (int)(Math.Sqrt(0.5) * speed); ;
+                    hitbox.X -= (int)(Math.Sqrt(0.5) * (int)(speed * speedMultiplier));
+                    hitbox.Y -= (int)(Math.Sqrt(0.5) * (int)(speed * speedMultiplier)); ;
                     moving = true;
                     isColliding = false;
                 }
                 else
                 {
-                    TileCollisionHandler(new Rectangle(hitbox.X, hitbox.Y - speed, hitbox.Width, hitbox.Height));
+                    TileCollisionHandler(new Rectangle(hitbox.X, hitbox.Y - (int)(speed * speedMultiplier), hitbox.Width, hitbox.Height));
                     if (!isColliding)
                     {
-                        hitbox.Y -= speed;
+                        hitbox.Y -= (int)(speed * speedMultiplier);
                         moving = true;
                         isColliding = false;
                     }
-                    TileCollisionHandler(new Rectangle(hitbox.X - speed, hitbox.Y, hitbox.Width, hitbox.Height));
+                    TileCollisionHandler(new Rectangle(hitbox.X - (int)(speed * speedMultiplier), hitbox.Y, hitbox.Width, hitbox.Height));
                     if (!isColliding)
                     {
-                        hitbox.X -= speed;
+                        hitbox.X -= (int)(speed * speedMultiplier);
                         moving = true;
                         isColliding = false;
                     }
@@ -113,27 +113,27 @@ namespace RogueLike
             
             else if (Keyboard.GetState().IsKeyDown(Keys.Right) && Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.D) && Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                TileCollisionHandler(new Rectangle(hitbox.X + speed, hitbox.Y - speed, hitbox.Width, hitbox.Height));
+                TileCollisionHandler(new Rectangle(hitbox.X + (int)(speed * speedMultiplier), hitbox.Y - (int)(speed * speedMultiplier), hitbox.Width, hitbox.Height));
                 if (!isColliding)
                 {
-                    hitbox.X += (int)(Math.Sqrt(0.5) * speed); ;
-                    hitbox.Y -= (int)(Math.Sqrt(0.5) * speed); ;
+                    hitbox.X += (int)(Math.Sqrt(0.5) * (int)(speed * speedMultiplier)); ;
+                    hitbox.Y -= (int)(Math.Sqrt(0.5) * (int)(speed * speedMultiplier)); ;
                     moving = true;
                     isColliding = false;
                 }
                 else
                 {
-                    TileCollisionHandler(new Rectangle(hitbox.X, hitbox.Y - speed, hitbox.Width, hitbox.Height));
+                    TileCollisionHandler(new Rectangle(hitbox.X, hitbox.Y - (int)(speed * speedMultiplier), hitbox.Width, hitbox.Height));
                     if (!isColliding)
                     {
-                        hitbox.Y -= speed;
+                        hitbox.Y -= (int)(speed * speedMultiplier);
                         moving = true;
                         isColliding = false;
                     }
-                    TileCollisionHandler(new Rectangle(hitbox.X + speed, hitbox.Y, hitbox.Width, hitbox.Height));
+                    TileCollisionHandler(new Rectangle(hitbox.X + (int)(speed * speedMultiplier), hitbox.Y, hitbox.Width, hitbox.Height));
                     if (!isColliding)
                     {
-                        hitbox.X += speed;
+                        hitbox.X += (int)(speed * speedMultiplier);
                         moving = true;
                         isColliding = false;
                     }
@@ -143,27 +143,27 @@ namespace RogueLike
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Right) && Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.D) && Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                TileCollisionHandler(new Rectangle(hitbox.X + speed, hitbox.Y + speed, hitbox.Width, hitbox.Height));
+                TileCollisionHandler(new Rectangle(hitbox.X + (int)(speed * speedMultiplier), hitbox.Y + (int)(speed * speedMultiplier), hitbox.Width, hitbox.Height));
                 if (!isColliding)
                 {
-                    hitbox.X += (int)(Math.Sqrt(0.5) * speed); 
-                    hitbox.Y += (int)(Math.Sqrt(0.5) * speed); 
+                    hitbox.X += (int)(Math.Sqrt(0.5) * (int)(speed * speedMultiplier)); 
+                    hitbox.Y += (int)(Math.Sqrt(0.5) * (int)(speed * speedMultiplier)); 
                     moving = true;
                     isColliding = false;
                 }
                 else
                 {
-                    TileCollisionHandler(new Rectangle(hitbox.X, hitbox.Y + speed, hitbox.Width, hitbox.Height));
+                    TileCollisionHandler(new Rectangle(hitbox.X, hitbox.Y + (int)(speed * speedMultiplier), hitbox.Width, hitbox.Height));
                     if (!isColliding)
                     {
-                        hitbox.Y += speed;
+                        hitbox.Y += (int)(speed * speedMultiplier);
                         moving = true;
                         isColliding = false;
                     }
-                    TileCollisionHandler(new Rectangle(hitbox.X + speed, hitbox.Y, hitbox.Width, hitbox.Height));
+                    TileCollisionHandler(new Rectangle(hitbox.X + (int)(speed * speedMultiplier), hitbox.Y, hitbox.Width, hitbox.Height));
                     if (!isColliding)
                     {
-                        hitbox.X += speed;
+                        hitbox.X += (int)(speed * speedMultiplier);
                         moving = true;
                         isColliding = false;
                     }
@@ -176,24 +176,24 @@ namespace RogueLike
                 TileCollisionHandler(new Rectangle(hitbox.X - speed, hitbox.Y + speed, hitbox.Width, hitbox.Height));
                 if (!isColliding)
                 {
-                    hitbox.X -= (int)(Math.Sqrt(0.5) * speed); 
-                    hitbox.Y += (int)(Math.Sqrt(0.5) * speed); 
+                    hitbox.X -= (int)(Math.Sqrt(0.5) * (int)(speed * speedMultiplier)); 
+                    hitbox.Y += (int)(Math.Sqrt(0.5) * (int)(speed * speedMultiplier)); 
                     moving = true;
                     isColliding = false;
                 }
                 else
                 {
-                    TileCollisionHandler(new Rectangle(hitbox.X, hitbox.Y + speed, hitbox.Width, hitbox.Height));
+                    TileCollisionHandler(new Rectangle(hitbox.X, hitbox.Y + (int)(speed * speedMultiplier), hitbox.Width, hitbox.Height));
                     if (!isColliding)
                     {
-                        hitbox.Y += speed;
+                        hitbox.Y += (int)(speed * speedMultiplier);
                         moving = true;
                         isColliding = false;
                     }
-                    TileCollisionHandler(new Rectangle(hitbox.X - speed, hitbox.Y, hitbox.Width, hitbox.Height));
+                    TileCollisionHandler(new Rectangle(hitbox.X - (int)(speed * speedMultiplier), hitbox.Y, hitbox.Width, hitbox.Height));
                     if (!isColliding)
                     {
-                        hitbox.X -= speed;
+                        hitbox.X -= (int)(speed * speedMultiplier);
                         moving = true;
                         isColliding = false;
                     }
@@ -204,11 +204,11 @@ namespace RogueLike
             else if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A)) //left
             {
 
-                TileCollisionHandler(new Rectangle(hitbox.X - speed, hitbox.Y, hitbox.Width, hitbox.Height));
+                TileCollisionHandler(new Rectangle(hitbox.X - (int)(speed * speedMultiplier), hitbox.Y, hitbox.Width, hitbox.Height));
 
                 if (!isColliding)
                 {
-                    hitbox.X -= speed;
+                    hitbox.X -= (int)(speed * speedMultiplier);
                     moving = true;
                     isColliding = false;
                 }
@@ -216,12 +216,12 @@ namespace RogueLike
                 //moving = true;                
             }
 
-            else if (Keyboard.GetState().IsKeyDown(Keys.Right)) //right
+            else if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D)) //right
             {
-                TileCollisionHandler(new Rectangle(hitbox.X + speed, hitbox.Y, hitbox.Width, hitbox.Height));
+                TileCollisionHandler(new Rectangle(hitbox.X + (int)(speed * speedMultiplier), hitbox.Y, hitbox.Width, hitbox.Height));
                 if (!isColliding)
                 {
-                    hitbox.X += speed;
+                    hitbox.X += (int)(speed * speedMultiplier);
                     moving = true;
                     isColliding = false;
                 }
@@ -232,10 +232,10 @@ namespace RogueLike
             else if (Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S)) //down
             {
 
-                TileCollisionHandler(new Rectangle(hitbox.X, hitbox.Y + speed, hitbox.Width, hitbox.Height));
+                TileCollisionHandler(new Rectangle(hitbox.X, hitbox.Y + (int)(speed * speedMultiplier), hitbox.Width, hitbox.Height));
                 if (!isColliding)
                 {
-                    hitbox.Y += speed;
+                    hitbox.Y += (int)(speed * speedMultiplier);
                     moving = true;
                     isColliding = false;
                 }
@@ -247,10 +247,10 @@ namespace RogueLike
             else if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))//up
             {
 
-                TileCollisionHandler(new Rectangle(hitbox.X, hitbox.Y - speed, hitbox.Width, hitbox.Height));
+                TileCollisionHandler(new Rectangle(hitbox.X, hitbox.Y - (int)(speed * speedMultiplier), hitbox.Width, hitbox.Height));
                 if (!isColliding)
                 {
-                    hitbox.Y -= speed;
+                    hitbox.Y -= (int)(speed * speedMultiplier);
                     moving = true;
                     isColliding = false;
                 }
