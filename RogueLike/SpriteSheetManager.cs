@@ -65,7 +65,7 @@ namespace RogueLike
             stairTile = new SpriteSheet(c.Load<Texture2D>("stairtile"), sheetSize);
             rock = new SpriteSheet(c.Load<Texture2D>("rock"), sheetSize);
             knife = new SpriteSheet(c.Load<Texture2D>("knife"), sheetSize);
-            knifeItem = new SpriteSheet(c.Load<Texture2D>("knifeitem"), sheetSize);
+            knifeItem= new SpriteSheet(c.Load<Texture2D>("knifeitem"), sheetSize);
 
             //Player
             sheetSize = new Point(3, 0);
