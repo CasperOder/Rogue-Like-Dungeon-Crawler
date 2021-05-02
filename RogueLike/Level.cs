@@ -118,6 +118,7 @@ namespace RogueLike
         //Ritar room Layouten
         public static void LoadLayout(Random rnd, GraphicsDeviceManager g)
         {
+            Room.wallTiles.Clear();
             generatedRoomList.Clear();
             backgroundRoomList.Clear();
             endTileList.Clear();
@@ -333,6 +334,8 @@ namespace RogueLike
                 }
             }
 
+
+            Room.wallTiles.Clear();
             generatedRoomList.Clear();
             backgroundRoomList.Clear();
             endTileList.Clear();
@@ -390,6 +393,8 @@ namespace RogueLike
                 }
             }
 
+
+            //nedanstående kan tas bort så småningom om den inte används till något. Låt stå tills vidare. (ta bort denna kommentar om loopen används).
             foreach(Room r in generatedRoomList)
             {
                 foreach(Tile t in r.tileArray)
@@ -405,15 +410,7 @@ namespace RogueLike
                     }
                 }
             }
-
-            foreach(Tile r in rockTiles)
-            {
-                if(player.hitbox.Intersects(r.hitbox))
-                {
-                   
-                }
-            }
-
+            
             for (int e = 0; e < enemyList.Count; e++)
             {
                 player.InflictDamage(enemyList[e]);
@@ -476,6 +473,15 @@ namespace RogueLike
 
         public static void RemoveRockTiles(GraphicsDevice g)
         {
+            for(int r= 0;r<Room.wallTiles.Count;r++)
+            {
+                if(Room.wallTiles[r].isRock)
+                {
+                    Room.wallTiles.RemoveAt(r);
+                    r--;
+                }
+            }
+
             rockTiles.Clear();
             DrawOnFrontRenderTarget(g);
         }
