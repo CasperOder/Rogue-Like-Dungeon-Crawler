@@ -33,7 +33,6 @@ namespace RogueLike
         public static List<Tile> endTileList = new List<Tile>();
         public static List<Tile> rockTiles = new List<Tile>();
         public static int currentCircle, minimumNoOfRooms;
-        static Random rnd;
         static bool isBossRoom; //true om spelaren är i ett bossrum, false annars
 
         public static KeyboardState keyboardState, oldKeyboardState = Keyboard.GetState();
@@ -65,7 +64,6 @@ namespace RogueLike
             //LoadLayout(rnd);
             //generatedRoomList.Add(roomArray[Constants.startRoomCoords, Constants.startRoomCoords]);
 
-            rnd = new Random();
 
             LoadNewLevel(g);
             //LoadLayout(rnd);
@@ -288,7 +286,7 @@ namespace RogueLike
                         
                         if(chance==1)
                         {
-                            Enemy dummy = new Enemy(SpriteSheetManager.fire, 0.1, roomArray[x,y].middlepos, 300, 1000, 150, 60, 1d);
+                            Enemy dummy = new Enemy(SpriteSheetManager.fire, 0.1, roomArray[x,y].middlepos, 300, 1000, 150, 60, 1d, 100, 100);
                             //Enemy dummy = new DummyEnemy(SpriteSheetManager.dummy,1,roomArray[x,y].middlepos);
                             //dummy.health = 50;
                             enemyList.Add(dummy);
@@ -403,26 +401,26 @@ namespace RogueLike
 
 
             //nedanstående kan tas bort så småningom om den inte används till något. Låt stå tills vidare. (ta bort denna kommentar om loopen används).
-            foreach(Room r in generatedRoomList)
-            {
-                foreach(Tile t in r.tileArray)
-                {
-                    if(t.solid)
-                    {
-                        if (t.hitbox.Intersects(player.hitbox)) 
-                        {
-                            //Player.isColliding = true;
-                            //player.TileCollisionHandler(t);
-                        }
-                        
-                    }
-                }
-            }
-            
+            //foreach (Room r in generatedRoomList)
+            //{
+            //    foreach (Tile t in r.tileArray)
+            //    {
+            //        if (t.solid)
+            //        {
+            //            if (t.hitbox.Intersects(player.hitbox))
+            //            {
+            //                //Player.isColliding = true;
+            //                //player.TileCollisionHandler(t);
+            //            }
+
+            //        }
+            //    }
+            //}
+
             for (int e = 0; e < enemyList.Count; e++)
             {
                 player.InflictDamage(enemyList[e]);
-                if(enemyList[e].health<=0)
+                if (enemyList[e].health <= 0)
                 {
                     enemyList.RemoveAt(e);
                     e--;
@@ -536,13 +534,14 @@ namespace RogueLike
         public static void Draw(SpriteBatch sb)
         {
 
-            player.Draw(sb);
+            Console.WriteLine(enemyList.Count);
 
             sb.Draw(frontRenderTarget, Vector2.Zero, Color.White);
             sb.Draw(backRenderTarget, Vector2.Zero, Color.White);
 
+            player.Draw(sb);
 
-            foreach(Item i in itemsList)
+            foreach (Item i in itemsList)
             {
                 i.Draw(sb);
             }
