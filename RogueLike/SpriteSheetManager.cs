@@ -16,8 +16,20 @@ namespace RogueLike
         public static SpriteSheet player { get; private set; }
         public static SpriteSheet fire { get; private set; }
         public static SpriteSheet tempTile { get; private set; }
+
         public static SpriteSheet dummy;
         public static SpriteSheet floorTile { get; private set; }
+
+        public static SpriteSheet arrow;
+        public static SpriteSheet arrowItem;
+        public static SpriteSheet coin;
+        public static SpriteSheet sweep;
+        public static SpriteSheet sweepItem;
+        public static SpriteSheet stairTile;
+        public static SpriteSheet rock;
+        public static SpriteSheet knife;
+        public static SpriteSheet knifeItem;
+
         private static List<Point[]> playerAnimations = new List<Point[]>();
         private static List<Point[]> fireAnimations = new List<Point[]>();
 
@@ -45,7 +57,17 @@ namespace RogueLike
 
             ball = new SpriteSheet(c.Load<Texture2D>("ball"), sheetSize);
 
+            //tillfälliga från Davids testning
             dummy = new SpriteSheet(c.Load<Texture2D>("dummy"), sheetSize);
+            arrow = new SpriteSheet(c.Load<Texture2D>("Arrow"), sheetSize);
+            arrowItem = new SpriteSheet(c.Load<Texture2D>("arrowitem"), sheetSize);
+            coin = new SpriteSheet(c.Load<Texture2D>("coinitem"), sheetSize);
+            sweep = new SpriteSheet(c.Load<Texture2D>("sweep"), sheetSize);
+            sweepItem = new SpriteSheet(c.Load<Texture2D>("sweepitem"), sheetSize);
+            stairTile = new SpriteSheet(c.Load<Texture2D>("stairtile"), sheetSize);
+            rock = new SpriteSheet(c.Load<Texture2D>("rock"), sheetSize);
+            knife = new SpriteSheet(c.Load<Texture2D>("knife"), sheetSize);
+            knifeItem= new SpriteSheet(c.Load<Texture2D>("knifeitem"), sheetSize);
 
             //Floor tile
             texture = c.Load<Texture2D>("Floor_Tile");

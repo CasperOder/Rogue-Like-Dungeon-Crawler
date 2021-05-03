@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -19,6 +19,8 @@ namespace RogueLike
 
         //Tiden mellan attacker i sekunder
         public double attackSpeed { get; private set; }
+        public Color enemyColor;
+        public bool beenHit;
 
         double timeSinceAttack;
 
@@ -211,6 +213,12 @@ namespace RogueLike
             Vector2 direction = target - origin;
             direction.Normalize();
             return direction;
+}
+        public float GetPlayerDistance (Player p)
+        {
+            float playerDistance = Vector2.Distance(middlepos,p.middlepos);
+            return playerDistance;
+
         }
         Vector2 DirectionOfObject(Rectangle origin, Rectangle target)
         {

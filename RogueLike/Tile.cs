@@ -10,7 +10,12 @@ namespace RogueLike
 {
     class Tile : GameObject
     {
+
         public bool solid { get; private set; }
+
+        public bool isRock;
+
+
         public Tile(SpriteSheet spriteSheet, Rectangle pos) : base(spriteSheet)
         {
             this.hitbox = pos;
