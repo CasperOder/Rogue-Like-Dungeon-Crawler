@@ -17,6 +17,8 @@ namespace RogueLike
         public Point currentFrame { get; private set; }
         private byte sequenceIndex = 0;
 
+        public Color color = Color.White;
+
         public AnimatedObject(SpriteSheet spriteSheet, double timeBetweenFrames) :
             base(spriteSheet)
         {
@@ -56,6 +58,11 @@ namespace RogueLike
         {
             currentFrame = new Point(0, 0);
             sequenceIndex = 0;
+        }
+
+        public virtual void Draw(SpriteBatch sb)
+        {
+            sb.Draw(spriteSheet.texture, hitbox.Location.ToVector2(), null, new Rectangle(spriteSheet.frameSize.X * currentFrame.X, spriteSheet.frameSize.Y * currentFrame.Y, spriteSheet.frameSize.X, spriteSheet.frameSize.Y), Vector2.Zero, 0, Vector2.One, color, SpriteEffects.None, 1f);
         }
     }
 }
