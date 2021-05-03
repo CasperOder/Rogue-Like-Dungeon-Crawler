@@ -19,10 +19,15 @@ namespace RogueLike
         public float maxHealth, health;
 
 
-
         public Moveable_Object(SpriteSheet spriteSheet, double timeBetweenFrames) : base(spriteSheet, timeBetweenFrames)
         {
             speedMultiplier = 1;
+        }
+        public Moveable_Object(SpriteSheet spriteSheet, double timeBetweenFrames, float health, float maxHealth) : base(spriteSheet, timeBetweenFrames)
+        {
+            speedMultiplier = 1;
+            this.health = health;
+            this.maxHealth = maxHealth;
         }
 
         

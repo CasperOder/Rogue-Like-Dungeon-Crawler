@@ -37,7 +37,7 @@ namespace RogueLike
             }
         }
 
-        public Enemy(SpriteSheet spriteSheet, double timeBetweenFrames, Vector2 startPos, int speed, int spottingRange, int attackRange, int attackRangeOverlap, double attackSpeed) : base(spriteSheet, timeBetweenFrames)
+        public Enemy(SpriteSheet spriteSheet, double timeBetweenFrames, Vector2 startPos, int speed, int spottingRange, int attackRange, int attackRangeOverlap, double attackSpeed, float health, float maxHealth) : base(spriteSheet, timeBetweenFrames, health, maxHealth)
         {
             hitbox.Size = spriteSheet.frameSize;
             hitbox.X = (int)startPos.X - hitbox.Width / 2;
