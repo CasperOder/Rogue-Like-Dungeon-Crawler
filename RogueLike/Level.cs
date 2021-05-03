@@ -13,7 +13,7 @@ namespace RogueLike
     static class Level
     {
         static SpriteBatch sb;
-        static Player player;
+        public static Player player;
         static Vector2 playerStartPos;
         public static Tile[,] backgroundTiles;
         private static RenderTarget2D backRenderTarget;
@@ -23,7 +23,12 @@ namespace RogueLike
         static List<Room> backgroundRoomList = new List<Room>();
         static Room[,] roomArray;
         static Texture2D lineTex;
-        static List<Enemy> enemyList= new List<Enemy>();
+
+      public static List<Enemy> enemyList= new List<Enemy>();
+
+        public static Random rnd = new Random();
+     
+        //static List<Enemy> enemyList= new List<Enemy>();
         public static List<Item> itemsList = new List<Item>();
         public static List<Tile> endTileList = new List<Tile>();
         public static List<Tile> rockTiles = new List<Tile>();
@@ -35,7 +40,6 @@ namespace RogueLike
 
         public static int currency;
 
-  
         public static void Load_Level(GraphicsDeviceManager g)
         {
             sb = new SpriteBatch(g.GraphicsDevice);
@@ -58,6 +62,7 @@ namespace RogueLike
 
             player.ChangeWeapon(LoadWeapons.testMelee);
 
+            //LoadLayout(rnd);
             //generatedRoomList.Add(roomArray[Constants.startRoomCoords, Constants.startRoomCoords]);
 
             rnd = new Random();
@@ -283,8 +288,9 @@ namespace RogueLike
                         
                         if(chance==1)
                         {
-                            Enemy dummy = new DummyEnemy(SpriteSheetManager.dummy,1,roomArray[x,y].middlepos);
-                            dummy.health = 50;
+                            Enemy dummy = new Enemy(SpriteSheetManager.fire, 0.1, roomArray[x,y].middlepos, 300, 1000, 150, 60, 1d);
+                            //Enemy dummy = new DummyEnemy(SpriteSheetManager.dummy,1,roomArray[x,y].middlepos);
+                            //dummy.health = 50;
                             enemyList.Add(dummy);
                         }
 
@@ -401,7 +407,7 @@ namespace RogueLike
             {
                 foreach(Tile t in r.tileArray)
                 {
-                    if(t!=null)
+                    if(t.solid)
                     {
                         if (t.hitbox.Intersects(player.hitbox)) 
                         {
@@ -423,25 +429,11 @@ namespace RogueLike
                 }
             }
 
-            foreach(Enemy e in enemyList)
-            {
-                if(e.GetPlayerDistance(player)<e.enemySpottingRange)
-                {
-                    Vector2 direction = player.middlepos - e.middlepos; 
-                    direction.Normalize();
+            //enemyList[0].Update(gameTime);
 
-                    foreach (Room r in generatedRoomList)
-                    {
-                        foreach(Tile t in r.tileArray)
-                        {
-                            if(t!=null)
-                            {
-                                //metod för att upptäcka om någon tile är ivägen                                 
-                            }
-                        }
-                        
-                    }                    
-                }
+            foreach (Enemy e in enemyList)
+            {
+                e.Update(gameTime);
             }
 
             if(keyboardState.IsKeyDown(Keys.R))
@@ -543,7 +535,6 @@ namespace RogueLike
 
         public static void Draw(SpriteBatch sb)
         {
-
 
             player.Draw(sb);
 

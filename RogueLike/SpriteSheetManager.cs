@@ -18,6 +18,8 @@ namespace RogueLike
         public static SpriteSheet tempTile { get; private set; }
 
         public static SpriteSheet dummy;
+        public static SpriteSheet floorTile { get; private set; }
+
         public static SpriteSheet arrow;
         public static SpriteSheet arrowItem;
         public static SpriteSheet coin;
@@ -66,6 +68,11 @@ namespace RogueLike
             rock = new SpriteSheet(c.Load<Texture2D>("rock"), sheetSize);
             knife = new SpriteSheet(c.Load<Texture2D>("knife"), sheetSize);
             knifeItem= new SpriteSheet(c.Load<Texture2D>("knifeitem"), sheetSize);
+
+            //Floor tile
+            texture = c.Load<Texture2D>("Floor_Tile");
+
+            floorTile = new SpriteSheet(texture, sheetSize);
 
             //Player
             sheetSize = new Point(3, 0);
