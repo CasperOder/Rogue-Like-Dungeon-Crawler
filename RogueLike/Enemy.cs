@@ -22,6 +22,8 @@ namespace RogueLike
         public Color enemyColor;
         public bool beenHit;
 
+        bool isColliding = false;
+
         double timeSinceAttack;
 
         bool remembersPlayer = false;
@@ -126,46 +128,45 @@ namespace RogueLike
                 direction -= DirectionOfObject(hitbox, Level.player.hitbox);
 
             //Tile collision
-            foreach (Room r in Level.generatedRoomList)
-            {
-                foreach (Tile t in r.tileArray)
-                {
-                    if (t.solid)
-                    {
-                        if (t.hitbox.Intersects(hitbox))
-                        {
-                            int collisionSide = CollisionSide(t.hitbox, position, hitbox.Size);
 
-                            if (collisionSide <= 1)
-                            {
-                                direction.Y -= DirectionOfObject(hitbox, t.hitbox).Y;
-
-                                if (direction.X > 0)
-                                    direction.X = 1;
-                                else
-                                    direction.X = -1;
-                            }
-                            else if (collisionSide >= 2)
-                            {
-                                direction.X -= DirectionOfObject(hitbox, t.hitbox).X;
-
-                                if (direction.Y > 0)
-                                    direction.Y = 1;
-                                else
-                                    direction.Y = -1;
-                            }
-                            Console.WriteLine(collisionSide);
-
-                            break;
-                        }
-                    }
-                }
-            }
 
             //Movement
-            position += speed * direction * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            TileCollision(new Rectangle((int)(position.X + speed * direction.X * (float)gameTime.ElapsedGameTime.TotalSeconds),(int)(position.Y + speed * direction.Y * (float)gameTime.ElapsedGameTime.TotalSeconds),hitbox.Width,hitbox.Height));
+            if (!isColliding)
+            {
+                position += speed * direction * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            else
+            {
+                TileCollision(new Rectangle((int)(position.X), (int)(position.Y + speed * direction.Y * (float)gameTime.ElapsedGameTime.TotalSeconds), hitbox.Width, hitbox.Height));
+                if (!isColliding)
+                {
+                   
+                    position.Y += speed * direction.Y * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                }
+                TileCollision(new Rectangle((int)(position.X + speed * direction.X * (float)gameTime.ElapsedGameTime.TotalSeconds), (int)(position.Y), hitbox.Width, hitbox.Height));
+                if (!isColliding)
+                {
+                    position.X += speed * direction.X * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                }
+            }
+            
         }
-
+        void TileCollision(Rectangle rect)
+        {
+            for (int i = 0; i < Room.wallTiles.Count; i++)
+            {
+                if (Room.wallTiles[i].hitbox.Intersects(rect))
+                {
+                    isColliding = true;
+                    break;
+                }
+                else if (i == Room.wallTiles.Count - 1)
+                {
+                    isColliding = false;
+                }
+            }
+        }
         public static int CollisionSide(Rectangle rect, Vector2 objectPos, Point objectSize)
         {
             float[] distances = new float[4];
