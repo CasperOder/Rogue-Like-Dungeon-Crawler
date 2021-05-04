@@ -23,6 +23,7 @@ namespace RogueLike
         static List<Room> backgroundRoomList = new List<Room>();
         static Room[,] roomArray;
         static Texture2D lineTex;
+        public static List<Tile> enemySpawnTiles= new List<Tile>();
 
       public static List<Enemy> enemyList= new List<Enemy>();
 
@@ -129,7 +130,7 @@ namespace RogueLike
             enemyList.Clear();
             itemsList.Clear();
 
-            roomArray[Constants.startRoomCoords, Constants.startRoomCoords] = new Room(new Vector2(Constants.roomWidth * Constants.startRoomCoords, Constants.roomHeight * Constants.startRoomCoords), "smallRoom.txt", SpriteSheetManager.ball);
+            roomArray[Constants.startRoomCoords, Constants.startRoomCoords] = new Room(new Vector2(Constants.roomWidth * Constants.startRoomCoords, Constants.roomHeight * Constants.startRoomCoords), "smallRoom.txt", SpriteSheetManager.wallTiles);
             generatedRoomList.Add(roomArray[Constants.startRoomCoords, Constants.startRoomCoords]);
             player.SetPlayerPosition(roomArray[Constants.startRoomCoords, Constants.startRoomCoords].playerSpawnPoint);
 
@@ -151,7 +152,7 @@ namespace RogueLike
                                     chance = rnd.Next(1, 101);
                                     if (chance == 1)
                                     {
-                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * (x-1), Constants.roomHeight * y), "smallRoom.txt", SpriteSheetManager.ball);
+                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * (x-1), Constants.roomHeight * y), "smallRoom.txt", SpriteSheetManager.wallTiles);
                                         newRoom.rightConnection = true;
                                         roomArray[x, y].leftConnection = true;
                                         roomArray[x-1, y] = newRoom;
@@ -167,7 +168,7 @@ namespace RogueLike
                                     chance = rnd.Next(1, 101);
                                     if (chance == 1)
                                     {
-                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * x, Constants.roomHeight * (y-1)), "smallRoom.txt", SpriteSheetManager.ball);
+                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * x, Constants.roomHeight * (y-1)), "smallRoom.txt", SpriteSheetManager.wallTiles);
                                         newRoom.downConnection = true;
                                         roomArray[x, y].upConnection = true;
                                         roomArray[x, y-1] = newRoom;
@@ -183,7 +184,7 @@ namespace RogueLike
                                     chance = rnd.Next(1, 101);
                                     if (chance == 1)
                                     {
-                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * (x+1), Constants.roomHeight * y), "smallRoom.txt", SpriteSheetManager.ball);
+                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * (x+1), Constants.roomHeight * y), "smallRoom.txt", SpriteSheetManager.wallTiles);
                                         newRoom.leftConnection = true;
                                         roomArray[x, y].rightConnection = true;
                                         roomArray[x+1, y] = newRoom;
@@ -199,7 +200,7 @@ namespace RogueLike
                                     chance = rnd.Next(1, 101);
                                     if (chance == 1)
                                     {
-                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * x, Constants.roomHeight * (y+1)), "smallRoom.txt", SpriteSheetManager.ball);
+                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * x, Constants.roomHeight * (y+1)), "smallRoom.txt", SpriteSheetManager.wallTiles);
                                         newRoom.upConnection = true;
                                         roomArray[x, y].downConnection = true;
                                         roomArray[x, y+1] = newRoom;
@@ -315,11 +316,11 @@ namespace RogueLike
 
             foreach(Room r in generatedRoomList)
             {
-                r.CreateLevel();
+                r.CreateLevel(rnd);
             }
             foreach(Room r in backgroundRoomList)
             {
-                r.CreateLevel();
+                r.CreateLevel(rnd);
             }
 
             DrawOnFrontRenderTarget(g.GraphicsDevice);
@@ -350,7 +351,7 @@ namespace RogueLike
             Room bossRoom = new Room(Vector2.Zero, "bossRoom.txt", SpriteSheetManager.tempTile);
             bossRoom.exitRoom = true;
 
-            bossRoom.CreateLevel();        
+            bossRoom.CreateLevel(rnd);        
             generatedRoomList.Add(bossRoom);
             
             DrawOnFrontRenderTarget(g.GraphicsDevice);
@@ -486,12 +487,13 @@ namespace RogueLike
             g.Clear(Color.Transparent);
             sb.Begin();
 
-            foreach(Tile r in rockTiles)
+            
+            foreach(Room r in generatedRoomList)
             {
                 r.Draw(sb);
             }
 
-            foreach(Room r in generatedRoomList)
+            foreach (Tile r in rockTiles)
             {
                 r.Draw(sb);
             }

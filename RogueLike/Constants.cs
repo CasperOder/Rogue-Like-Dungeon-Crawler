@@ -10,18 +10,18 @@ namespace RogueLike
     {
         public static int tileSize, roomWidth, roomHeight, startRoomCoords, minimumNumberOfRooms, windowWidth, windowHeight, itemSize, weaponItemSize;
 
-
+        //800 room width. 20 tilesize, 40 tiles.
 
         public static void LoadConstants()
         {
-            tileSize = 50;
-            roomWidth = tileSize * 10;
-            roomHeight = tileSize * 8;
+            tileSize = 16;
+            roomWidth = tileSize * 32;
+            roomHeight = tileSize * 32;
             startRoomCoords = 4;
             //minimumNumberOfRooms = 45;
             windowWidth = 1850;
             windowHeight = 1000;
-            itemSize = 16;
+            itemSize = 24;
             weaponItemSize = 32;
         }
 

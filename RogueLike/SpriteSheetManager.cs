@@ -29,6 +29,7 @@ namespace RogueLike
         public static SpriteSheet rock;
         public static SpriteSheet knife;
         public static SpriteSheet knifeItem;
+        public static SpriteSheet wallTiles;
 
         private static List<Point[]> playerAnimations = new List<Point[]>();
         private static List<Point[]> fireAnimations = new List<Point[]>();
@@ -69,14 +70,19 @@ namespace RogueLike
             knife = new SpriteSheet(c.Load<Texture2D>("knife"), sheetSize);
             knifeItem= new SpriteSheet(c.Load<Texture2D>("knifeitem"), sheetSize);
 
+
+
             //Floor tile
             texture = c.Load<Texture2D>("Floor_Tile");
 
             floorTile = new SpriteSheet(texture, sheetSize);
 
+            
             //Player
             sheetSize = new Point(3, 0);
             texture = c.Load<Texture2D>("IdleSpriteSheet");
+
+            
 
             playerAnimations.Add(new Point[]
             {
@@ -87,7 +93,9 @@ namespace RogueLike
             });
 
             player = new SpriteSheet(texture, sheetSize, playerAnimations);
-            
+
+            wallTiles = new SpriteSheet(c.Load<Texture2D>("walltiles"), sheetSize);
+
             //Fire
             sheetSize = new Point(4, 0);
             texture = c.Load<Texture2D>("Fire");
