@@ -230,7 +230,7 @@ namespace RogueLike
             Vector2 ray = origin;
 
             //Behöver vara mindre än spelare och tile hitbox men för liten skapar mycket lagg
-            int jumps = 40;
+            int jumps = 10;
 
             //Console.WriteLine("player" + Level.player.hitbox.Location);
             //Console.WriteLine("enemy" + Level.enemyList[1].hitbox.Location);
