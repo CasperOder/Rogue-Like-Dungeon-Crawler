@@ -13,7 +13,7 @@ namespace RogueLike
     {
         //public Weapon weaponItem;
 
-        public WeaponItem(Weapon weaponItem, int coinGain, bool autoPickUp, SpriteSheet spriteSheet, Vector2 spawnPos) :base(coinGain, autoPickUp, spriteSheet, spawnPos)
+        public WeaponItem(Weapon weaponItem, int coinGain, bool autoPickUp, SpriteSheet spriteSheet, Vector2 spawnPos, ItemType itemType) :base(coinGain, autoPickUp, spriteSheet, spawnPos, itemType)
         {
             this.weaponItem = weaponItem;
             hitbox = new Rectangle((int)middlepos.X - Constants.weaponItemSize / 2, (int)middlepos.Y - Constants.weaponItemSize / 2, Constants.weaponItemSize, Constants.weaponItemSize);

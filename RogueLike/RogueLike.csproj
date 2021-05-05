@@ -46,12 +46,13 @@
     <Compile Include="Camera.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Enemy.cs" />
+    <Compile Include="EnemyManager.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="HUD.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Level.cs" />
-    <Compile Include="LoadWeapons.cs" />
+    <Compile Include="LoadWeaponsAndItems.cs" />
     <Compile Include="MeleeWeapon.cs" />
     <Compile Include="Minos.cs" />
     <Compile Include="Moveable_Object.cs" />
@@ -83,6 +84,9 @@
     <Content Include="Level1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="shopRoom.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="smallRoom.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -90,6 +94,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="bossRoom.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="spawnRoom.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

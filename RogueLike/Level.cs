@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Xna.Framework.Content;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,6 +24,9 @@ namespace RogueLike
         static List<Room> backgroundRoomList = new List<Room>();
         static Room[,] roomArray;
         static Texture2D lineTex;
+        public static List<Tile> enemySpawnTiles= new List<Tile>();
+
+        public static SpriteFont itemFont; //används för att avgöra texten nät items kostar. Får gärna flyttas -D
 
         public static List<Enemy> enemyList = new List<Enemy>();
 
@@ -43,8 +47,9 @@ namespace RogueLike
 
         public static int currency;
 
-        public static void Load_Level(GraphicsDeviceManager g)
+        public static void Load_Level(GraphicsDeviceManager g, ContentManager c)
         {
+            itemFont = c.Load <SpriteFont> ("itemfont");
             sb = new SpriteBatch(g.GraphicsDevice);
             noOfRoomsX = 8;
             noOfRoomsY = 8;
@@ -63,7 +68,7 @@ namespace RogueLike
             HUD.UpdateMaxHealthHUD((int)player.maxHealth);
             HUD.UpdateCurrentHealthHUD((int)player.health);
 
-            player.ChangeWeapon(LoadWeapons.testMelee);
+            player.ChangeWeapon(LoadWeaponsAndItems.testMelee);
 
             //LoadLayout(rnd);
             //generatedRoomList.Add(roomArray[Constants.startRoomCoords, Constants.startRoomCoords]);
@@ -135,7 +140,8 @@ namespace RogueLike
             enemyList.Clear();
             itemsList.Clear();
 
-            roomArray[Constants.startRoomCoords, Constants.startRoomCoords] = new Room(new Vector2(Constants.roomWidth * Constants.startRoomCoords, Constants.roomHeight * Constants.startRoomCoords), "smallRoom.txt", SpriteSheetManager.ball);
+            roomArray[Constants.startRoomCoords, Constants.startRoomCoords] = new Room(new Vector2(Constants.roomWidth * Constants.startRoomCoords, Constants.roomHeight * Constants.startRoomCoords), "spawnRoom.txt", SpriteSheetManager.wallTiles);
+            roomArray[Constants.startRoomCoords, Constants.startRoomCoords].isSpawn = true;
             generatedRoomList.Add(roomArray[Constants.startRoomCoords, Constants.startRoomCoords]);
             player.SetPlayerPosition(roomArray[Constants.startRoomCoords, Constants.startRoomCoords].playerSpawnPoint);
 
@@ -157,7 +163,8 @@ namespace RogueLike
                                     chance = rnd.Next(1, 101);
                                     if (chance == 1)
                                     {
-                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * (x - 1), Constants.roomHeight * y), "smallRoom.txt", SpriteSheetManager.ball);
+                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * (x-1), Constants.roomHeight * y), "smallRoom.txt", SpriteSheetManager.wallTiles);
+
                                         newRoom.rightConnection = true;
                                         roomArray[x, y].leftConnection = true;
                                         roomArray[x - 1, y] = newRoom;
@@ -173,7 +180,7 @@ namespace RogueLike
                                     chance = rnd.Next(1, 101);
                                     if (chance == 1)
                                     {
-                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * x, Constants.roomHeight * (y - 1)), "smallRoom.txt", SpriteSheetManager.ball);
+                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * x, Constants.roomHeight * (y-1)), "smallRoom.txt", SpriteSheetManager.wallTiles);
                                         newRoom.downConnection = true;
                                         roomArray[x, y].upConnection = true;
                                         roomArray[x, y - 1] = newRoom;
@@ -189,7 +196,7 @@ namespace RogueLike
                                     chance = rnd.Next(1, 101);
                                     if (chance == 1)
                                     {
-                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * (x + 1), Constants.roomHeight * y), "smallRoom.txt", SpriteSheetManager.ball);
+                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * (x+1), Constants.roomHeight * y), "smallRoom.txt", SpriteSheetManager.wallTiles);
                                         newRoom.leftConnection = true;
                                         roomArray[x, y].rightConnection = true;
                                         roomArray[x + 1, y] = newRoom;
@@ -205,7 +212,7 @@ namespace RogueLike
                                     chance = rnd.Next(1, 101);
                                     if (chance == 1)
                                     {
-                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * x, Constants.roomHeight * (y + 1)), "smallRoom.txt", SpriteSheetManager.ball);
+                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * x, Constants.roomHeight * (y+1)), "smallRoom.txt", SpriteSheetManager.wallTiles);
                                         newRoom.upConnection = true;
                                         roomArray[x, y].downConnection = true;
                                         roomArray[x, y + 1] = newRoom;
@@ -288,17 +295,17 @@ namespace RogueLike
                             }
                         }
 
-                        chance = rnd.Next(1, 10);
+                        //chance = rnd.Next(1, 10);
+                        
+                        //if(chance==1)
+                        //{
+                        //    Enemy dummy = new Enemy(SpriteSheetManager.fire, 0.1, roomArray[x,y].middlepos, 300, 1000, 150, 60, 1d, 100, 100);
+                        //    //Enemy dummy = new DummyEnemy(SpriteSheetManager.dummy,1,roomArray[x,y].middlepos);
+                        //    //dummy.health = 50;
+                        //    enemyList.Add(dummy);
+                        //}
 
-                        if (chance == 1)
-                        {
-                            Enemy dummy = new Enemy(SpriteSheetManager.fire, 0.1, roomArray[x, y].middlepos, 300, 1000, 150, 60, 1d, 100, 100);
-                            //Enemy dummy = new DummyEnemy(SpriteSheetManager.dummy,1,roomArray[x,y].middlepos);
-                            //dummy.health = 50;
-                            enemyList.Add(dummy);
-                        }
-
-                        Item coin = new Item(10, true, SpriteSheetManager.coin, roomArray[x, y].middlepos);
+                        Item coin= LoadWeaponsAndItems.coin(roomArray[x,y].middlepos);
                         itemsList.Add(coin);
 
                     }
@@ -310,24 +317,44 @@ namespace RogueLike
                 }
             }
 
-            chance = rnd.Next(1, topRooms.Count);
+
+            
+            chance = rnd.Next(0, topRooms.Count);
             topRooms[chance].exitRoom = true; //Bestämmer vilket rum som ska leda till nästa krets
 
-            WeaponItem sweepItem = new WeaponItem(LoadWeapons.sweepMelee, 0, false, LoadWeapons.sweepMelee.itemSpriteSheet, topRooms[chance].middlepos);
-            itemsList.Add(sweepItem);
+            //WeaponItem sweepItem = new WeaponItem(LoadWeaponsAndItems.sweepMelee, -50, false, LoadWeaponsAndItems.sweepMelee.itemSpriteSheet, topRooms[chance].middlepos);
+            //itemsList.Add(sweepItem);
 
-            WeaponItem knifeItem = new WeaponItem(LoadWeapons.knifeMelee, 0, false, LoadWeapons.knifeMelee.itemSpriteSheet, topRooms[chance].middlepos);
-            itemsList.Add(knifeItem);
+            //WeaponItem knifeItem = new WeaponItem(LoadWeaponsAndItems.knifeMelee, 0, false, LoadWeaponsAndItems.knifeMelee.itemSpriteSheet, topRooms[chance].middlepos);
+            //itemsList.Add(knifeItem);
 
+
+            bool shopLess= true;
+            
+            do
+            {
+                chance = rnd.Next(0, generatedRoomList.Count);
+
+                if (!generatedRoomList[chance].isSpawn && !generatedRoomList[chance].exitRoom)
+                {
+                    generatedRoomList[chance].fileName = "shopRoom.txt";
+                    shopLess = false;
+                }
+            }
+            while (shopLess);
             foreach (Room r in generatedRoomList)
             {
-                r.CreateLevel();
+                r.CreateLevel(rnd, currentCircle);
             }
             foreach (Room r in backgroundRoomList)
             {
-                r.CreateLevel();
+                r.CreateLevel(rnd, currentCircle);
             }
 
+
+            enemyList = EnemyManager.spawnEnemies(enemySpawnTiles, currentCircle, rnd);
+
+            
             DrawOnFrontRenderTarget(g.GraphicsDevice);
             DrawOnBackRenderTarget(g.GraphicsDevice);
 
@@ -356,7 +383,7 @@ namespace RogueLike
             Room bossRoom = new Room(Vector2.Zero, "bossRoom.txt", SpriteSheetManager.tempTile);
             bossRoom.exitRoom = true;
 
-            bossRoom.CreateLevel();
+            bossRoom.CreateLevel(rnd, currentCircle);        
             generatedRoomList.Add(bossRoom);
 
             DrawOnFrontRenderTarget(g.GraphicsDevice);
@@ -383,24 +410,57 @@ namespace RogueLike
                 {
                     if (itemsList[i].autoPickUp || (keyboardState.IsKeyDown(Keys.Enter) && oldKeyboardState.IsKeyUp(Keys.Enter)))
                     {
-
-                        if (itemsList[i] is WeaponItem)
+                        if (itemsList[i].itemType == Item.ItemType.weaponType)
                         {
-                            if (!player.isAttacking)
+                            if (!player.isAttacking && (itemsList[i].coinGain + currency) >= 0)
                             {
                                 player.ChangeWeapon(itemsList[i].weaponItem);
                                 currency += itemsList[i].coinGain;
+                                HUD.UpdateCurrencyHUD(currency);
                                 itemsList.RemoveAt(i);
                             }
                             break;
                         }
-                        else
+                        else if (itemsList[i].itemType == Item.ItemType.coin)
                         {
                             currency += itemsList[i].coinGain;
                             itemsList.RemoveAt(i);
                             HUD.UpdateCurrencyHUD(currency);
                             break;
+
                         }
+                        else if ((itemsList[i].coinGain + currency) >= 0)
+                        {
+
+                            
+                                player.UpdatePlayerStats(itemsList[i].itemType, itemsList[i].multiplier);
+                                currency += itemsList[i].coinGain;
+                                HUD.UpdateCurrencyHUD(currency);
+                                itemsList.RemoveAt(i);
+                                break;
+                            
+                        }
+
+
+
+                        //if (itemsList[i] is WeaponItem)
+                        //{
+                        //    if (!player.isAttacking && (itemsList[i].coinGain + currency) >= 0)
+                        //    {
+                        //        player.ChangeWeapon(itemsList[i].weaponItem);
+                        //        currency += itemsList[i].coinGain;
+                        //        HUD.UpdateCurrencyHUD(currency);
+                        //        itemsList.RemoveAt(i);
+                        //    }
+                        //    break;
+                        //}
+                        //else
+                        //{
+                        //    currency += itemsList[i].coinGain;
+                        //    itemsList.RemoveAt(i);
+                        //    HUD.UpdateCurrencyHUD(currency);
+                        //    break;
+                        //}
 
 
 
@@ -431,6 +491,8 @@ namespace RogueLike
                 player.InflictDamage(enemyList[e]);
                 if (enemyList[e].health <= 0)
                 {
+                    Item coin = LoadWeaponsAndItems.coin(enemyList[e].middlepos);
+                    itemsList.Add(coin);
                     enemyList.RemoveAt(e);
                     e--;
                 }
