@@ -85,7 +85,7 @@ namespace RogueLike
             //Floor tile
             texture = c.Load<Texture2D>("Floor_Tile");
 
-            floorTile = new SpriteSheet(texture, sheetSize)
+            floorTile = new SpriteSheet(texture, sheetSize);
               
             //Minos arm
             texture = c.Load<Texture2D>("Minos_arm");
