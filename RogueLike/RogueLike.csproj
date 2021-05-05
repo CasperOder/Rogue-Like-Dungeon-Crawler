@@ -63,6 +63,7 @@
     <Compile Include="RangeWeapon.cs" />
     <Compile Include="Room.cs" />
     <Compile Include="s.cs" />
+    <Compile Include="SoundManager.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="SpriteSheetManager.cs" />
     <Compile Include="SpriteSheet.cs" />
