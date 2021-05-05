@@ -37,11 +37,12 @@ namespace RogueLike
             //kub = Content.Load<Texture2D>(@"kub");
 
             SpriteSheetManager.LoadContent(Content);
-            LoadWeapons.LoadAllWeapons();
+            LoadWeaponsAndItems.LoadAllWeaponsAndItems();
+            EnemyManager.LoadEnemies();
             HUD.Load(Content);
             
             camera = new Camera(GraphicsDevice.Viewport);
-            Level.Load_Level(graphics);
+            Level.Load_Level(graphics, Content);
             
             
             

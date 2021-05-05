@@ -18,7 +18,7 @@ namespace RogueLike
 
         public int hitboxLength, hitboxWidth; //Length is how far FROM the player the weapon points.
 
-        public MeleeWeapon(int hitboxLength, int hitboxWidth, int baseDamage, float baseAttackSpeed, SpriteSheet spriteSheet, SpriteSheet itemSpriteSheet, float speedMultiplier) : base(baseDamage, baseAttackSpeed, itemSpriteSheet, speedMultiplier)
+        public MeleeWeapon(int hitboxLength, int hitboxWidth, int baseDamage, float baseAttackSpeed, SpriteSheet spriteSheet, SpriteSheet itemSpriteSheet, float speedMultiplier, int weight) : base(baseDamage, baseAttackSpeed, itemSpriteSheet, speedMultiplier, weight)
         {
             this.spriteSheet = spriteSheet;
             this.hitboxLength = hitboxLength;

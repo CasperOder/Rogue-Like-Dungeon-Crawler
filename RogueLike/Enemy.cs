@@ -25,11 +25,12 @@ namespace RogueLike
         bool isColliding = false;
 
         double timeSinceAttack;
+        public int spawnWeight; //ju högre desto svårare enemy i förhållande till resten av kretsen.
 
         bool remembersPlayer = false;
         Vector2 lastSeen;
 
-        Vector2 position;
+        public Vector2 position;
 
         Vector2 directionOfPlayer
         {
@@ -39,20 +40,29 @@ namespace RogueLike
             }
         }
 
-        public Enemy(SpriteSheet spriteSheet, double timeBetweenFrames, Vector2 startPos, int speed, int spottingRange, int attackRange, int attackRangeOverlap, double attackSpeed, float health, float maxHealth) : base(spriteSheet, timeBetweenFrames, health, maxHealth)
+        public Enemy(SpriteSheet spriteSheet, double timeBetweenFrames, int speed, int spottingRange, int attackRange, int attackRangeOverlap, double attackSpeed, float health, float maxHealth, int spawnWeight) : base(spriteSheet, timeBetweenFrames, health, maxHealth)
         {
             hitbox.Size = spriteSheet.frameSize;
-            hitbox.X = (int)startPos.X - hitbox.Width / 2;
-            hitbox.Y = (int)startPos.Y - hitbox.Height / 2;
-
+            
             base.speed = speed;
             this.spottingRange = spottingRange;
             this.attackRange = attackRange;
             this.attackRangeOverlap = attackRangeOverlap;
             this.attackSpeed = attackSpeed;
+            this.spawnWeight = spawnWeight;
+            
+        }
 
+        public Enemy copyEnemy()
+        {
+            return new Enemy(spriteSheet,timeBetweenFrames, speed, spottingRange, attackRange, attackRangeOverlap, attackSpeed, health, maxHealth, spawnWeight);
+        }
+        
+        public void SetSpawn(Vector2 startPos)
+        {
+            hitbox.X = (int)startPos.X - hitbox.Width / 2;
+            hitbox.Y = (int)startPos.Y - hitbox.Height / 2;
             position = hitbox.Location.ToVector2();
-
             middlepos = new Vector2(hitbox.Center.X, hitbox.Center.Y);
 
         }
@@ -64,6 +74,8 @@ namespace RogueLike
             hitbox.Location = position.ToPoint();
 
             Follow(gameTime);
+
+            middlepos = hitbox.Center.ToVector2();
         }
 
         void Follow(GameTime gameTime)
