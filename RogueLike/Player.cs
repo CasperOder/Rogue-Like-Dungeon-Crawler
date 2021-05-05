@@ -82,7 +82,7 @@ namespace RogueLike
                 if (!isColliding)
                 {
                     hitbox.X -= (int)(Math.Sqrt(0.5) * (int)(speed * speedMultiplier));
-                    hitbox.Y -= (int)(Math.Sqrt(0.5) * (int)(speed * speedMultiplier)); ;
+                    hitbox.Y -= (int)(Math.Sqrt(0.5) * (int)(speed * speedMultiplier));
                     moving = true;
                     isColliding = false;
                 }
