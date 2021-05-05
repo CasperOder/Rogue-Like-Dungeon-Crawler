@@ -11,6 +11,8 @@ namespace RogueLike
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D kub;
+        private double timeSinceLastFire;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -46,7 +48,7 @@ namespace RogueLike
             camera = new Camera(GraphicsDevice.Viewport);
             Level.Load_Level(graphics, Content);
 
-            MediaPlayer.Play(SoundManager.shopTheme);
+            MediaPlayer.IsRepeating = true;
 
         }
 
@@ -58,7 +60,10 @@ namespace RogueLike
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            timeSinceLastFire += gameTime.ElapsedGameTime.TotalSeconds;
+
             
+
             Level.Update(gameTime, graphics);
 
             Window.Title = Level.currency.ToString();   

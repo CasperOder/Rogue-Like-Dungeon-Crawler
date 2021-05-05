@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace RogueLike
 {
@@ -94,6 +95,8 @@ namespace RogueLike
             {
                 case 1:
                     minimumNoOfRooms = 5;
+                    MediaPlayer.Stop();
+                    MediaPlayer.Play(SoundManager.mainMenuTheme);
                     break;
                 case 2:
                     minimumNoOfRooms = 10;
@@ -364,6 +367,9 @@ namespace RogueLike
         {
             isBossRoom = true;
 
+            MediaPlayer.Stop();
+            MediaPlayer.Play(SoundManager.bossTheme);
+
             for (int x = 0; x < roomArray.GetLength(0); x++)
             {
                 for (int y = 0; y < roomArray.GetLength(1); y++)
@@ -537,7 +543,6 @@ namespace RogueLike
                     else
                     {
                         LoadBossRoom(g);
-
                     }
                     break;
 
