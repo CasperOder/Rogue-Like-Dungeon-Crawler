@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace RogueLike
 {
@@ -37,15 +38,16 @@ namespace RogueLike
             //kub = Content.Load<Texture2D>(@"kub");
 
             SpriteSheetManager.LoadContent(Content);
+            SoundManager.LoadAudio(Content);
             LoadWeaponsAndItems.LoadAllWeaponsAndItems();
             EnemyManager.LoadEnemies();
             HUD.Load(Content);
             
             camera = new Camera(GraphicsDevice.Viewport);
             Level.Load_Level(graphics, Content);
-            
-            
-            
+
+            MediaPlayer.Play(SoundManager.shopTheme);
+
         }
 
         protected override void UnloadContent()

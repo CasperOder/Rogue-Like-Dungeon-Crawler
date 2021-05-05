@@ -224,6 +224,18 @@
 /processorParam:TextureFormat=Color
 /build:Minos-Sheet.png
 
+#begin Pandora's Box.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Pandora's Box.mp3
+
+#begin Poseidon.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Poseidon.mp3
+
 #begin rock.png
 /importer:TextureImporter
 /processor:TextureProcessor
