@@ -226,7 +226,7 @@ namespace RogueLike
             Vector2 direction = target - origin;
             direction.Normalize();
             return direction;
-}
+        }
         public float GetPlayerDistance (Player p)
         {
             float playerDistance = Vector2.Distance(middlepos,p.middlepos);

@@ -14,8 +14,8 @@ namespace RogueLike
         private double timeSinceLastFrame;
 
         //ändra inte currentFrame utan att ställa in sequenceIndex och vise versa. Kan göras till en metod eller set property om det behövs
-        public Point currentFrame { get; private set; }
-        private byte sequenceIndex = 0;
+        public Point currentFrame;
+        protected byte sequenceIndex = 0;
 
         public Color color = Color.White;
 

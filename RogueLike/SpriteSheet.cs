@@ -13,7 +13,7 @@ namespace RogueLike
         public Texture2D texture { get; }
 
         public Point sheetSize { get; }
-        public Point frameSize { get; }
+        public Point frameSize;
 
         public List<Point[]> animationSequence { get; } = new List<Point[]>();
 
