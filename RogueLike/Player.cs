@@ -34,6 +34,8 @@ namespace RogueLike
         public static float mouseDistanceY;
 
         float weaponSpeedMultiplier;
+        float damageMultiplier=1;
+        float attackSpeedMultiplier=1;
         
         Vector2 middleOfMap = new Vector2(Constants.windowWidth / 2, Constants.windowHeight / 2);
 
@@ -363,7 +365,7 @@ namespace RogueLike
             {
                 if (e.hitbox.Intersects(equippedMelee.hitbox))
                 {
-                    e.health -= (equippedMelee.baseDamage * equippedMelee.damageMultiplyier);
+                    e.health -= (equippedMelee.baseDamage * equippedMelee.damageMultiplyier*damageMultiplier);
                     e.beenHit = true;
                 }
             }
@@ -376,14 +378,14 @@ namespace RogueLike
         {
             if (equippedMelee != null)
             {
-                WeaponItem droppedWeapon = new WeaponItem(equippedMelee, 0, false, equippedMelee.itemSpriteSheet, middlepos);
+                WeaponItem droppedWeapon = new WeaponItem(equippedMelee, 0, false, equippedMelee.itemSpriteSheet, middlepos, Item.ItemType.weaponType);
                 Level.itemsList.Add(droppedWeapon);
             }
 
             if (newWeapon is MeleeWeapon)
             {             
                 equippedMelee = (MeleeWeapon)newWeapon;
-                attackTime = 1 / (equippedMelee.baseAttackSpeed * equippedMelee.attackSpeedMultiplyier);
+                attackTime = 1 / (equippedMelee.baseAttackSpeed * equippedMelee.attackSpeedMultiplyier * attackSpeedMultiplier);
                 equippedRange = null;
                 weaponSpeedMultiplier= equippedMelee.speedMultiplier ;
             }
@@ -423,6 +425,41 @@ namespace RogueLike
         }
 
 
+        public void UpdatePlayerStats(Item.ItemType itemType, float multiplier)
+        {
+            switch(itemType)
+            {
+                case Item.ItemType.attackSpeedBoost:
+
+                    attackSpeedMultiplier *= multiplier;
+
+                    if(equippedMelee!=null)
+                    {
+                        attackTime = 1 / (equippedMelee.baseAttackSpeed * equippedMelee.attackSpeedMultiplyier * attackSpeedMultiplier);
+                    }
+                    else if(equippedRange!=null)
+                    {
+                        attackTime = 1 / (equippedRange.baseAttackSpeed * equippedRange.attackSpeedMultiplyier * attackSpeedMultiplier);
+                    }
+
+                    break;
+
+                case Item.ItemType.damageBoost:
+                    damageMultiplier *= multiplier;
+                    break;
+
+                case Item.ItemType.speedBoost:
+                    speedMultiplier *= multiplier;
+
+                    break;
+                case Item.ItemType.healthBoost:
+                    health += multiplier;
+                    maxHealth += multiplier;
+                    HUD.UpdateCurrentHealthHUD((int)health);
+                    HUD.UpdateMaxHealthHUD((int)maxHealth);
+                    break;
+            }
+        }
 
 
         public void Draw(SpriteBatch sb)
