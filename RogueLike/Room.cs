@@ -20,6 +20,7 @@ namespace RogueLike
         public static List<Tile> wallTiles = new List<Tile>();
 
         public Vector2 playerSpawnPoint;
+        public Vector2 bossSpawnPoint;
 
 
         public Room(Vector2 pos, string fileName, SpriteSheet spriteSheet):base(spriteSheet)
@@ -121,10 +122,13 @@ namespace RogueLike
                     }
                     else if (stringList[j][i] == 'S')
                     {
-                        tileArray[i, j] = new Tile(spriteSheet, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize));
+                        tileArray[i, j] = new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), false);
                         playerSpawnPoint = tileArray[i, j].middlepos;
-                        tileArray[i, j] = null;
-
+                    }
+                    else if (stringList[j][i] == 'O')
+                    {
+                        tileArray[i, j] = new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), false);
+                        bossSpawnPoint = tileArray[i, j].middlepos;
                     }
                     else if (stringList[j][i] == 'G')
                     {

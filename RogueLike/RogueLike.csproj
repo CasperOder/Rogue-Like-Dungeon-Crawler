@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AnimatedObject.cs" />
+    <Compile Include="Boss.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Enemy.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="Level.cs" />
     <Compile Include="LoadWeapons.cs" />
     <Compile Include="MeleeWeapon.cs" />
+    <Compile Include="Minos.cs" />
     <Compile Include="Moveable_Object.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />

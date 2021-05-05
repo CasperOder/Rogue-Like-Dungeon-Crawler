@@ -20,6 +20,9 @@ namespace RogueLike
         public static SpriteSheet dummy;
         public static SpriteSheet floorTile { get; private set; }
 
+        public static SpriteSheet bossMinos { get; private set; }
+        public static SpriteSheet MinosArm { get; private set; }
+
         public static SpriteSheet arrow;
         public static SpriteSheet arrowItem;
         public static SpriteSheet coin;
@@ -32,6 +35,7 @@ namespace RogueLike
 
         private static List<Point[]> playerAnimations = new List<Point[]>();
         private static List<Point[]> fireAnimations = new List<Point[]>();
+        private static List<Point[]> minosAnimations = new List<Point[]>();
 
         //Alla sprites hanteras med SpriteSheet objekt.
         //Alla SpriteSheet objekt sparas och hämtas från SpriteSheetManager
@@ -74,6 +78,11 @@ namespace RogueLike
 
             floorTile = new SpriteSheet(texture, sheetSize);
 
+            //Minos arm
+            texture = c.Load<Texture2D>("Minos_arm");
+
+            MinosArm = new SpriteSheet(texture, sheetSize);
+
             //Player
             sheetSize = new Point(3, 0);
             texture = c.Load<Texture2D>("IdleSpriteSheet");
@@ -101,7 +110,22 @@ namespace RogueLike
                 new Point(4, 0),
             });
 
-            fire = new SpriteSheet(texture, sheetSize, playerAnimations);
+            fire = new SpriteSheet(texture, sheetSize, fireAnimations);
+
+            //Minos
+            sheetSize = new Point(5, 0);
+            texture = c.Load<Texture2D>("Minos-Sheet");
+
+            minosAnimations.Add(new Point[]
+            {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(2, 0),
+                new Point(3, 0),
+                new Point(4, 0),
+            });
+
+            bossMinos = new SpriteSheet(texture, sheetSize, minosAnimations);
         }
 
     }

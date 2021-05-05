@@ -368,9 +368,20 @@ namespace RogueLike
                 }
             }
         }
+        public void InflictDamage(Boss b)
+        {
+            if (equippedMelee != null && !b.beenHit)
+            {
+                if (b.hitbox.Intersects(equippedMelee.hitbox))
+                {
+                    b.health -= (equippedMelee.baseDamage * equippedMelee.damageMultiplyier);
+                    b.beenHit = true;
+                }
+            }
+        }
 
 
-        
+
 
         public void ChangeWeapon(Weapon newWeapon)
         {
