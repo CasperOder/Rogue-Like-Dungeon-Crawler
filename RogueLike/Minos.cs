@@ -24,16 +24,17 @@ namespace RogueLike
         //Ranged stuff
 
         //Half the zone infront of Minos where he can do range attack
-        int rangedZone = 50;
+        int rangedZone = 30;
 
         //Hit cooldown in seconds
         double rangedSpeed = 0.4d;
         //Arm speed in seconds
-        double armSpeed = 0.03d;
+        double armSpeed = 0.02d;
         //Arm stun in seconds
         double armStun = 0.4d;
 
         float armLength = 0;
+        int maxArmLength = 35;
 
         bool returnArm = false;
 
@@ -45,22 +46,40 @@ namespace RogueLike
         //Melee stuff
 
         //Time between melee hits in seconds
-        double meleeSpeed = 0.6d;
+        double meleeSpeed = 0.3d;
         double timeSinceMelee;
         //Animation lock time
         double meleeLock = 0.3d;
         double timeSinceMeleeLock;
 
         float meleeRange = 230f;
-        float meleeZone = 4;
+        float meleeZone = 2;
 
-        int meeleDamage = 5;
+        int meleeDamage = 5;
 
-        Rectangle meeleHitbox;
+        Rectangle meleeHitbox;
+        Point meleeHitboxSize = new Point(200, 200);
 
         bool hasHit = false;
 
         List<Vector2> armList = new List<Vector2>();
+
+        //Special attack stuff
+
+        AnimatedObject specialAttack = new AnimatedObject(SpriteSheetManager.minosGround, 0.4);
+
+        double specialWait = 2d;
+        double specialWaitElapsed;
+
+        int specialSuccesChance = 50;
+
+        double specialSpeed = 0.4d;
+        double specialElapsedTime;
+
+        bool drawSpecial = false;
+
+        int specialDamage = 30;
+
 
         public Minos(SpriteSheet spriteSheet, double timeBetweenFrames, float health, float maxHealth) :
             base(spriteSheet, timeBetweenFrames, health, maxHealth)
@@ -71,7 +90,9 @@ namespace RogueLike
 
             hitbox.Size = spriteSheet.frameSize;
 
-            meeleHitbox = new Rectangle((int)position.X, (int)position.Y, spriteSheet.frameSize.X + 50, spriteSheet.frameSize.Y + 50);
+            meleeHitbox = new Rectangle((int)position.X, (int)position.Y, spriteSheet.frameSize.X + meleeHitboxSize.X, spriteSheet.frameSize.Y + meleeHitboxSize.Y);
+
+            specialAttack.hitbox.Size = SpriteSheetManager.minosGround.frameSize;
         }
 
         public override void Update(GameTime gameTime)
@@ -90,7 +111,7 @@ namespace RogueLike
 
                     timeSinceMelee += gameTime.ElapsedGameTime.TotalSeconds;
 
-                    if (Distance(new Vector2((position.X + (spriteSheet.texture.Width / spriteSheet.sheetSize.X) / 2), position.Y + spriteSheet.texture.Height / 2), Level.player.hitbox.Center.ToVector2()) < meleeRange)
+                    if (!drawSpecial && Distance(new Vector2((position.X + (spriteSheet.texture.Width / spriteSheet.sheetSize.X) / 2), position.Y + spriteSheet.texture.Height / 2), Level.player.hitbox.Center.ToVector2()) < meleeRange)
                     {
                         if (playerPositionX > hitbox.Center.X - rangedZone && playerPositionX < hitbox.Center.X + meleeZone)
                             Follow(playerPositionX, gameTime);
@@ -103,31 +124,44 @@ namespace RogueLike
                         }
 
                     }
-                    else if (playerPositionX > (position.X + (spriteSheet.texture.Width / spriteSheet.sheetSize.X) / 8) - rangedZone && playerPositionX < hitbox.Center.X + rangedZone)
+                    //(!drawSpecial && playerPositionX > (position.X + (spriteSheet.texture.Width / spriteSheet.sheetSize.X) / 8) - rangedZone && playerPositionX < (position.X + (spriteSheet.texture.Width / spriteSheet.sheetSize.X) / 4) + rangedZone)
+                    else if (!drawSpecial && playerPositionX > hitbox.Location.X - rangedZone && playerPositionX < hitbox.Location.X + rangedZone)
                     {
                         timeSinceRanged += gameTime.ElapsedGameTime.TotalSeconds;
 
                         if (timeSinceRanged >= rangedSpeed)
                         {
-                            timeSinceRanged -= rangedSpeed;
+                            if (Level.rnd.Next(100) > specialSuccesChance)
+                            {
+                                specialAttack.hitbox.Location = Level.player.hitbox.Location;
+                                state = AttackState.Special;
+                            }
+                            else
+                            {
+                                timeSinceRanged -= rangedSpeed;
 
-                            state = AttackState.Ranged;
+                                state = AttackState.Ranged;
+                            }
                         }
 
                         timeSinceRanged += gameTime.ElapsedGameTime.TotalSeconds;
                     }
-                    else
+                    else if (!drawSpecial)
                     {
                         Follow(playerPositionX, gameTime);
                     }
+
                     break;
                 case AttackState.Melee:
-                    if (playerPositionX > hitbox.Center.X - meleeZone && playerPositionX < hitbox.Center.X + meleeZone)
+                    if (playerPositionX > hitbox.Location.X - meleeZone && playerPositionX < hitbox.Location.X + meleeZone)
                         Follow(playerPositionX, gameTime);
                     Melee(gameTime);
                     break;
                 case AttackState.Ranged:
                     Ranged(gameTime);
+                    break;
+                case AttackState.Special:
+                    Special(gameTime);
                     break;
                 default:
                     break;
@@ -136,14 +170,48 @@ namespace RogueLike
 
         public void Follow(float xPos, GameTime gameTime)
         {
-
-            if (hitbox.Center.X > xPos)
+            if (hitbox.Location.X > xPos)
             {
                 Movement(new Vector2(-1, 0), gameTime);
             }
-            if (hitbox.Center.X < xPos)
+            if (hitbox.Location.X < xPos)
             {
                 Movement(new Vector2(1, 0), gameTime);
+            }
+        }
+
+        public void Special(GameTime gameTime)
+        {
+            specialElapsedTime += gameTime.ElapsedGameTime.TotalSeconds;
+
+            drawSpecial = true;
+
+            specialAttack.ResetFrame();
+
+            if (specialElapsedTime >= specialSpeed)
+            {
+                specialWaitElapsed += gameTime.ElapsedGameTime.TotalSeconds;
+
+                specialAttack.currentFrame.X = 2;
+                specialAttack.sequenceIndex = 2;
+
+                if (Level.player.hitbox.Intersects(specialAttack.hitbox) && !hasHit)
+                {
+                    hasHit = true;
+                    HUD.UpdateCurrentHealthHUD((int)Level.player.health - specialDamage);
+                    Level.player.health -= specialDamage;
+                }
+
+                if (specialWaitElapsed >= specialWait)
+                {
+                    specialWaitElapsed -= specialWait;
+                    specialElapsedTime = 0;
+
+                    hasHit = false;
+                    drawSpecial = false;
+
+                    state = AttackState.Aiming;
+                }
             }
         }
 
@@ -154,13 +222,13 @@ namespace RogueLike
             currentFrame.X = 5;
             sequenceIndex = 4;
 
-            meeleHitbox.Location = hitbox.Location;
+            meleeHitbox.Location = new Point(hitbox.X - meleeHitboxSize.X / 2, hitbox.Y - meleeHitboxSize.Y / 2);
 
-            if (Level.player.hitbox.Intersects(meeleHitbox) && !hasHit)
+            if (Level.player.hitbox.Intersects(meleeHitbox) && !hasHit)
             {
                 hasHit = true;
-                HUD.UpdateCurrentHealthHUD((int)Level.player.health - meeleDamage);
-                Level.player.health -= meeleDamage;
+                HUD.UpdateCurrentHealthHUD((int)Level.player.health - meleeDamage);
+                Level.player.health -= meleeDamage;
             }
 
             if (timeSinceMeleeLock >= meleeLock)
@@ -181,19 +249,19 @@ namespace RogueLike
             {
                 timeSinceArm -= armSpeed;
 
-                armList.Add(new Vector2((position.X + (spriteSheet.texture.Width / spriteSheet.sheetSize.X) / 2) - SpriteSheetManager.MinosArm.texture.Width / 2, position.Y + SpriteSheetManager.bossMinos.texture.Height + armLength));
+                armList.Add(new Vector2((position.X + (spriteSheet.texture.Width / spriteSheet.sheetSize.X) / 2) - SpriteSheetManager.minosArm.texture.Width / 2, position.Y + SpriteSheetManager.bossMinos.texture.Height + armLength));
 
-                armLength += (SpriteSheetManager.MinosArm.texture.Height / 3) * 2;
+                armLength += (SpriteSheetManager.minosArm.texture.Height / 3) * 2;
             }
 
             timeSinceArm += gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (armList.Count >= 29)
+            if (armList.Count >= maxArmLength)
                 returnArm = true;
 
             foreach (Vector2 armPos in armList)
             {
-                if (Level.player.hitbox.Intersects(new Rectangle(armPos.ToPoint(), SpriteSheetManager.MinosArm.frameSize)) && !hasHit)
+                if (Level.player.hitbox.Intersects(new Rectangle(armPos.ToPoint(), SpriteSheetManager.minosArm.frameSize)) && !hasHit)
                 {
                     hasHit = true;
                     HUD.UpdateCurrentHealthHUD((int)Level.player.health - rangeDamage);
@@ -253,9 +321,12 @@ namespace RogueLike
         {
             base.Draw(sb);
 
+            if (drawSpecial)
+                specialAttack.Draw(sb);
+
             foreach (Vector2 armPos in armList)
             {
-                sb.Draw(SpriteSheetManager.MinosArm.texture, armPos, Color.White);
+                sb.Draw(SpriteSheetManager.minosArm.texture, armPos, Color.White);
             }
         }
     }

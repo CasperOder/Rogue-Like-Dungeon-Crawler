@@ -633,6 +633,12 @@ namespace RogueLike
             sb.Draw(frontRenderTarget, Vector2.Zero, Color.White);
             sb.Draw(backRenderTarget, Vector2.Zero, Color.White);
 
+            foreach (Boss boss in bossList)
+            {
+                if (boss.alive)
+                    boss.Draw(sb);
+            }
+
             player.Draw(sb);
 
             foreach (Item i in itemsList)
@@ -643,12 +649,6 @@ namespace RogueLike
             foreach (Enemy e in enemyList)
             {
                 e.Draw(sb);
-            }
-
-            foreach (Boss boss in bossList)
-            {
-                if (boss.alive)
-                    boss.Draw(sb);
             }
 
             HUD.Draw(sb);
