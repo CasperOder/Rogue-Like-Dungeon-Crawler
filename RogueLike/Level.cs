@@ -510,6 +510,7 @@ namespace RogueLike
                 if (bossList[b].health <= 0)
                 {
                     bossList[b].alive = false;
+                    RemoveRockTiles(g.GraphicsDevice);
                 }
             }
 
@@ -637,6 +638,11 @@ namespace RogueLike
             {
                 if (boss.alive)
                     boss.Draw(sb);
+            }
+
+            foreach (Tile tile in rockTiles)
+            {
+                tile.Draw(sb);
             }
 
             player.Draw(sb);
