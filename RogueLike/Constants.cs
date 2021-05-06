@@ -14,9 +14,9 @@ namespace RogueLike
 
         public static void LoadConstants()
         {
-            tileSize = 16;
-            roomWidth = tileSize * 32;
-            roomHeight = tileSize * 32;
+            tileSize = 32;
+            roomWidth = tileSize * 16;
+            roomHeight = tileSize * 16;
             startRoomCoords = 4;
             //minimumNumberOfRooms = 45;
             windowWidth = 1850;

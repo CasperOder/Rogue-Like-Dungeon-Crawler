@@ -35,7 +35,7 @@ namespace RogueLike
         public static SpriteSheet knifeItem;
         public static SpriteSheet wallTiles;
         public static SpriteSheet damageBoost, healthBoost, attackSpeedBoost, speedBoost;
-
+        public static SpriteSheet spear, spearItem;
 
         private static List<Point[]> playerAnimations = new List<Point[]>();
         private static List<Point[]> fireAnimations = new List<Point[]>();
@@ -77,6 +77,8 @@ namespace RogueLike
             rock = new SpriteSheet(c.Load<Texture2D>("rock"), sheetSize);
             knife = new SpriteSheet(c.Load<Texture2D>("knife"), sheetSize);
             knifeItem= new SpriteSheet(c.Load<Texture2D>("knifeitem"), sheetSize);
+            spear = new SpriteSheet(c.Load<Texture2D>("spear"), sheetSize);
+            spearItem = new SpriteSheet(c.Load<Texture2D>("spearitem"), sheetSize);
 
             damageBoost = new SpriteSheet(c.Load<Texture2D>("damageboost"), sheetSize);
             healthBoost = new SpriteSheet(c.Load<Texture2D>("healthboost"), sheetSize);
