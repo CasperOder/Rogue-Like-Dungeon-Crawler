@@ -160,8 +160,7 @@ namespace RogueLike
                     else if (stringList[j][i] == 'i')
                     {
                         tileArray[i, j] = new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), false);
-                        Level.enemySpawnTiles.Add(tileArray[i, j]);
-
+                        
                         Item newItem = LoadWeaponsAndItems.newStatUpgrade(tileArray[i, j].middlepos, false, rnd);
                         Level.itemsList.Add(newItem);
                     }
@@ -169,24 +168,21 @@ namespace RogueLike
                     {
 
                         tileArray[i, j] = new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), false);
-                        Level.enemySpawnTiles.Add(tileArray[i, j]);
-
+                        
                         Item newItem = LoadWeaponsAndItems.newStatUpgrade(tileArray[i, j].middlepos, true, rnd);
                         Level.itemsList.Add(newItem);
                     }
                     else if (stringList[j][i] == 'w')
                     {
                         tileArray[i, j] = new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), false);
-                        Level.enemySpawnTiles.Add(tileArray[i, j]);
-
+                        
                         WeaponItem weaponItem = LoadWeaponsAndItems.newWeaponItem(tileArray[i, j].middlepos, currCircle, false, rnd);
                         Level.itemsList.Add(weaponItem);
                     }
                     else if (stringList[j][i] == 'W')
                     {
                         tileArray[i, j] = new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), false);
-                        Level.enemySpawnTiles.Add(tileArray[i, j]);
-
+                        
                         WeaponItem weaponItem = LoadWeaponsAndItems.newWeaponItem(tileArray[i, j].middlepos, currCircle, true, rnd);
                         Level.itemsList.Add(weaponItem);
                     }
