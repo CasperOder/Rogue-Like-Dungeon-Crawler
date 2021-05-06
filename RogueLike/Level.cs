@@ -100,6 +100,8 @@ namespace RogueLike
                     break;
                 case 2:
                     minimumNoOfRooms = 10;
+                    MediaPlayer.Stop();
+                    MediaPlayer.Play(SoundManager.mainMenuTheme);
                     break;
                 case 3:
                     minimumNoOfRooms = 15;
