@@ -233,10 +233,10 @@ namespace RogueLike
 
             if (timeSinceMeleeLock >= meleeLock)
             {
-                timeSinceMeleeLock -= meleeLock;
+                timeSinceMeleeLock= 0;
                 ResetFrame();
 
-                timeSinceMelee -= meleeSpeed;
+                timeSinceMelee = 0;
 
                 state = AttackState.Aiming;
                 hasHit = false;
