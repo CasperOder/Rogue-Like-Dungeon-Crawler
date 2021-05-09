@@ -22,7 +22,6 @@ namespace RogueLike
         public Vector2 playerSpawnPoint;
         public Vector2 bossSpawnPoint;
 
-
         public Room(Vector2 pos, string fileName, SpriteSheet spriteSheet):base(spriteSheet)
         {
             this.hitbox = new Rectangle((int)pos.X, (int)pos.Y, Constants.roomWidth, Constants.roomHeight);
@@ -186,6 +185,13 @@ namespace RogueLike
                         WeaponItem weaponItem = LoadWeaponsAndItems.newWeaponItem(tileArray[i, j].middlepos, currCircle, true, rnd);
                         Level.itemsList.Add(weaponItem);
                     }
+                    //else if (stringList[j][i] == 'l')
+                    //{
+                    //    Ladder ladder = new Ladder(,)
+
+                    //    tileArray[i, j] = new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), false);
+                    //}
+
                 }
             }
 
