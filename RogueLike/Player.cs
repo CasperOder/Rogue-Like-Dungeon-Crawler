@@ -389,7 +389,7 @@ namespace RogueLike
         {
             if (equippedMelee != null)
             {
-                WeaponItem droppedWeapon = new WeaponItem(equippedMelee, 0, false, equippedMelee.itemSpriteSheet, middlepos, Item.ItemType.weaponType);
+                WeaponItem droppedWeapon = new WeaponItem(equippedMelee, 0, false, equippedMelee.itemSpriteSheet, middlepos, Item.ItemType.weaponType, equippedMelee.itemName);
                 Level.itemsList.Add(droppedWeapon);
             }
 

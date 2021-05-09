@@ -64,6 +64,7 @@
     <Compile Include="Room.cs" />
     <Compile Include="s.cs" />
     <Compile Include="SoundManager.cs" />
+    <Compile Include="Ladder.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="SpriteSheetManager.cs" />
     <Compile Include="SpriteSheet.cs" />
@@ -85,6 +86,7 @@
     <Content Include="Level1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="shopEntrance.txt" />
     <Content Include="shopRoom.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

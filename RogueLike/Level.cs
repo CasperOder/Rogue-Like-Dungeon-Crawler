@@ -24,9 +24,11 @@ namespace RogueLike
         public static List<Room> generatedRoomList = new List<Room>();
         static List<Room> backgroundRoomList = new List<Room>();
         static Room[,] roomArray;
+        static Room shopRoom;
+        
         static Texture2D lineTex;
         public static List<Tile> enemySpawnTiles= new List<Tile>();
-
+        public static Ladder[] shopLadders= new Ladder[2]; //0 är ladder:n i roomArray, 1 är i shopen
         public static SpriteFont itemFont; //används för att avgöra texten nät items kostar. Får gärna flyttas -D
 
         public static List<Enemy> enemyList = new List<Enemy>();
@@ -55,6 +57,10 @@ namespace RogueLike
             noOfRoomsX = 8;
             noOfRoomsY = 8;
             roomArray = new Room[noOfRoomsX, noOfRoomsY];
+
+            shopRoom = new Room(new Vector2(-1000, -1000), "shopRoom.txt", SpriteSheetManager.wallTiles);
+
+
             frontRenderTarget = new RenderTarget2D(g.GraphicsDevice, Constants.roomWidth * noOfRoomsX, Constants.roomHeight * noOfRoomsY);
             backRenderTarget = new RenderTarget2D(g.GraphicsDevice, Constants.roomWidth * noOfRoomsX, Constants.roomHeight * noOfRoomsY);
 
@@ -71,18 +77,12 @@ namespace RogueLike
 
             player.ChangeWeapon(LoadWeaponsAndItems.testMelee);
 
-            //LoadLayout(rnd);
-            //generatedRoomList.Add(roomArray[Constants.startRoomCoords, Constants.startRoomCoords]);
+            
 
             //Minos
             bossList.Add(new Minos(SpriteSheetManager.bossMinos, 0.1d, 400, 400));
 
-            LoadNewLevel(g);
-            //LoadLayout(rnd);
-
-            //DrawOnFrontRenderTarget(g.GraphicsDevice);
-            //DrawOnBackRenderTarget(g.GraphicsDevice);
-
+            LoadNewLevel(g);            
 
         }
 
@@ -145,6 +145,9 @@ namespace RogueLike
             enemyList.Clear();
             itemsList.Clear();
 
+
+
+            
             roomArray[Constants.startRoomCoords, Constants.startRoomCoords] = new Room(new Vector2(Constants.roomWidth * Constants.startRoomCoords, Constants.roomHeight * Constants.startRoomCoords), "spawnRoom.txt", SpriteSheetManager.wallTiles);
             roomArray[Constants.startRoomCoords, Constants.startRoomCoords].isSpawn = true;
             generatedRoomList.Add(roomArray[Constants.startRoomCoords, Constants.startRoomCoords]);
@@ -342,11 +345,14 @@ namespace RogueLike
 
                 if (!generatedRoomList[chance].isSpawn && !generatedRoomList[chance].exitRoom)
                 {
-                    generatedRoomList[chance].fileName = "shopRoom.txt";
+                    generatedRoomList[chance].fileName = "smallRoom.txt";
                     shopLess = false;
+                    shopLadders[0] = new Ladder(SpriteSheetManager.upLadder, generatedRoomList[chance].middlepos, shopRoom.middlepos, "Press 'Space' to enter shop");
+                    shopLadders[1] = new Ladder(SpriteSheetManager.downLadder, shopRoom.middlepos, generatedRoomList[chance].middlepos, "Press 'Space' to exit shop'");
                 }
             }
             while (shopLess);
+
             foreach (Room r in generatedRoomList)
             {
                 r.CreateLevel(rnd, currentCircle);
@@ -355,7 +361,7 @@ namespace RogueLike
             {
                 r.CreateLevel(rnd, currentCircle);
             }
-
+            shopRoom.CreateLevel(rnd, currentCircle);
 
             enemyList = EnemyManager.spawnEnemies(enemySpawnTiles, currentCircle, rnd);
 
@@ -476,23 +482,27 @@ namespace RogueLike
                 }
             }
 
+            
+            foreach (Ladder l in shopLadders)
+            {
+                if (l.hitbox.Intersects(player.hitbox))
+                {
+                    l.showText = true;
+                    if (keyboardState.IsKeyDown(Keys.Space) && oldKeyboardState.IsKeyUp(Keys.Space))
+                    {
 
-            //nedanstående kan tas bort så småningom om den inte används till något. Låt stå tills vidare. (ta bort denna kommentar om loopen används).
-            //foreach (Room r in generatedRoomList)
-            //{
-            //    foreach (Tile t in r.tileArray)
-            //    {
-            //        if (t.solid)
-            //        {
-            //            if (t.hitbox.Intersects(player.hitbox))
-            //            {
-            //                //Player.isColliding = true;
-            //                //player.TileCollisionHandler(t);
-            //            }
+                        l.Moveplayer(player);
+                        break;
+                    }
 
-            //        }
-            //    }
-            //}
+                }
+                else
+                {
+                    l.showText = false;
+                }
+            }
+            
+
 
             for (int e = 0; e < enemyList.Count; e++)
             {
@@ -635,6 +645,7 @@ namespace RogueLike
         {
             sb.Draw(frontRenderTarget, Vector2.Zero, Color.White);
             sb.Draw(backRenderTarget, Vector2.Zero, Color.White);
+            shopRoom.Draw(sb);
 
             foreach (Boss boss in bossList)
             {
@@ -647,7 +658,13 @@ namespace RogueLike
                 tile.Draw(sb);
             }
 
+            foreach (Ladder l in shopLadders)
+            {
+                l.Draw(sb);
+            }
+
             player.Draw(sb);
+
 
             foreach (Item i in itemsList)
             {
