@@ -12,12 +12,21 @@ namespace RogueLike
     {
         static Enemy dummy;
         static List<Enemy> circleOneEnemyRoster = new List<Enemy>();
+        static List<Enemy> circleTwoEnemyRoster = new List<Enemy>();
+        static List<Enemy> circleThreeEnemyRoster = new List<Enemy>();
+        static List<Enemy> circleFourEnemyRoster = new List<Enemy>();
+        static List<Enemy> circleFiveEnemyRoster = new List<Enemy>();
+        static List<Enemy> circleSixEnemyRoster = new List<Enemy>();
+        static List<Enemy> circleSevenEnemyRoster = new List<Enemy>();
+        static List<Enemy> circleEightEnemyRoster = new List<Enemy>();
+        static List<Enemy> circleNineEnemyRoster = new List<Enemy>();
 
 
         public static void LoadEnemies()
         {
             dummy= new Enemy(SpriteSheetManager.fire, 0.1, 300, 1000, 150, 60, 1d, 100, 100, 1);
             circleOneEnemyRoster.Add(dummy);
+
 
         }
 

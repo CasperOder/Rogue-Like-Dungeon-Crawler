@@ -10,7 +10,7 @@ namespace RogueLike
 {
     static class LoadWeaponsAndItems
     {
-        public static MeleeWeapon testMelee, sweepMelee, knifeMelee, spear;
+        public static MeleeWeapon testMelee, sweepMelee, knifeMelee, spear, smashRings, boxingGlove;
         public static List<Weapon> AllWeaponList = new List<Weapon>();
 
         public static void LoadAllWeaponsAndItems()
@@ -21,8 +21,15 @@ namespace RogueLike
             AllWeaponList.Add(testMelee);
             AllWeaponList.Add(sweepMelee);
             AllWeaponList.Add(knifeMelee);
+
             spear = new MeleeWeapon(200, 16, 30, 1.5f, SpriteSheetManager.spear, SpriteSheetManager.spearItem, 0.75f, 3, "spear");
             AllWeaponList.Add(spear);
+
+            smashRings = new MeleeWeapon(320, 320, 150, 0.8f, SpriteSheetManager.smash, SpriteSheetManager.smashItem, 0.01f, 5, "Smash Rings");
+            AllWeaponList.Add(smashRings);
+
+            boxingGlove = new MeleeWeapon(100, 40, 14, 5, SpriteSheetManager.punch, SpriteSheetManager.punchItem, 0.6f, 4, "Speedy Punch Glove");
+            AllWeaponList.Add(boxingGlove);
         }
 
         public static Item coin (Vector2 pos)
@@ -149,10 +156,13 @@ namespace RogueLike
                     coinGain = -100;
                     break;
                 case 4:
+                    coinGain = -150;
                     break;
                 case 5:
+                    coinGain = -200;
                     break;
                 case 6:
+
                     break;
                 case 7:
                     break;
