@@ -56,6 +56,7 @@
     <Compile Include="MeleeWeapon.cs" />
     <Compile Include="Minos.cs" />
     <Compile Include="Moveable_Object.cs" />
+    <Compile Include="NPC.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Projectile.cs" />
