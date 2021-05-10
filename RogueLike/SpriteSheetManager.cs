@@ -38,6 +38,8 @@ namespace RogueLike
         public static SpriteSheet spear, spearItem;
         public static SpriteSheet upLadder, downLadder;
         public static SpriteSheet punch, punchItem, smash, smashItem;
+        public static SpriteSheet shopKeeper, shopKeeperTextbox;
+
 
         private static List<Point[]> playerAnimations = new List<Point[]>();
         private static List<Point[]> fireAnimations = new List<Point[]>();
@@ -93,6 +95,7 @@ namespace RogueLike
             attackSpeedBoost = new SpriteSheet(c.Load<Texture2D>("attackspeedboost"), sheetSize);
             speedBoost = new SpriteSheet(c.Load<Texture2D>("speedboost"), sheetSize);
 
+            shopKeeperTextbox = new SpriteSheet(c.Load<Texture2D>("shopkeepertext"), sheetSize);
 
             //Floor tile
             texture = c.Load<Texture2D>("Floor_Tile");
@@ -121,6 +124,11 @@ namespace RogueLike
             player = new SpriteSheet(texture, sheetSize, playerAnimations);
 
             wallTiles = new SpriteSheet(c.Load<Texture2D>("walltiles"), sheetSize);
+
+
+            //Shop Keeper
+            sheetSize = new Point(1, 0);
+            shopKeeper = new SpriteSheet(c.Load<Texture2D>("shopkeeper"), sheetSize);
 
             //Fire
             sheetSize = new Point(4, 0);

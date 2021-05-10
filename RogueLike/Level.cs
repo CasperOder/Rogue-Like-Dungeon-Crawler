@@ -25,7 +25,9 @@ namespace RogueLike
         static List<Room> backgroundRoomList = new List<Room>();
         static Room[,] roomArray;
         static Room shopRoom;
-        
+
+        public static NPC shopKeeper;
+
         static Texture2D lineTex;
         public static List<Tile> enemySpawnTiles= new List<Tile>();
         public static Ladder[] shopLadders= new Ladder[2]; //0 är ladder:n i roomArray, 1 är i shopen
@@ -563,6 +565,7 @@ namespace RogueLike
                 }
             }
 
+            shopKeeper.Update(gameTime);
 
             Game1.camera.SetPosition(new Vector2(player.hitbox.X + player.hitbox.Width / 2, player.hitbox.Y + player.hitbox.Height / 2));
             HUD.Update(player.middlepos); //positionerar HUD:en, måste ligga bland det sista i denna metoden.
@@ -662,6 +665,8 @@ namespace RogueLike
             {
                 l.Draw(sb);
             }
+
+            shopKeeper.Draw(sb);
 
             player.Draw(sb);
 

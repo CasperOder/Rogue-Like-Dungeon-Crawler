@@ -280,6 +280,7 @@ namespace RogueLike
             else
             {
                 Animate(gameTime, 0);
+                
             }
 
             if (!isAttacking)
@@ -327,6 +328,7 @@ namespace RogueLike
                     if (equippedMelee != null)
                     {
                         equippedMelee.hitbox = new Rectangle(0, 0, 0, 0);
+
                     }
                 }
             }
