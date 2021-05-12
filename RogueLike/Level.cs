@@ -12,8 +12,12 @@ using Microsoft.Xna.Framework.Media;
 
 namespace RogueLike
 {
+    
+
     static class Level
     {
+
+
         static SpriteBatch sb;
         public static Player player;
         static Vector2 playerStartPos;
@@ -25,7 +29,7 @@ namespace RogueLike
         static List<Room> backgroundRoomList = new List<Room>();
         static Room[,] roomArray;
         static Texture2D lineTex;
-        public static List<Tile> enemySpawnTiles= new List<Tile>();
+        public static List<Tile> enemySpawnTiles = new List<Tile>();
 
         public static SpriteFont itemFont; //används för att avgöra texten nät items kostar. Får gärna flyttas -D
 
