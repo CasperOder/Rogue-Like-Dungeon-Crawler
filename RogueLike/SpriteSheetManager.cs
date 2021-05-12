@@ -123,6 +123,7 @@ namespace RogueLike
 
             player = new SpriteSheet(texture, sheetSize, playerAnimations);
 
+            sheetSize = new Point(3, 8); 
             wallTiles = new SpriteSheet(c.Load<Texture2D>("walltiles"), sheetSize);
 
 

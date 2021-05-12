@@ -339,8 +339,8 @@ namespace RogueLike
             //itemsList.Add(knifeItem);
 
 
-            bool shopLess= true;
-            
+            bool shopLess = true;
+
             do
             {
                 chance = rnd.Next(0, generatedRoomList.Count);
@@ -545,7 +545,7 @@ namespace RogueLike
             {
                 RemoveRockTiles(g.GraphicsDevice);
             }
-
+            
 
             foreach (Tile t in endTileList)
             {
