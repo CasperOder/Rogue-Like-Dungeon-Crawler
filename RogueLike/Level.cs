@@ -25,6 +25,7 @@ namespace RogueLike
         static List<Room> backgroundRoomList = new List<Room>();
         static Room[,] roomArray;
         static Room shopRoom;
+        public static List<Projectile> projectilesOnScreenList = new List<Projectile>();
 
         public static NPC shopKeeper;
 
@@ -37,7 +38,6 @@ namespace RogueLike
 
         public static Random rnd = new Random();
 
-        //static List<Enemy> enemyList= new List<Enemy>();
         public static List<Item> itemsList = new List<Item>();
         public static List<Tile> endTileList = new List<Tile>();
         public static List<Tile> rockTiles = new List<Tile>();
@@ -65,13 +65,7 @@ namespace RogueLike
 
             frontRenderTarget = new RenderTarget2D(g.GraphicsDevice, Constants.roomWidth * noOfRoomsX, Constants.roomHeight * noOfRoomsY);
             backRenderTarget = new RenderTarget2D(g.GraphicsDevice, Constants.roomWidth * noOfRoomsX, Constants.roomHeight * noOfRoomsY);
-
-            //playerStartPos = new Vector2(Constants.roomWidth * Constants.startRoomCoords+Constants.roomWidth/2, Constants.roomHeight * Constants.startRoomCoords+Constants.roomHeight/2);
-
-            //player = new Player(SpriteSheetManager.player, playerStartPos, 0.1d);
-
-            //roomArray[Constants.startRoomCoords, Constants.startRoomCoords] = new Room(new Vector2(Constants.roomWidth * Constants.startRoomCoords, Constants.roomHeight * Constants.startRoomCoords), "smallRoom.txt", SpriteSheetManager.ball);
-
+            
             player = new Player(SpriteSheetManager.player, 0.1d);
 
             HUD.UpdateMaxHealthHUD((int)player.maxHealth);
@@ -305,16 +299,7 @@ namespace RogueLike
                             }
                         }
 
-                        //chance = rnd.Next(1, 10);
                         
-                        //if(chance==1)
-                        //{
-                        //    Enemy dummy = new Enemy(SpriteSheetManager.fire, 0.1, roomArray[x,y].middlepos, 300, 1000, 150, 60, 1d, 100, 100);
-                        //    //Enemy dummy = new DummyEnemy(SpriteSheetManager.dummy,1,roomArray[x,y].middlepos);
-                        //    //dummy.health = 50;
-                        //    enemyList.Add(dummy);
-                        //}
-
                         Item coin= LoadWeaponsAndItems.coin(roomArray[x,y].middlepos);
                         itemsList.Add(coin);
 
@@ -331,13 +316,7 @@ namespace RogueLike
             
             chance = rnd.Next(0, topRooms.Count);
             topRooms[chance].exitRoom = true; //Bestämmer vilket rum som ska leda till nästa krets
-
-            //WeaponItem sweepItem = new WeaponItem(LoadWeaponsAndItems.sweepMelee, -50, false, LoadWeaponsAndItems.sweepMelee.itemSpriteSheet, topRooms[chance].middlepos);
-            //itemsList.Add(sweepItem);
-
-            //WeaponItem knifeItem = new WeaponItem(LoadWeaponsAndItems.knifeMelee, 0, false, LoadWeaponsAndItems.knifeMelee.itemSpriteSheet, topRooms[chance].middlepos);
-            //itemsList.Add(knifeItem);
-
+            
 
             bool shopLess = true;
 
@@ -420,6 +399,55 @@ namespace RogueLike
             player.Movement(gameTime);
 
 
+            for (int p = 0; p < projectilesOnScreenList.Count; p++)
+            {
+                projectilesOnScreenList[p].Update();
+                
+
+                for(int e=0;e<enemyList.Count;e++)
+                {
+                    projectilesOnScreenList[p].CheckEnemyCollision(enemyList[e]);
+
+                    if (enemyList[e].health <= 0)
+                    {
+                        Item coin = LoadWeaponsAndItems.coin(enemyList[e].middlepos);
+                        itemsList.Add(coin);
+                        enemyList.RemoveAt(e);
+                        e--;
+                    }
+
+                }
+
+
+                for (int b = 0; b < bossList.Count; b++)
+                {
+                    //Spara ndeanstående rad tills vidare
+                    //projectilesOnScreenList[p].CheckEnemyCollision(bossList[b]);
+
+                    //nedanstående kan ersättas när Boss har satts så att den ärver ifrån Enemy
+                    if (bossList[b].hitbox.Intersects(projectilesOnScreenList[p].hitbox))
+                    {
+                        bossList[b].health -= (projectilesOnScreenList[p].damage * projectilesOnScreenList[p].damageMultiplyier);
+
+                        projectilesOnScreenList[p].destroy = true; ;
+                    }
+
+                    if (bossList[b].health <= 0)
+                    {
+                        bossList[b].alive = false;
+                        RemoveRockTiles(g.GraphicsDevice);
+                    }
+
+                }
+
+                if (projectilesOnScreenList[p].destroy)
+                {
+                    projectilesOnScreenList.RemoveAt(p);
+                    p--;
+                }
+
+            }
+
             for (int i = 0; i < itemsList.Count; i++)
             {
                 if (player.hitbox.Intersects(itemsList[i].hitbox))
@@ -457,29 +485,6 @@ namespace RogueLike
                             
                         }
 
-
-
-                        //if (itemsList[i] is WeaponItem)
-                        //{
-                        //    if (!player.isAttacking && (itemsList[i].coinGain + currency) >= 0)
-                        //    {
-                        //        player.ChangeWeapon(itemsList[i].weaponItem);
-                        //        currency += itemsList[i].coinGain;
-                        //        HUD.UpdateCurrencyHUD(currency);
-                        //        itemsList.RemoveAt(i);
-                        //    }
-                        //    break;
-                        //}
-                        //else
-                        //{
-                        //    currency += itemsList[i].coinGain;
-                        //    itemsList.RemoveAt(i);
-                        //    HUD.UpdateCurrencyHUD(currency);
-                        //    break;
-                        //}
-
-
-
                     }
                 }
             }
@@ -508,7 +513,7 @@ namespace RogueLike
 
             for (int e = 0; e < enemyList.Count; e++)
             {
-                player.InflictDamage(enemyList[e]);
+                player.InflictMeleeDamage(enemyList[e]);
                 if (enemyList[e].health <= 0)
                 {
                     Item coin = LoadWeaponsAndItems.coin(enemyList[e].middlepos);
@@ -516,6 +521,7 @@ namespace RogueLike
                     enemyList.RemoveAt(e);
                     e--;
                 }
+
             }
 
             for (int b = 0; b < bossList.Count; b++)
@@ -528,8 +534,7 @@ namespace RogueLike
                 }
             }
 
-            //enemyList[0].Update(gameTime);
-
+            
             foreach (Enemy e in enemyList)
             {
                 e.Update(gameTime);
@@ -654,6 +659,11 @@ namespace RogueLike
             {
                 if (boss.alive)
                     boss.Draw(sb);
+            }
+
+            foreach(Projectile p in projectilesOnScreenList)
+            {
+                p.Draw(sb);
             }
 
             foreach (Tile tile in rockTiles)

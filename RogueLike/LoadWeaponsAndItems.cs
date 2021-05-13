@@ -11,25 +11,34 @@ namespace RogueLike
     static class LoadWeaponsAndItems
     {
         public static MeleeWeapon testMelee, sweepMelee, knifeMelee, spear, smashRings, boxingGlove;
+
+        public static RangeWeapon bow;
+        public static Projectile arrow;
+
         public static List<Weapon> AllWeaponList = new List<Weapon>();
+
 
         public static void LoadAllWeaponsAndItems()
         {
-            testMelee = new MeleeWeapon(120, 40, 20, 2, SpriteSheetManager.arrow, SpriteSheetManager.arrowItem, 0.9f, 1, "testweapon");
-            sweepMelee = new MeleeWeapon(60, 180, 75, 1, SpriteSheetManager.sweep, SpriteSheetManager.sweepItem, 0.69f, 2, "battleaxe");
-            knifeMelee = new MeleeWeapon(30, 25, 5, 10, SpriteSheetManager.knife, SpriteSheetManager.knifeItem, 1.5f, 1, "knife");
+            testMelee = new MeleeWeapon(120, 40, 20, 2, SpriteSheetManager.arrow, SpriteSheetManager.arrowItem, 0.9f, 2, "testweapon", 1);
+            sweepMelee = new MeleeWeapon(60, 180, 75, 1, SpriteSheetManager.sweep, SpriteSheetManager.sweepItem, 0.69f, 2, "battleaxe", 1);
+            knifeMelee = new MeleeWeapon(30, 25, 5, 10, SpriteSheetManager.knife, SpriteSheetManager.knifeItem, 1.5f, 2, "knife", 1);
             AllWeaponList.Add(testMelee);
             AllWeaponList.Add(sweepMelee);
             AllWeaponList.Add(knifeMelee);
 
-            spear = new MeleeWeapon(200, 16, 30, 1.5f, SpriteSheetManager.spear, SpriteSheetManager.spearItem, 0.75f, 3, "spear");
+            spear = new MeleeWeapon(200, 16, 30, 1.5f, SpriteSheetManager.spear, SpriteSheetManager.spearItem, 0.75f, 3, "spear", 1);
             AllWeaponList.Add(spear);
 
-            smashRings = new MeleeWeapon(320, 320, 150, 0.8f, SpriteSheetManager.smash, SpriteSheetManager.smashItem, 0.01f, 5, "Smash Rings");
+            smashRings = new MeleeWeapon(320, 320, 150, 0.8f, SpriteSheetManager.smash, SpriteSheetManager.smashItem, 0.01f, 5, "Smash Rings", 1);
             AllWeaponList.Add(smashRings);
 
-            boxingGlove = new MeleeWeapon(100, 40, 14, 5, SpriteSheetManager.punch, SpriteSheetManager.punchItem, 0.6f, 4, "Speedy Punch Glove");
+            boxingGlove = new MeleeWeapon(100, 40, 14, 5, SpriteSheetManager.punch, SpriteSheetManager.punchItem, 0.6f, 4, "Speedy Punch Glove", 1);
             AllWeaponList.Add(boxingGlove);
+
+            arrow = new Projectile(32, 8, SpriteSheetManager.arrowBow, 1, 10);
+            bow = new RangeWeapon(40, 80, 20, 1000, 0.75f, SpriteSheetManager.bow, SpriteSheetManager.bowItem, 0.3f, 1, "Bow", arrow, 1);
+            AllWeaponList.Add(bow);
         }
 
         public static Item coin (Vector2 pos)
