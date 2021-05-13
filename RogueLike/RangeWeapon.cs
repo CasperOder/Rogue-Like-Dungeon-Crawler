@@ -11,48 +11,25 @@ namespace RogueLike
 {
     class RangeWeapon:Weapon
     {
-        List<Projectile> projectilesOnScreenList;
-        SpriteSheet projectileSpriteSheet;
-        double projectileTimeBetweenFrames;
+        Projectile projectileType;
 
-        public RangeWeapon(int baseDamage, int baseRange, float baseAttackSpeed, SpriteSheet projectileSpriteSheet, double projectileTimeBetweenFrames, SpriteSheet itemSpriteSheet, float speedMultiplier, int weight, string itemName) :base(baseDamage, baseAttackSpeed, itemSpriteSheet, speedMultiplier, weight, itemName)
+        public RangeWeapon(int hitboxLength,int hitboxWidth,int baseDamage, int baseRange, float baseAttackSpeed, SpriteSheet spriteSheet, SpriteSheet itemSpriteSheet, float speedMultiplier, int weight, string itemName, Projectile projectileType, double timeBetweenFrames) :base(hitboxLength,hitboxWidth,baseDamage, baseAttackSpeed, spriteSheet, itemSpriteSheet, speedMultiplier, weight, itemName, timeBetweenFrames)
         {
             this.baseRange = baseRange;
             rangeMultiplyier = 1;
-            this.projectileSpriteSheet = projectileSpriteSheet;
-            this.projectileTimeBetweenFrames = projectileTimeBetweenFrames;
+            this.projectileType = projectileType;
         }
 
 
-        public void CreateNewProjectile(Vector2 startPos)
+        public void CreateNewProjectile(Vector2 startPos, float playerDamageMultiplyier, Moveable_Object.CardinalDirection direction)
         {
-            Projectile p = new Projectile(startPos, baseDamage, projectileSpriteSheet, projectileTimeBetweenFrames);
-            projectilesOnScreenList.Add(p);
+            Projectile newProjectile = new Projectile(projectileType.hitboxLength,projectileType.hitboxWidth,projectileType.spriteSheet, projectileType.timeBetweenFrames, projectileType.speed, startPos, direction, baseDamage, baseRange, rangeMultiplyier, playerDamageMultiplyier);
+            Level.projectilesOnScreenList.Add(newProjectile);
         }
 
-        public void Update(Enemy e)
+        public void Draw(SpriteBatch sb)
         {
-            for(int p=0; p<projectilesOnScreenList.Count;p++)
-            {
-                projectilesOnScreenList[p].Update();
-
-                if (Vector2.Distance(projectilesOnScreenList[p].startPos, projectilesOnScreenList[p].middlepos)>baseRange*rangeMultiplyier)
-                {
-                    projectilesOnScreenList.Remove(projectilesOnScreenList[p]);
-                    p--;
-                }
-
-                if(e.hitbox.Intersects(projectilesOnScreenList[p].hitbox))
-                {
-                    //enemyn tar skada
-
-                    projectilesOnScreenList.Remove(projectilesOnScreenList[p]);
-                    p--;
-                }
-            }
-
-            
-
+            sb.Draw(spriteSheet.texture, hitbox, Color.White);            
         }
 
     }

@@ -12,22 +12,19 @@ namespace RogueLike
 {
     class MeleeWeapon:Weapon
     {
-        public Rectangle hitbox;
-
-        public SpriteSheet spriteSheet;
-
-        public int hitboxLength, hitboxWidth; //Length is how far FROM the player the weapon points.
-
-        public MeleeWeapon(int hitboxLength, int hitboxWidth, int baseDamage, float baseAttackSpeed, SpriteSheet spriteSheet, SpriteSheet itemSpriteSheet, float speedMultiplier, int weight, string itemName) : base(baseDamage, baseAttackSpeed, itemSpriteSheet, speedMultiplier, weight, itemName)
+        
+        public MeleeWeapon(int hitboxLength, int hitboxWidth, int baseDamage, float baseAttackSpeed, SpriteSheet spriteSheet, SpriteSheet itemSpriteSheet, float speedMultiplier, int weight, string itemName, double timeBetweenFrames) : base(hitboxLength,hitboxWidth,baseDamage, baseAttackSpeed, spriteSheet, itemSpriteSheet, speedMultiplier, weight, itemName, timeBetweenFrames)
         {
             this.spriteSheet = spriteSheet;
-            this.hitboxLength = hitboxLength;
-            this.hitboxWidth = hitboxWidth;
-            //hitbox = new Rectangle(-100, -100, hitboxWidth, hitboxLength);
-
+            
         }
-        
-    
+
+
+        public void Draw(SpriteBatch sb)
+        {
+            sb.Draw(spriteSheet.texture, hitbox, Color.White);
+            
+        }
 
 
 
