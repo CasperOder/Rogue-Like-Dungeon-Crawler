@@ -29,7 +29,7 @@ namespace RogueLike
 
 
         static Texture2D swap;
-        static Color currentFade;
+        public static Color currentFade;
         public static bool fadeIn;
         public static bool fadeOut;
         public static int f = 250;
@@ -57,10 +57,10 @@ namespace RogueLike
                     switch (menuState)
                     {
                         case MenuState.MainMenuScreen:
-                            buttons.Add(new Button(start, new Rectangle(100, 100, 100, 100), "startButton"));
+                            buttons.Add(new Button(start, new Rectangle(625, 600, 600, 140), "startButton"));
                             break;
                         case MenuState.PlayScreen:
-                            buttons.Add(new Button(start, new Rectangle(300, 300, 100, 100), "playButton"));
+                            buttons.Add(new Button(start, new Rectangle(300, 300, 600, 140), "playButton"));
                             break;
                     }
 
