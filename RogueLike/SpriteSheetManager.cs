@@ -26,6 +26,7 @@ namespace RogueLike
 
         public static SpriteSheet arrow;
         public static SpriteSheet arrowItem;
+
         public static SpriteSheet coin;
         public static SpriteSheet sweep;
         public static SpriteSheet sweepItem;
@@ -69,6 +70,7 @@ namespace RogueLike
             tempTile = new SpriteSheet(texture, sheetSize);
 
             ball = new SpriteSheet(c.Load<Texture2D>("ball"), sheetSize);
+
 
             //tillfälliga från Davids testning
             dummy = new SpriteSheet(c.Load<Texture2D>("dummy"), sheetSize);

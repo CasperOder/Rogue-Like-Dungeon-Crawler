@@ -12,8 +12,12 @@ using Microsoft.Xna.Framework.Media;
 
 namespace RogueLike
 {
+    
+
     static class Level
     {
+
+
         static SpriteBatch sb;
         public static Player player;
         static Vector2 playerStartPos;
@@ -30,8 +34,10 @@ namespace RogueLike
         public static NPC shopKeeper;
 
         static Texture2D lineTex;
+
         public static List<Tile> enemySpawnTiles= new List<Tile>();
         public static Ladder[] shopLadders= new Ladder[2]; //0 är ladder:n i roomArray, 1 är i shopen
+
         public static SpriteFont itemFont; //används för att avgöra texten nät items kostar. Får gärna flyttas -D
 
         public static List<Enemy> enemyList = new List<Enemy>();
