@@ -12,6 +12,7 @@ namespace RogueLike
     {
 
         public bool solid { get; private set; }
+        
 
         public bool isRock;
         Point currentFrame;

@@ -10,7 +10,7 @@ namespace RogueLike
 {
     class GameObject
     {
-        protected SpriteSheet spriteSheet;
+        public SpriteSheet spriteSheet;
 
         public Rectangle hitbox;
         public Vector2 middlepos;

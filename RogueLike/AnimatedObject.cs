@@ -10,7 +10,7 @@ namespace RogueLike
 {
     class AnimatedObject : GameObject
     {
-        protected double timeBetweenFrames;
+        public double timeBetweenFrames;
         private double timeSinceLastFrame;
 
         //ändra inte currentFrame utan att ställa in sequenceIndex och vise versa. Kan göras till en metod eller set property om det behövs

@@ -58,6 +58,7 @@
     <Compile Include="Menu.cs" />
     <Compile Include="Minos.cs" />
     <Compile Include="Moveable_Object.cs" />
+    <Compile Include="NPC.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Projectile.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Room.cs" />
     <Compile Include="s.cs" />
     <Compile Include="SoundManager.cs" />
+    <Compile Include="Ladder.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="SpriteSheetManager.cs" />
     <Compile Include="SpriteSheet.cs" />
@@ -87,6 +89,7 @@
     <Content Include="Level1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="shopEntrance.txt" />
     <Content Include="shopRoom.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

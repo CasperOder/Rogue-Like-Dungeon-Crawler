@@ -37,6 +37,10 @@ namespace RogueLike
         public static SpriteSheet wallTiles;
         public static SpriteSheet damageBoost, healthBoost, attackSpeedBoost, speedBoost;
         public static SpriteSheet spear, spearItem;
+        public static SpriteSheet upLadder, downLadder;
+        public static SpriteSheet punch, punchItem, smash, smashItem;
+        public static SpriteSheet shopKeeper, shopKeeperTextbox;
+        public static SpriteSheet bow, bowItem, arrowBow;
 
         private static List<Point[]> playerAnimations = new List<Point[]>();
         private static List<Point[]> fireAnimations = new List<Point[]>();
@@ -76,17 +80,28 @@ namespace RogueLike
             sweep = new SpriteSheet(c.Load<Texture2D>("sweep"), sheetSize);
             sweepItem = new SpriteSheet(c.Load<Texture2D>("sweepitem"), sheetSize);
             stairTile = new SpriteSheet(c.Load<Texture2D>("stairtile"), sheetSize);
+            downLadder = new SpriteSheet(c.Load<Texture2D>("ladderdown"), sheetSize);
+            upLadder = new SpriteSheet(c.Load<Texture2D>("ladderup"), sheetSize);
             rock = new SpriteSheet(c.Load<Texture2D>("rock"), sheetSize);
             knife = new SpriteSheet(c.Load<Texture2D>("knife"), sheetSize);
             knifeItem= new SpriteSheet(c.Load<Texture2D>("knifeitem"), sheetSize);
             spear = new SpriteSheet(c.Load<Texture2D>("spear"), sheetSize);
             spearItem = new SpriteSheet(c.Load<Texture2D>("spearitem"), sheetSize);
+            punch = new SpriteSheet(c.Load<Texture2D>("punch"), sheetSize);
+            punchItem = new SpriteSheet(c.Load<Texture2D>("punchitem"), sheetSize);
+            smash = new SpriteSheet(c.Load<Texture2D>("smash"), sheetSize);
+            smashItem = new SpriteSheet(c.Load<Texture2D>("smashitem"), sheetSize);
 
             damageBoost = new SpriteSheet(c.Load<Texture2D>("damageboost"), sheetSize);
             healthBoost = new SpriteSheet(c.Load<Texture2D>("healthboost"), sheetSize);
             attackSpeedBoost = new SpriteSheet(c.Load<Texture2D>("attackspeedboost"), sheetSize);
             speedBoost = new SpriteSheet(c.Load<Texture2D>("speedboost"), sheetSize);
 
+            shopKeeperTextbox = new SpriteSheet(c.Load<Texture2D>("shopkeepertext"), sheetSize);
+
+            bow = new SpriteSheet(c.Load<Texture2D>("bow"), sheetSize);
+            bowItem = new SpriteSheet(c.Load<Texture2D>("bowitem"), sheetSize);
+            arrowBow = new SpriteSheet(c.Load<Texture2D>("arrowbow"), sheetSize);
 
             //Floor tile
             texture = c.Load<Texture2D>("Floor_Tile");
@@ -114,7 +129,13 @@ namespace RogueLike
 
             player = new SpriteSheet(texture, sheetSize, playerAnimations);
 
+            sheetSize = new Point(3, 8); 
             wallTiles = new SpriteSheet(c.Load<Texture2D>("walltiles"), sheetSize);
+
+
+            //Shop Keeper
+            sheetSize = new Point(1, 0);
+            shopKeeper = new SpriteSheet(c.Load<Texture2D>("shopkeeper"), sheetSize);
 
             //Fire
             sheetSize = new Point(4, 0);

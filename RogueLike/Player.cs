@@ -19,14 +19,8 @@ namespace RogueLike
 
         public static MouseState mouseState;
 
-        public enum Direction
-        {
-            up,
-            down,
-            right,
-            left
-        }
-        public static Direction mouseDirection;
+        
+        public static CardinalDirection mouseDirection;
 
         MeleeWeapon equippedMelee;
         RangeWeapon equippedRange;
@@ -53,10 +47,7 @@ namespace RogueLike
             health = maxHealth;
             
             speed = 10;
-            //if (equippedMelee == null)
-            //{
-            //    attackTime = 0;
-            //}
+
         }
 
         public void Movement(GameTime gameTime)
@@ -74,6 +65,10 @@ namespace RogueLike
                     isAttacking = true;
                     moving = false;
                     GetAttackingDirection();
+                    if(equippedRange!=null)
+                    {
+                        equippedRange.CreateNewProjectile(equippedRange.middlepos, damageMultiplier, mouseDirection);
+                    }
                 }
             }
 
@@ -280,6 +275,7 @@ namespace RogueLike
             else
             {
                 Animate(gameTime, 0);
+                
             }
 
             if (!isAttacking)
@@ -291,25 +287,53 @@ namespace RogueLike
                 {
                     switch (mouseDirection)
                     {
-                        case Direction.up:
+                        case CardinalDirection.up:
                             equippedMelee.hitbox = new Rectangle(hitbox.Center.X - equippedMelee.hitboxWidth / 2, hitbox.Top - equippedMelee.hitboxLength, equippedMelee.hitboxWidth, equippedMelee.hitboxLength);
 
                             break;
-                        case Direction.down:
+                        case CardinalDirection.down:
                             equippedMelee.hitbox = new Rectangle(hitbox.Center.X - equippedMelee.hitboxWidth / 2, hitbox.Bottom, equippedMelee.hitboxWidth, equippedMelee.hitboxLength);
 
 
                             break;
-                        case Direction.right:
+                        case CardinalDirection.right:
                             equippedMelee.hitbox = new Rectangle(hitbox.Right, hitbox.Center.Y - equippedMelee.hitboxWidth / 2, equippedMelee.hitboxLength, equippedMelee.hitboxWidth);
 
 
                             break;
-                        case Direction.left:
+                        case CardinalDirection.left:
                             equippedMelee.hitbox = new Rectangle(hitbox.Left - equippedMelee.hitboxLength, hitbox.Center.Y - equippedMelee.hitboxWidth / 2, equippedMelee.hitboxLength, equippedMelee.hitboxWidth);
 
 
                             break;
+                    }
+                }
+                else
+                {
+                    if (equippedRange != null)
+                    {
+                        switch (mouseDirection)
+                        {
+                            case CardinalDirection.up:
+                                equippedRange.hitbox = new Rectangle(hitbox.Center.X - equippedRange.hitboxWidth / 2, hitbox.Top - equippedRange.hitboxLength, equippedRange.hitboxWidth, equippedRange.hitboxLength);
+                                
+                                break;
+                            case CardinalDirection.down:
+                                equippedRange.hitbox = new Rectangle(hitbox.Center.X - equippedRange.hitboxWidth / 2, hitbox.Bottom, equippedRange.hitboxWidth, equippedRange.hitboxLength);
+
+
+                                break;
+                            case CardinalDirection.right:
+                                equippedRange.hitbox = new Rectangle(hitbox.Right, hitbox.Center.Y - equippedRange.hitboxWidth / 2, equippedRange.hitboxLength, equippedRange.hitboxWidth);
+
+
+                                break;
+                            case CardinalDirection.left:
+                                equippedRange.hitbox = new Rectangle(hitbox.Left - equippedRange.hitboxLength, hitbox.Center.Y - equippedRange.hitboxWidth / 2, equippedRange.hitboxLength, equippedRange.hitboxWidth);
+
+
+                                break;
+                        }
                     }
                 }
 
@@ -327,39 +351,68 @@ namespace RogueLike
                     if (equippedMelee != null)
                     {
                         equippedMelee.hitbox = new Rectangle(0, 0, 0, 0);
+
+                    }
+                    else if(equippedRange!=null)
+                    {
+                        equippedRange.hitbox = new Rectangle(0, 0, 0, 0);
                     }
                 }
             }
         }
-        
+
         public void GetAttackingDirection()
         {
             if (Math.Abs(mouseDistanceX) > Math.Abs(mouseDistanceY))
             {
                 if (mouseDistanceX > 0)
                 {
-                    mouseDirection = Direction.right;
+                    mouseDirection = CardinalDirection.right;
+                    direction = new Vector2(1, 0);
+                    if(equippedRange!=null)
+                    {
+                        equippedRange.hitbox = new Rectangle(hitbox.Right, hitbox.Center.Y - equippedRange.hitboxWidth / 2, equippedRange.hitboxLength, equippedRange.hitboxWidth);
+                        equippedRange.middlepos = equippedRange.hitbox.Center.ToVector2();
+                    }
                 }
                 else
                 {
-                    mouseDirection = Direction.left;
+                    mouseDirection = CardinalDirection.left;
+                    direction = new Vector2(-1, 0);
+                    if (equippedRange != null)
+                    {
+                        equippedRange.hitbox = new Rectangle(hitbox.Left - equippedRange.hitboxLength, hitbox.Center.Y - equippedRange.hitboxWidth / 2, equippedRange.hitboxLength, equippedRange.hitboxWidth);
+                        equippedRange.middlepos = equippedRange.hitbox.Center.ToVector2();
+                    }
                 }
             }
             else
             {
                 if (mouseDistanceY > 0)
                 {
-                    mouseDirection = Direction.down;
+                    mouseDirection = CardinalDirection.down;
+                    direction = new Vector2(0, 1);
+                    if (equippedRange != null)
+                    {
+                        equippedRange.hitbox = new Rectangle(hitbox.Center.X - equippedRange.hitboxWidth / 2, hitbox.Bottom, equippedRange.hitboxWidth, equippedRange.hitboxLength);
+                        equippedRange.middlepos = equippedRange.hitbox.Center.ToVector2();
+                    }
                 }
                 else
                 {
-                    mouseDirection = Direction.up;
+                    mouseDirection = CardinalDirection.up;
+                    direction = new Vector2(0, -1);
+                    if (equippedRange != null)
+                    {
+                        equippedRange.hitbox = new Rectangle(hitbox.Center.X - equippedRange.hitboxWidth / 2, hitbox.Top - equippedRange.hitboxLength, equippedRange.hitboxWidth, equippedRange.hitboxLength);
+                        equippedRange.middlepos = equippedRange.hitbox.Center.ToVector2();
+                    }
                 }
             }
         }
 
 
-        public void InflictDamage(Enemy e)
+        public void InflictMeleeDamage(Enemy e)
         {
             if (equippedMelee != null && !e.beenHit)
             {
@@ -368,8 +421,11 @@ namespace RogueLike
                     e.health -= (equippedMelee.baseDamage * equippedMelee.damageMultiplyier*damageMultiplier);
                     e.beenHit = true;
                 }
-            }
+            }            
         }
+
+
+
         public void InflictDamage(Boss b)
         {
             if (equippedMelee != null && !b.beenHit)
@@ -389,7 +445,12 @@ namespace RogueLike
         {
             if (equippedMelee != null)
             {
-                WeaponItem droppedWeapon = new WeaponItem(equippedMelee, 0, false, equippedMelee.itemSpriteSheet, middlepos, Item.ItemType.weaponType);
+                WeaponItem droppedWeapon = new WeaponItem(equippedMelee, 0, false, equippedMelee.itemSpriteSheet, middlepos, Item.ItemType.weaponType, equippedMelee.itemName);
+                Level.itemsList.Add(droppedWeapon);
+            }
+            else if(equippedRange != null)
+            {
+                WeaponItem droppedWeapon = new WeaponItem(equippedRange, 0, false, equippedRange.itemSpriteSheet, middlepos, Item.ItemType.weaponType, equippedRange.itemName);
                 Level.itemsList.Add(droppedWeapon);
             }
 
@@ -399,6 +460,14 @@ namespace RogueLike
                 attackTime = 1 / (equippedMelee.baseAttackSpeed * equippedMelee.attackSpeedMultiplyier * attackSpeedMultiplier);
                 equippedRange = null;
                 weaponSpeedMultiplier= equippedMelee.speedMultiplier ;
+            }
+            else if(newWeapon is RangeWeapon)
+            {
+                equippedRange = (RangeWeapon)newWeapon;
+                attackTime = 1 / (equippedRange.baseAttackSpeed * equippedRange.attackSpeedMultiplyier * attackSpeedMultiplier);
+                equippedMelee = null;
+                weaponSpeedMultiplier = equippedRange.speedMultiplier;
+
             }
         }
         
@@ -478,9 +547,14 @@ namespace RogueLike
 
             sb.Draw(spriteSheet.texture, hitbox.Location.ToVector2(), null, new Rectangle(spriteSheet.frameSize.X * currentFrame.X, spriteSheet.frameSize.Y * currentFrame.Y, spriteSheet.frameSize.X, spriteSheet.frameSize.Y), Vector2.Zero, 0, Vector2.One, playerColor, SpriteEffects.None, 1f);
 
-            if (equippedMelee.hitbox != null && isAttacking)
+
+            if(equippedRange!=null)
             {
-                sb.Draw(equippedMelee.spriteSheet.texture, equippedMelee.hitbox, Color.White);
+                equippedRange.Draw(sb);
+            }
+            else if (equippedMelee != null && isAttacking)
+            {
+                equippedMelee.Draw(sb);
 
               
                 //switch (mouseDirection)
