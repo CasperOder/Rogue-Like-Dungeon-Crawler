@@ -20,11 +20,9 @@ namespace RogueLike
 
         static SpriteBatch sb;
         public static Player player;
-        static Vector2 playerStartPos;
         public static Tile[,] backgroundTiles;
         private static RenderTarget2D backRenderTarget;
         private static RenderTarget2D frontRenderTarget;
-        //static int noOfRoomsX, noOfRoomsY;
         public static List<Room> generatedRoomList = new List<Room>();
         static List<Room> backgroundRoomList = new List<Room>();
         static Room[,] roomArray;

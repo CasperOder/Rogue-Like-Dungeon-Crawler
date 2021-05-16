@@ -18,8 +18,6 @@ namespace RogueLike
         public static Camera camera;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D kub;
-        private double timeSinceLastFire;
 
         public Game1()
         {
@@ -78,8 +76,7 @@ namespace RogueLike
             }
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            timeSinceLastFire += gameTime.ElapsedGameTime.TotalSeconds;
-
+            
             
 
             
