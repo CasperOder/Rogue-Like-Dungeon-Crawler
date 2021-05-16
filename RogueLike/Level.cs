@@ -20,7 +20,7 @@ namespace RogueLike
         public static Tile[,] backgroundTiles;
         private static RenderTarget2D backRenderTarget;
         private static RenderTarget2D frontRenderTarget;
-        static int noOfRoomsX, noOfRoomsY;
+        //static int noOfRoomsX, noOfRoomsY;
         public static List<Room> generatedRoomList = new List<Room>();
         static List<Room> backgroundRoomList = new List<Room>();
         static Room[,] roomArray;
@@ -56,15 +56,15 @@ namespace RogueLike
         {
             itemFont = c.Load <SpriteFont> ("itemfont");
             sb = new SpriteBatch(g.GraphicsDevice);
-            noOfRoomsX = 8;
-            noOfRoomsY = 8;
-            roomArray = new Room[noOfRoomsX, noOfRoomsY];
+            //noOfRoomsX = 8;
+            //noOfRoomsY = 8;
+            roomArray = new Room[Constants.noOfRoomsX, Constants.noOfRoomsY];
 
             shopRoom = new Room(new Vector2(-1000, -1000), "shopRoom.txt", SpriteSheetManager.wallTiles);
 
 
-            frontRenderTarget = new RenderTarget2D(g.GraphicsDevice, Constants.roomWidth * noOfRoomsX, Constants.roomHeight * noOfRoomsY);
-            backRenderTarget = new RenderTarget2D(g.GraphicsDevice, Constants.roomWidth * noOfRoomsX, Constants.roomHeight * noOfRoomsY);
+            frontRenderTarget = new RenderTarget2D(g.GraphicsDevice, Constants.roomWidth * Constants.noOfRoomsX, Constants.roomHeight * Constants.noOfRoomsY);
+            backRenderTarget = new RenderTarget2D(g.GraphicsDevice, Constants.roomWidth * Constants.noOfRoomsX, Constants.roomHeight * Constants.noOfRoomsY);
             
             player = new Player(SpriteSheetManager.player, 0.1d);
 
@@ -141,6 +141,7 @@ namespace RogueLike
             enemyList.Clear();
             itemsList.Clear();
 
+            AmbientEffectManager.NewCircle();
 
 
             
@@ -398,6 +399,8 @@ namespace RogueLike
 
             player.Movement(gameTime);
 
+
+            AmbientEffectManager.UpdateAmbientEffects(gameTime, currentCircle, player.middlepos);
 
             for (int p = 0; p < projectilesOnScreenList.Count; p++)
             {
@@ -690,6 +693,8 @@ namespace RogueLike
             {
                 e.Draw(sb);
             }
+
+            AmbientEffectManager.Draw(sb);
 
             HUD.Draw(sb);
         }

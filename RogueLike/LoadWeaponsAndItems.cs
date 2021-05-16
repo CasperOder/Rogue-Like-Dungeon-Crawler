@@ -12,8 +12,8 @@ namespace RogueLike
     {
         public static MeleeWeapon testMelee, sweepMelee, knifeMelee, spear, smashRings, boxingGlove;
 
-        public static RangeWeapon bow;
-        public static Projectile arrow;
+        public static RangeWeapon bow, throwing;
+        public static Projectile arrow, shuriken;
 
         public static List<Weapon> AllWeaponList = new List<Weapon>();
 
@@ -37,8 +37,13 @@ namespace RogueLike
             AllWeaponList.Add(boxingGlove);
 
             arrow = new Projectile(32, 8, SpriteSheetManager.arrowBow, 1, 10);
-            bow = new RangeWeapon(40, 80, 20, 1000, 0.75f, SpriteSheetManager.bow, SpriteSheetManager.bowItem, 0.3f, 1, "Bow", arrow, 1);
+            bow = new RangeWeapon(40, 80, 20, 1000, 2, SpriteSheetManager.bow, SpriteSheetManager.bowItem, 0.3f, 2, "Bow", arrow, 1);
             AllWeaponList.Add(bow);
+
+            shuriken = new Projectile(25, 25, SpriteSheetManager.shuriken, 1, 20);
+            throwing = new RangeWeapon(60, 40, 15, 500, 5, SpriteSheetManager.throwing, SpriteSheetManager.throwItem, 0.90f, 1, "Shurikens", shuriken, 1);
+            AllWeaponList.Add(throwing);
+
         }
 
         public static Item coin (Vector2 pos)

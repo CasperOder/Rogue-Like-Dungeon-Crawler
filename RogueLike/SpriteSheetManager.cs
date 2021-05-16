@@ -40,11 +40,17 @@ namespace RogueLike
         public static SpriteSheet punch, punchItem, smash, smashItem;
         public static SpriteSheet shopKeeper, shopKeeperTextbox;
         public static SpriteSheet bow, bowItem, arrowBow;
+        public static SpriteSheet windBreeze, raindrops, fireDrops;
+        public static SpriteSheet throwing, throwItem, shuriken;
 
         private static List<Point[]> playerAnimations = new List<Point[]>();
         private static List<Point[]> fireAnimations = new List<Point[]>();
         private static List<Point[]> minosAnimations = new List<Point[]>();
         private static List<Point[]> minosGroundAnimation = new List<Point[]>();
+
+        private static List<Point[]> windBreezeAnimation = new List<Point[]>();
+        private static List<Point[]> rainAnimation = new List<Point[]>();
+        private static List<Point[]> fireDropsAnimation = new List<Point[]>();
 
         //Alla sprites hanteras med SpriteSheet objekt.
         //Alla SpriteSheet objekt sparas och hämtas från SpriteSheetManager
@@ -89,6 +95,9 @@ namespace RogueLike
             punchItem = new SpriteSheet(c.Load<Texture2D>("punchitem"), sheetSize);
             smash = new SpriteSheet(c.Load<Texture2D>("smash"), sheetSize);
             smashItem = new SpriteSheet(c.Load<Texture2D>("smashitem"), sheetSize);
+            throwing = new SpriteSheet(c.Load<Texture2D>("throw"), sheetSize);
+            throwItem = new SpriteSheet(c.Load<Texture2D>("throwitem"), sheetSize);
+            shuriken = new SpriteSheet(c.Load<Texture2D>("shuriken"), sheetSize);
 
             damageBoost = new SpriteSheet(c.Load<Texture2D>("damageboost"), sheetSize);
             healthBoost = new SpriteSheet(c.Load<Texture2D>("healthboost"), sheetSize);
@@ -169,6 +178,7 @@ namespace RogueLike
             sheetSize = new Point(2, 0);
             texture = c.Load<Texture2D>("Minos-ground");
 
+
             minosGroundAnimation.Add(new Point[]
             {
                 new Point(0, 0),
@@ -177,6 +187,51 @@ namespace RogueLike
             });
 
             minosGround = new SpriteSheet(texture, sheetSize, minosGroundAnimation);
+
+            sheetSize = new Point(6, 0);
+            windBreezeAnimation.Add(new Point[]
+            {
+                new Point(0,0),
+                new Point(1,0),
+                new Point(2,0),
+                new Point(3,0),
+                new Point(4,0),
+                new Point(5,0),
+                new Point(6,0),
+            });
+
+            windBreeze = new SpriteSheet(c.Load<Texture2D>("windbreeze"), sheetSize, windBreezeAnimation);
+
+            sheetSize = new Point(11, 0);
+            fireDropsAnimation.Add(new Point[]
+            {
+                new Point(0,0),
+                new Point(1,0),
+                new Point(2,0),
+                new Point(3,0),
+                new Point(4,0),
+                new Point(5,0),
+                new Point(7,0),
+                new Point(8,0),
+                new Point(9,0),
+                new Point(10,0),
+                new Point(11,0),
+            });
+
+            fireDrops = new SpriteSheet(c.Load<Texture2D>("firedrops"), sheetSize, fireDropsAnimation);
+
+            sheetSize = new Point(6, 0);
+            
+            rainAnimation.Add(new Point[]
+            {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(3, 0),
+                new Point(4, 0),
+                new Point(5, 0),
+                new Point(6, 0),
+            });
+            raindrops = new SpriteSheet(c.Load<Texture2D>("rainsheet"), sheetSize, rainAnimation);
         }
 
     }
