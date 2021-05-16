@@ -52,6 +52,7 @@ namespace RogueLike
         private static List<Point[]> windBreezeAnimation = new List<Point[]>();
         private static List<Point[]> rainAnimation = new List<Point[]>();
         private static List<Point[]> fireDropsAnimation = new List<Point[]>();
+        private static List<Point[]> shopKeeperAnimation = new List<Point[]>();
 
         //Alla sprites hanteras med SpriteSheet objekt.
         //Alla SpriteSheet objekt sparas och hämtas från SpriteSheetManager
@@ -112,15 +113,18 @@ namespace RogueLike
             bowItem = new SpriteSheet(c.Load<Texture2D>("bowitem"), sheetSize);
             arrowBow = new SpriteSheet(c.Load<Texture2D>("arrowbow"), sheetSize);
 
-            //Floor tile
-            texture = c.Load<Texture2D>("Floor_Tile");
-
-            floorTile = new SpriteSheet(texture, sheetSize);
-              
             //Minos arm
             texture = c.Load<Texture2D>("Minos_arm");
 
             minosArm = new SpriteSheet(texture, sheetSize);
+
+
+            //Floor tile
+            sheetSize = new Point(5, 8);
+            texture = c.Load<Texture2D>("Floor_Tile");
+
+            floorTile = new SpriteSheet(texture, sheetSize);
+
 
             //Player
             sheetSize = new Point(3, 0);
@@ -144,7 +148,13 @@ namespace RogueLike
 
             //Shop Keeper
             sheetSize = new Point(1, 0);
-            shopKeeper = new SpriteSheet(c.Load<Texture2D>("shopkeeper"), sheetSize);
+            shopKeeperAnimation.Add(new Point[]
+            {
+                new Point(0,0),
+                new Point(1,0)
+            });
+
+            shopKeeper = new SpriteSheet(c.Load<Texture2D>("shopkeeper"), sheetSize, shopKeeperAnimation);
 
             //Fire
             sheetSize = new Point(4, 0);

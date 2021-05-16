@@ -39,155 +39,176 @@ namespace RogueLike
             List<string> stringList = ReadFromFile(fileName);
             tileArray = new Tile[stringList[0].Length, stringList.Count];
 
-            int frameX;
             int frameY = currCircle - 1;
 
             for(int i= 0; i< tileArray.GetLength(0);i++)
             {
                 for(int j=0; j<tileArray.GetLength(1);j++)
                 {
-                    frameX = rnd.Next(0, 4);
-
-
-                    if (stringList[j][i] == 'C')
+                    switch (stringList[j][i])
                     {
-                        tileArray[i, j] = new Tile(spriteSheet, new Rectangle(pos.X+Constants.tileSize * i, pos.Y+Constants.tileSize * j, Constants.tileSize, Constants.tileSize),frameX,frameY);
-                        wallTiles.Add(tileArray[i, j]);
-                    }
-                    else if (stringList[j][i] == 'U')
-                    {
-                        if(!upConnection)
-                        {                           
-                            tileArray[i, j] = new Tile(spriteSheet, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize),frameX,frameY);
-                            wallTiles.Add(tileArray[i, j]);
-                        }
-                        else
-                            tileArray[i, j] = new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), false);
+                        case 'C':
 
-                    }
-                    else if (stringList[j][i] == 'L')
-                    {
-                        if(!leftConnection)
-                        {
-                            tileArray[i, j] = new Tile(spriteSheet, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize),frameX,frameY);
+                            tileArray[i, j] = NewWallTile(i, j, frameY, rnd);
 
                             wallTiles.Add(tileArray[i, j]);
-                        }
-                        else
-                            tileArray[i, j] = new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), false);
 
-                                             
+                            break;
+                        case 'U':
 
-                    }
-                    else if (stringList[j][i] == 'R')
-                    {
-                        if(!rightConnection)
-                        {                            
-                            tileArray[i, j] = new Tile(spriteSheet, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize),frameX,frameY);
+                            if (!upConnection)
+                            {
+                                tileArray[i, j] = NewWallTile(i, j, frameY, rnd);
+                                wallTiles.Add(tileArray[i, j]);
+                            }
+                            else
+                                tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
+
+
+                            break;
+                        case 'L':
+
+                            if (!leftConnection)
+                            {
+                                tileArray[i, j] = NewWallTile(i, j, frameY, rnd);
+
+                                wallTiles.Add(tileArray[i, j]);
+                            }
+                            else
+                                tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
+
+                            break;
+                        case 'R':
+
+                            if (!rightConnection)
+                            {
+                                tileArray[i, j] = NewWallTile(i, j, frameY, rnd);
+                                wallTiles.Add(tileArray[i, j]);
+                            }
+                            else
+                                tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
+
+
+                            break;
+                        case 'D':
+
+                            if (!downConnection)
+                            {
+                                tileArray[i, j] = NewWallTile(i, j, frameY, rnd);
+                                wallTiles.Add(tileArray[i, j]);
+                            }
+                            else
+                                tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
+
+                            break;
+                        case 'B':
+
+                            tileArray[i, j] = NewWallTile(i, j, frameY, rnd);
                             wallTiles.Add(tileArray[i, j]);
-                        }
-                        else
-                            tileArray[i, j] = new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), false);
-                    }
-                    else if (stringList[j][i] == 'D')
-                    {
-                        if (!downConnection)
-                        {
-                            tileArray[i, j] = new Tile(spriteSheet, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize),frameX,frameY);
-                            wallTiles.Add(tileArray[i, j]);
-                        }
-                        else
-                            tileArray[i, j] = new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), false);
-                    }
-                    else if (stringList[j][i] == 'B')
-                    {
-                        tileArray[i, j] = new Tile(spriteSheet, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize),0,0);
-                        wallTiles.Add(tileArray[i, j]);
-                    }
-                    else if (stringList[j][i] == 'E')
-                    {
-                        if(exitRoom)
-                        {
-                            tileArray[i, j] = new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), false);
-                            Tile endTile = new Tile(SpriteSheetManager.stairTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize),0,0);
-                            Level.endTileList.Add(endTile);
-                        }
-                        else if (!upConnection)
-                        {
-                            tileArray[i, j] = new Tile(spriteSheet, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize),frameX,frameY);
-                            wallTiles.Add(tileArray[i, j]);
-                        }
-                        else
-                            tileArray[i, j] = new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), false);
 
-                    }
-                    else if (stringList[j][i] == 'F')
-                    {
-                        tileArray[i, j] = new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), false);
-                    }
-                    else if (stringList[j][i] == 'S')
-                    {
-                        tileArray[i, j] = new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), false);
-                        playerSpawnPoint = tileArray[i, j].middlepos;
-                    }
-                    else if (stringList[j][i] == 'O')
-                    {
-                        tileArray[i, j] = new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), false);
-                        bossSpawnPoint = tileArray[i, j].middlepos;
+                            break;
+                        case 'E':
 
-                    }
-                    else if (stringList[j][i] == 'G')
-                    {
-                        Tile rockTile = new Tile(SpriteSheetManager.rock, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize),frameX,frameY);
-                        rockTile.isRock = true;
-                        wallTiles.Add(rockTile);
-                        Level.rockTiles.Add(rockTile);
-                        tileArray[i, j] = new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), false);
-                    }
-                    else if (stringList[j][i] == 'e')
-                    {
-                        tileArray[i, j] = new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), false);
-                        Level.enemySpawnTiles.Add(tileArray[i, j]);
-                    }
-                    else if (stringList[j][i] == 'i')
-                    {
-                        tileArray[i, j] = new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), false);
-                        
-                        Item newItem = LoadWeaponsAndItems.newStatUpgrade(tileArray[i, j].middlepos, false, rnd);
-                        Level.itemsList.Add(newItem);
-                    }
-                    else if (stringList[j][i] == 'I')
-                    {
+                            if (exitRoom)
+                            {
+                                tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
+                                Tile endTile = new Tile(SpriteSheetManager.stairTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), 0, 0, false);
+                                Level.endTileList.Add(endTile);
+                            }
+                            else if (!upConnection)
+                            {
+                                tileArray[i, j] = NewWallTile(i, j, frameY, rnd);
+                                wallTiles.Add(tileArray[i, j]);
+                            }
+                            else
+                                tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
 
-                        tileArray[i, j] = new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), false);
-                        
-                        Item newItem = LoadWeaponsAndItems.newStatUpgrade(tileArray[i, j].middlepos, true, rnd);
-                        Level.itemsList.Add(newItem);
-                    }
-                    else if (stringList[j][i] == 'w')
-                    {
-                        tileArray[i, j] = new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), false);
+                            break;
+                        case 'F':
 
-                        WeaponItem weaponItem = LoadWeaponsAndItems.newWeaponItem(tileArray[i, j].middlepos, currCircle, false, rnd);
-                        Level.itemsList.Add(weaponItem);
-                    }
-                    else if (stringList[j][i] == 'W')
-                    {
-                        tileArray[i, j] = new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), false);
+                            tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
 
-                        WeaponItem weaponItem = LoadWeaponsAndItems.newWeaponItem(tileArray[i, j].middlepos, currCircle, true, rnd);
-                        Level.itemsList.Add(weaponItem);
-                    }
-                    else if (stringList[j][i] == 'K')
-                    {
-                        tileArray[i, j] = new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), false);
+                            break;
+                        case 'S':
 
-                        Level.shopKeeper = new NPC(SpriteSheetManager.shopKeeper, 0.5d, new Point(128, 128), new Vector2(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j), SpriteSheetManager.shopKeeperTextbox, new Point(200,100));
+                            tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
+                            playerSpawnPoint = tileArray[i, j].middlepos;
+
+                            break;
+                        case 'O':
+
+                            tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
+                            bossSpawnPoint = tileArray[i, j].middlepos;
+
+                            break;
+                        case 'G':
+
+                            Tile rockTile = new Tile(SpriteSheetManager.rock, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), 0, 0, true);
+                            rockTile.isRock = true;
+                            wallTiles.Add(rockTile);
+                            Level.rockTiles.Add(rockTile);
+                            tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
+
+                            break;
+                        case 'e':
+
+                            tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
+                            Level.enemySpawnTiles.Add(tileArray[i, j]);
+
+                            break;
+                        case 'i':
+
+                            tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
+
+                            Level.itemsList.Add(LoadWeaponsAndItems.newStatUpgrade(tileArray[i, j].middlepos, false, rnd));
+
+                            break;
+                        case 'I':
+
+                            tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
+
+                            Level.itemsList.Add(LoadWeaponsAndItems.newStatUpgrade(tileArray[i, j].middlepos, true, rnd));
+
+                            break;
+                        case 'w':
+
+                            tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
+
+                            Level.itemsList.Add(LoadWeaponsAndItems.newWeaponItem(tileArray[i, j].middlepos, currCircle, false, rnd));
+
+                            break;
+                        case 'W':
+
+                            tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
+
+                            Level.itemsList.Add(LoadWeaponsAndItems.newWeaponItem(tileArray[i, j].middlepos, currCircle, true, rnd));
+
+                            break;
+                        case 'K':
+                            tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
+
+                            Level.shopKeeper = new NPC(SpriteSheetManager.shopKeeper, 0.5d, new Point(128, 128), new Vector2(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j), SpriteSheetManager.shopKeeperTextbox, new Point(200, 100));
+                            break;
+
                     }
 
                 }
             }
 
+        }
+
+        private Tile NewWallTile(int i, int j, int frameY, Random rnd)
+        {
+            int frameX = rnd.Next(0, 4);
+
+            return new Tile(SpriteSheetManager.wallTiles, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), frameX, frameY, true);
+        }
+
+        private Tile NewFloorTile(int i, int j, int frameY, Random rnd)
+        {
+            int frameX = rnd.Next(0, 6);
+
+            return new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), frameX, frameY, false);
         }
 
 
