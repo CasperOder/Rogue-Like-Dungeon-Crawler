@@ -182,7 +182,7 @@ namespace RogueLike
                     {
                         tileArray[i, j] = new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), false);
 
-                        Level.shopKeeper = new NPC(SpriteSheetManager.shopKeeper, 0.1d, new Point(128, 128), new Vector2(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j), SpriteSheetManager.shopKeeperTextbox, new Point(200,100));
+                        Level.shopKeeper = new NPC(SpriteSheetManager.shopKeeper, 0.5d, new Point(128, 128), new Vector2(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j), SpriteSheetManager.shopKeeperTextbox, new Point(200,100));
                     }
 
                 }

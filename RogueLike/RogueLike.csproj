@@ -41,6 +41,8 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AmbientEffect.cs" />
+    <Compile Include="AmbientEffectManager.cs" />
     <Compile Include="AnimatedObject.cs" />
     <Compile Include="Boss.cs" />
     <Compile Include="Button.cs" />
