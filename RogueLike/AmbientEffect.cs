@@ -16,8 +16,9 @@ namespace RogueLike
 
         double timeTillGone;
 
-        public AmbientEffect(SpriteSheet spriteSheet, double timeBetweenFrames, Vector2 direction, Vector2 pos, int speed):base (spriteSheet, timeBetweenFrames)
+        public AmbientEffect(SpriteSheet spriteSheet, double timeBetweenFrames, Vector2 direction, Vector2 pos, int speed, float opacity):base (spriteSheet, timeBetweenFrames)
         {
+            colorOpacity = opacity;
             this.direction = direction;
             this.speed = speed;
 

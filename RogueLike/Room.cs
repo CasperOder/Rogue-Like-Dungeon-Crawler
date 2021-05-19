@@ -174,14 +174,14 @@ namespace RogueLike
 
                             tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
 
-                            //Level.itemsList.Add(LoadWeaponsAndItems.newWeaponItem(tileArray[i, j].middlepos, currCircle, false, rnd));
+                            Level.itemsList.Add(LoadWeaponsAndItems.newWeaponItem(tileArray[i, j].middlepos, currCircle, false, rnd));
 
                             break;
                         case 'W':
 
                             tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
 
-                            //Level.itemsList.Add(LoadWeaponsAndItems.newWeaponItem(tileArray[i, j].middlepos, currCircle, true, rnd));
+                            Level.itemsList.Add(LoadWeaponsAndItems.newWeaponItem(tileArray[i, j].middlepos, currCircle, true, rnd));
 
                             break;
                         case 'K':

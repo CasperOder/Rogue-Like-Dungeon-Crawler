@@ -109,6 +109,18 @@
 /processorParam:TextureFormat=Color
 /build:bowitem.png
 
+#begin bubbles.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:bubbles.png
+
 #begin coinitem.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -595,6 +607,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:streck.png
+
+#begin strongwind.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:strongwind.png
 
 #begin sweep.png
 /importer:TextureImporter

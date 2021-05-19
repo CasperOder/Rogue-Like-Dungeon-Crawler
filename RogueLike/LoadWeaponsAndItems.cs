@@ -41,7 +41,7 @@ namespace RogueLike
             AllWeaponList.Add(bow);
 
             shuriken = new Projectile(25, 25, SpriteSheetManager.shuriken, 1, 20);
-            throwing = new RangeWeapon(60, 40, 15, 500, 5, SpriteSheetManager.throwing, SpriteSheetManager.throwItem, 0.90f, 3, "Shurikens", shuriken, 1);
+            throwing = new RangeWeapon(60, 40, 15, 500, 5, SpriteSheetManager.throwing, SpriteSheetManager.throwItem, 0.90f, 6, "Shurikens", shuriken, 1);
             AllWeaponList.Add(throwing);
 
             fireBall = new Projectile(42, 34, SpriteSheetManager.fireBall, 0.2, 12);

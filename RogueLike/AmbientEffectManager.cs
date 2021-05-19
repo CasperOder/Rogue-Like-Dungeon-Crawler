@@ -28,17 +28,16 @@ namespace RogueLike
             switch (currentCircle)
             {
                 case 1:
-
-
+                    
 
                     break;
                 case 2:
 
                     timeSinceLastEffect += gameTime.ElapsedGameTime.TotalSeconds;
-                    if (timeSinceLastEffect >= 0.2)
+                    if (timeSinceLastEffect >= 0.1)
                     {
                         timeSinceLastEffect = 0;
-                        ambientEffectsOnScreen.Add(windBreezze(playerPos));
+                        ambientEffectsOnScreen.Add(windBreeze(playerPos));
                     }
 
                     for (int a = 0; a < ambientEffectsOnScreen.Count; a++)
@@ -73,6 +72,23 @@ namespace RogueLike
                 case 4:
                     break;
                 case 5:
+                    timeSinceLastEffect += gameTime.ElapsedGameTime.TotalSeconds;
+                    if (timeSinceLastEffect >= 0.3)
+                    {
+                        timeSinceLastEffect = 0;
+                        ambientEffectsOnScreen.Add(bubbles(playerPos));
+                    }
+
+                    for (int a = 0; a < ambientEffectsOnScreen.Count; a++)
+                    {
+                        ambientEffectsOnScreen[a].Update(gameTime);
+                        if (ambientEffectsOnScreen[a].destroy)
+                        {
+                            ambientEffectsOnScreen.RemoveAt(a);
+                            a--;
+                        }
+                    }
+
                     break;
                 case 6:
                     break;
@@ -92,6 +108,23 @@ namespace RogueLike
                 case 8:
                     break;
                 case 9:
+                    timeSinceLastEffect += gameTime.ElapsedGameTime.TotalSeconds;
+                    if (timeSinceLastEffect >= 0.5)
+                    {
+                        timeSinceLastEffect = 0;
+                        ambientEffectsOnScreen.Add(strongWind(playerPos));
+                    }
+
+                    for (int a = 0; a < ambientEffectsOnScreen.Count; a++)
+                    {
+                        ambientEffectsOnScreen[a].Update(gameTime);
+                        if (ambientEffectsOnScreen[a].destroy)
+                        {
+                            ambientEffectsOnScreen.RemoveAt(a);
+                            a--;
+                        }
+                    }
+
                     break;
             }
 
@@ -107,19 +140,29 @@ namespace RogueLike
         }
 
 
-        static AmbientEffect windBreezze(Vector2 playerPos)
+        static AmbientEffect windBreeze(Vector2 playerPos)
         {
-            return new AmbientEffect(SpriteSheetManager.windBreeze, 0.2, new Vector2(-3, 1), RandomLocation(playerPos), 1);
+            return new AmbientEffect(SpriteSheetManager.windBreeze, 0.2, new Vector2(-3, 1), RandomLocation(playerPos), 1, 0.75f);
         }
 
         static AmbientEffect rainDrop(Vector2 playerPos)
         {
-            return new AmbientEffect(SpriteSheetManager.raindrops, 0.3, new Vector2(0, 1), RandomLocation(playerPos), 3);
+            return new AmbientEffect(SpriteSheetManager.raindrops, 0.3, new Vector2(0, 1), RandomLocation(playerPos), 3,1);
+        }
+
+        static AmbientEffect bubbles(Vector2 playerPos)
+        {
+            return new AmbientEffect(SpriteSheetManager.bubbles, 0.2, new Vector2(0, -1), RandomLocation(playerPos), 4, 0.5f);
         }
 
         static AmbientEffect fireDrop(Vector2 playerPos)
         {
-            return new AmbientEffect(SpriteSheetManager.fireDrops, 0.2, new Vector2(-0.3f, 1), RandomLocation(playerPos), 4);
+            return new AmbientEffect(SpriteSheetManager.fireDrops, 0.2, new Vector2(-0.3f, 1), RandomLocation(playerPos), 4,1);
+        }
+
+        static AmbientEffect strongWind(Vector2 playerPos)
+        {
+            return new AmbientEffect(SpriteSheetManager.strongWind, 0.3, new Vector2(0, 1), RandomLocation(playerPos-new Vector2(0,Constants.windowHeight)), 10, 0.9f);
         }
 
         static Vector2 RandomLocation(Vector2 playerPos)
