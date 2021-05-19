@@ -12,17 +12,17 @@ namespace RogueLike
     {
         public static MeleeWeapon testMelee, sweepMelee, knifeMelee, spear, smashRings, boxingGlove;
 
-        public static RangeWeapon bow, throwing;
-        public static Projectile arrow, shuriken;
+        public static RangeWeapon bow, throwing, fireRod, iceRod;
+        public static Projectile arrow, shuriken, fireBall, iceBall;
 
         public static List<Weapon> AllWeaponList = new List<Weapon>();
 
 
         public static void LoadAllWeaponsAndItems()
         {
-            testMelee = new MeleeWeapon(120, 40, 20, 2, SpriteSheetManager.arrow, SpriteSheetManager.arrowItem, 0.9f, 2, "testweapon", 1);
-            sweepMelee = new MeleeWeapon(60, 180, 75, 1, SpriteSheetManager.sweep, SpriteSheetManager.sweepItem, 0.69f, 2, "battleaxe", 1);
-            knifeMelee = new MeleeWeapon(30, 25, 5, 10, SpriteSheetManager.knife, SpriteSheetManager.knifeItem, 1.5f, 2, "knife", 1);
+            testMelee = new MeleeWeapon(120, 40, 20, 2, SpriteSheetManager.arrow, SpriteSheetManager.arrowItem, 0.9f, 3, "testweapon", 1);
+            sweepMelee = new MeleeWeapon(60, 180, 75, 1, SpriteSheetManager.sweep, SpriteSheetManager.sweepItem, 0.69f, 3, "battleaxe", 1);
+            knifeMelee = new MeleeWeapon(30, 25, 5, 10, SpriteSheetManager.knife, SpriteSheetManager.knifeItem, 1.5f, 3, "knife", 1);
             AllWeaponList.Add(testMelee);
             AllWeaponList.Add(sweepMelee);
             AllWeaponList.Add(knifeMelee);
@@ -37,13 +37,20 @@ namespace RogueLike
             AllWeaponList.Add(boxingGlove);
 
             arrow = new Projectile(32, 8, SpriteSheetManager.arrowBow, 1, 10);
-            bow = new RangeWeapon(40, 80, 20, 1000, 2, SpriteSheetManager.bow, SpriteSheetManager.bowItem, 0.3f, 2, "Bow", arrow, 1);
+            bow = new RangeWeapon(40, 80, 20, 1000, 2, SpriteSheetManager.bow, SpriteSheetManager.bowItem, 0.3f, 3, "Bow", arrow, 1);
             AllWeaponList.Add(bow);
 
             shuriken = new Projectile(25, 25, SpriteSheetManager.shuriken, 1, 20);
-            throwing = new RangeWeapon(60, 40, 15, 500, 5, SpriteSheetManager.throwing, SpriteSheetManager.throwItem, 0.90f, 1, "Shurikens", shuriken, 1);
+            throwing = new RangeWeapon(60, 40, 15, 500, 5, SpriteSheetManager.throwing, SpriteSheetManager.throwItem, 0.90f, 3, "Shurikens", shuriken, 1);
             AllWeaponList.Add(throwing);
 
+            fireBall = new Projectile(42, 34, SpriteSheetManager.fireBall, 0.2, 12);
+            fireRod = new RangeWeapon(146, 42, 80, 600, 1, SpriteSheetManager.fireRod, SpriteSheetManager.fireRodItem, 0.85f, 2, "Rod of Bursting Flames and Generic Names", fireBall, 1);
+            AllWeaponList.Add(fireRod);
+
+            iceBall = new Projectile(34, 34, SpriteSheetManager.iceBall, 0.3, 8);
+            iceRod = new RangeWeapon(146, 41, 55, 400, 2, SpriteSheetManager.iceRod, SpriteSheetManager.iceRodItem, 0.7f, 1, "Rod of Chilling Ice and Everything Nice", iceBall, 1);
+            AllWeaponList.Add(iceRod);
         }
 
         public static Item coin (Vector2 pos)

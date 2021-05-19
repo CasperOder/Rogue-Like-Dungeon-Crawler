@@ -23,9 +23,11 @@ namespace RogueLike
         public static Tile[,] backgroundTiles;
         private static RenderTarget2D backRenderTarget;
         private static RenderTarget2D frontRenderTarget;
+        private static RenderTarget2D shopRenderTarget;
         public static List<Room> generatedRoomList = new List<Room>();
         static List<Room> backgroundRoomList = new List<Room>();
         static Room[,] roomArray;
+        static Room[,] shopRoomArray;
         static Room shopRoom;
         public static List<Projectile> projectilesOnScreenList = new List<Projectile>();
 
@@ -64,12 +66,14 @@ namespace RogueLike
             //noOfRoomsY = 8;
             roomArray = new Room[Constants.noOfRoomsX, Constants.noOfRoomsY];
 
-            shopRoom = new Room(new Vector2(-1000, -1000), "shopRoom.txt", SpriteSheetManager.wallTiles);
+            shopRoomArray = new Room[3, 3];
+
+            //shopRoom = new Room(new Vector2(-1000, -1000), "shopRoom.txt", SpriteSheetManager.wallTiles);
 
 
             frontRenderTarget = new RenderTarget2D(g.GraphicsDevice, Constants.roomWidth * Constants.noOfRoomsX, Constants.roomHeight * Constants.noOfRoomsY);
             backRenderTarget = new RenderTarget2D(g.GraphicsDevice, Constants.roomWidth * Constants.noOfRoomsX, Constants.roomHeight * Constants.noOfRoomsY);
-            
+            shopRenderTarget = new RenderTarget2D(g.GraphicsDevice, Constants.roomWidth * 3, Constants.roomHeight * 3);
             player = new Player(SpriteSheetManager.player, 0.1d);
 
             HUD.UpdateMaxHealthHUD((int)player.maxHealth);
@@ -83,7 +87,6 @@ namespace RogueLike
             bossList.Add(new Minos(SpriteSheetManager.bossMinos, 0.1d, 400, 400));
 
             LoadNewLevel(g);            
-
         }
 
         public static void LoadNewLevel(GraphicsDeviceManager g)
@@ -94,39 +97,39 @@ namespace RogueLike
             switch (currentCircle)
             {
                 case 1:
-                    minimumNoOfRooms = 5;
-                    MediaPlayer.Stop();
-                    MediaPlayer.Play(SoundManager.mainMenuTheme);
-                    break;
-                case 2:
                     minimumNoOfRooms = 10;
                     MediaPlayer.Stop();
                     MediaPlayer.Play(SoundManager.mainMenuTheme);
                     break;
-                case 3:
+                case 2:
                     minimumNoOfRooms = 15;
+                    MediaPlayer.Stop();
+                    MediaPlayer.Play(SoundManager.mainMenuTheme);
+                    break;
+                case 3:
+                    minimumNoOfRooms = 20;
                     break;
                 case 4:
-                    minimumNoOfRooms = 20;
+                    minimumNoOfRooms = 25;
 
                     break;
                 case 5:
-                    minimumNoOfRooms = 25;
+                    minimumNoOfRooms = 30;
                     break;
                 case 6:
-                    minimumNoOfRooms = 30;
-
-                    break;
-                case 7:
                     minimumNoOfRooms = 35;
 
                     break;
-                case 8:
+                case 7:
                     minimumNoOfRooms = 40;
 
                     break;
-                case 9:
+                case 8:
                     minimumNoOfRooms = 45;
+
+                    break;
+                case 9:
+                    minimumNoOfRooms = 50;
 
                     break;
             }
@@ -231,6 +234,26 @@ namespace RogueLike
                             }
                         }
                     }
+                }
+            }
+
+            for(int x=0;x<shopRoomArray.GetLength(0);x++)
+            {
+                for(int y=0;y<shopRoomArray.GetLength(1);y++)
+                {
+                    if(x==1 && y==1)
+                    {
+                        shopRoom = new Room(new Vector2(Constants.roomWidth * x-2000, Constants.roomHeight * y-2000), "shopRoom.txt", SpriteSheetManager.wallTiles);
+                        shopRoomArray[x, y] = shopRoom;
+                    }
+                    else
+                    {
+                        shopRoomArray[x, y] = new Room(new Vector2(Constants.roomWidth * x - 2000, Constants.roomHeight * y - 2000), "backRoom.txt", SpriteSheetManager.tempTile);
+                    }
+
+                    
+
+
                 }
             }
 
@@ -347,7 +370,19 @@ namespace RogueLike
             {
                 r.CreateLevel(rnd, currentCircle);
             }
-            shopRoom.CreateLevel(rnd, currentCircle);
+            //shopRoom.CreateLevel(rnd, currentCircle);
+            
+            g.GraphicsDevice.SetRenderTarget(shopRenderTarget);
+            g.GraphicsDevice.Clear(Color.Transparent);
+            sb.Begin();
+
+            foreach (Room room in shopRoomArray)
+            {
+                room.CreateLevel(rnd, currentCircle);
+            }
+
+            sb.End();
+            g.GraphicsDevice.SetRenderTarget(null);
 
             enemyList = EnemyManager.spawnEnemies(enemySpawnTiles, currentCircle, rnd);
 
@@ -408,12 +443,12 @@ namespace RogueLike
 
             for (int p = 0; p < projectilesOnScreenList.Count; p++)
             {
-                projectilesOnScreenList[p].Update();
+                projectilesOnScreenList[p].Update(gameTime);
                 
 
                 for(int e=0;e<enemyList.Count;e++)
                 {
-                    projectilesOnScreenList[p].CheckEnemyCollision(enemyList[e]);
+                    projectilesOnScreenList[p].CheckTargetCollision(enemyList[e]);
 
                     if (enemyList[e].health <= 0)
                     {
@@ -428,16 +463,7 @@ namespace RogueLike
 
                 for (int b = 0; b < bossList.Count; b++)
                 {
-                    //Spara ndeanstående rad tills vidare
-                    //projectilesOnScreenList[p].CheckEnemyCollision(bossList[b]);
-
-                    //nedanstående kan ersättas när Boss har satts så att den ärver ifrån Enemy
-                    if (bossList[b].hitbox.Intersects(projectilesOnScreenList[p].hitbox))
-                    {
-                        bossList[b].health -= (projectilesOnScreenList[p].damage * projectilesOnScreenList[p].damageMultiplyier);
-
-                        projectilesOnScreenList[p].destroy = true; ;
-                    }
+                    projectilesOnScreenList[p].CheckTargetCollision(bossList[b]);
 
                     if (bossList[b].health <= 0)
                     {
@@ -660,7 +686,14 @@ namespace RogueLike
         {
             sb.Draw(frontRenderTarget, Vector2.Zero, Color.White);
             sb.Draw(backRenderTarget, Vector2.Zero, Color.White);
-            shopRoom.Draw(sb);
+            sb.Draw(shopRenderTarget, new Vector2(-2000, -2000), Color.White);
+
+
+            foreach(Room room in shopRoomArray)
+            {
+                room.Draw(sb);
+            }
+            
 
             foreach (Boss boss in bossList)
             {

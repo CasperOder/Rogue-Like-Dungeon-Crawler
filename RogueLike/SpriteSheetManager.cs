@@ -43,6 +43,8 @@ namespace RogueLike
         public static SpriteSheet bow, bowItem, arrowBow;
         public static SpriteSheet windBreeze, raindrops, fireDrops;
         public static SpriteSheet throwing, throwItem, shuriken;
+        public static SpriteSheet fireRod, fireRodItem, fireBall;
+        public static SpriteSheet iceRod, iceRodItem, iceBall;
 
         private static List<Point[]> playerAnimations = new List<Point[]>();
         private static List<Point[]> fireAnimations = new List<Point[]>();
@@ -53,7 +55,8 @@ namespace RogueLike
         private static List<Point[]> rainAnimation = new List<Point[]>();
         private static List<Point[]> fireDropsAnimation = new List<Point[]>();
         private static List<Point[]> shopKeeperAnimation = new List<Point[]>();
-
+        private static List<Point[]> rodBallAnimation = new List<Point[]>();
+        
         //Alla sprites hanteras med SpriteSheet objekt.
         //Alla SpriteSheet objekt sparas och hämtas från SpriteSheetManager
         //För att hämta ett Texture2D används "spriteSheetName.texture.
@@ -101,6 +104,11 @@ namespace RogueLike
             throwing = new SpriteSheet(c.Load<Texture2D>("throw"), sheetSize);
             throwItem = new SpriteSheet(c.Load<Texture2D>("throwitem"), sheetSize);
             shuriken = new SpriteSheet(c.Load<Texture2D>("shuriken"), sheetSize);
+            fireRod = new SpriteSheet(c.Load<Texture2D>("firerod"), sheetSize);
+            fireRodItem = new SpriteSheet(c.Load<Texture2D>("fireroditem"), sheetSize);
+            iceRod = new SpriteSheet(c.Load<Texture2D>("icerod"), sheetSize);
+            iceRodItem = new SpriteSheet(c.Load<Texture2D>("iceroditem"), sheetSize);
+
 
             damageBoost = new SpriteSheet(c.Load<Texture2D>("damageboost"), sheetSize);
             healthBoost = new SpriteSheet(c.Load<Texture2D>("healthboost"), sheetSize);
@@ -153,8 +161,17 @@ namespace RogueLike
                 new Point(0,0),
                 new Point(1,0)
             });
-
             shopKeeper = new SpriteSheet(c.Load<Texture2D>("shopkeeper"), sheetSize, shopKeeperAnimation);
+
+            rodBallAnimation.Add(new Point[]
+            {
+                new Point(0,0),
+                new Point(1,0),
+            });
+            fireBall = new SpriteSheet(c.Load<Texture2D>("fireball"), sheetSize, rodBallAnimation);
+            iceBall = new SpriteSheet(c.Load<Texture2D>("iceball"), sheetSize, rodBallAnimation);
+
+
 
             //Fire
             sheetSize = new Point(4, 0);
