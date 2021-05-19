@@ -554,7 +554,6 @@ namespace RogueLike
                     enemyList.RemoveAt(e);
                     e--;
                 }
-
             }
 
             for (int b = 0; b < bossList.Count; b++)

@@ -41,10 +41,11 @@ namespace RogueLike
         public static SpriteSheet punch, punchItem, smash, smashItem;
         public static SpriteSheet shopKeeper, shopKeeperTextbox;
         public static SpriteSheet bow, bowItem, arrowBow;
-        public static SpriteSheet windBreeze, raindrops, fireDrops;
+        public static SpriteSheet windBreeze, raindrops, fireDrops, strongWind, bubbles;
         public static SpriteSheet throwing, throwItem, shuriken;
         public static SpriteSheet fireRod, fireRodItem, fireBall;
         public static SpriteSheet iceRod, iceRodItem, iceBall;
+        
 
         private static List<Point[]> playerAnimations = new List<Point[]>();
         private static List<Point[]> fireAnimations = new List<Point[]>();
@@ -56,7 +57,9 @@ namespace RogueLike
         private static List<Point[]> fireDropsAnimation = new List<Point[]>();
         private static List<Point[]> shopKeeperAnimation = new List<Point[]>();
         private static List<Point[]> rodBallAnimation = new List<Point[]>();
-        
+        private static List<Point[]> strongWindAnimation = new List<Point[]>();
+        private static List<Point[]> bubblesAnimation = new List<Point[]>();
+
         //Alla sprites hanteras med SpriteSheet objekt.
         //Alla SpriteSheet objekt sparas och hämtas från SpriteSheetManager
         //För att hämta ett Texture2D används "spriteSheetName.texture.
@@ -231,6 +234,22 @@ namespace RogueLike
 
             windBreeze = new SpriteSheet(c.Load<Texture2D>("windbreeze"), sheetSize, windBreezeAnimation);
 
+            sheetSize = new Point(8, 0);
+            strongWindAnimation.Add(new Point[]
+            {
+                new Point(0,0),
+                new Point(1,0),
+                new Point(2,0),
+                new Point(3,0),
+                new Point(4,0),
+                new Point(5,0),
+                new Point(6,0),
+                new Point(7,0),
+                new Point(8,0),
+
+            });
+            strongWind = new SpriteSheet(c.Load<Texture2D>("strongwind"), sheetSize, strongWindAnimation);
+
             sheetSize = new Point(11, 0);
             fireDropsAnimation.Add(new Point[]
             {
@@ -261,6 +280,18 @@ namespace RogueLike
                 new Point(6, 0),
             });
             raindrops = new SpriteSheet(c.Load<Texture2D>("rainsheet"), sheetSize, rainAnimation);
+
+            sheetSize = new Point(5, 0);
+            bubblesAnimation.Add(new Point[]
+            {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(3, 0),
+                new Point(4, 0),
+                new Point(5, 0),
+            });
+            bubbles = new SpriteSheet(c.Load<Texture2D>("bubbles"), sheetSize, bubblesAnimation);
+
         }
 
     }
