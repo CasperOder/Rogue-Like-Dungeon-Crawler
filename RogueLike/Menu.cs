@@ -32,7 +32,7 @@ namespace RogueLike
         public static Color currentFade;
         public static bool fadeIn;
         public static bool fadeOut;
-        public static int f = 250;
+        public static int f = 100;
         static MouseState mouseState, oldMouseState;
 
         public static void Load(ContentManager content) //tillfälligt tills jag orkar fixa med animationer
@@ -88,7 +88,7 @@ namespace RogueLike
             {
                 f--;
             }
-            else if (fadeIn && f < 250)
+            else if (fadeIn && f < 100)
             {
                 f++;
             }

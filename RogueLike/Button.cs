@@ -30,7 +30,7 @@ namespace RogueLike
                 {
                     if (buttonName == "startButton")
                     {
-                        if (Menu.f == 250)
+                        if (Menu.f == 100)
                         {
                             Menu.fadeOut = true;
                             Menu.fadeIn = false;

@@ -39,25 +39,40 @@ namespace RogueLike
             switch(currentFloor)
             {
                 case 1:
-                    weightLimit = 2;
+                    weightLimit = 4;
                     enemyRoster = circleOneEnemyRoster;
                     break;
                 case 2:
-
+                    //weightLimit = 7;
+                    //enemyRoster = circleTwoEnemyRoster;
                     break;
                 case 3:
+                    //weightLimit = 10;
+                    //enemyRoster = circleThreeEnemyRoster;
                     break;
                 case 4:
+                    //weightLimit = 15;
+                    //enemyRoster = circleFourEnemyRoster;
                     break;
                 case 5:
+                    //weightLimit = 20;
+                    //enemyRoster = circleFiveEnemyRoster;
                     break;
                 case 6:
+                    //weightLimit = 25;
+                    //enemyRoster = circleSixEnemyRoster;
                     break;
                 case 7:
+                    //weightLimit = 30;
+                    //enemyRoster = circleSevenEnemyRoster;
                     break;
                 case 8:
+                    //weightLimit = 40;
+                    //enemyRoster = circleEightEnemyRoster;
                     break;
                 case 9:
+                    //weightLimit = 50;
+                    //enemyRoster = circleNineEnemyRoster;
                     break;
             }
 
