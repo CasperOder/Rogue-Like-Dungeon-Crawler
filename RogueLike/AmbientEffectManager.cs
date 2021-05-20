@@ -28,8 +28,16 @@ namespace RogueLike
             switch (currentCircle)
             {
                 case 1:
-                    
 
+                    for (int a = 0; a < ambientEffectsOnScreen.Count; a++)
+                    {
+                        ambientEffectsOnScreen[a].Update(gameTime);
+                        if (ambientEffectsOnScreen[a].destroy)
+                        {
+                            ambientEffectsOnScreen.RemoveAt(a);
+                            a--;
+                        }
+                    }
                     break;
                 case 2:
 
@@ -70,6 +78,15 @@ namespace RogueLike
                     break;
 
                 case 4:
+                    for (int a = 0; a < ambientEffectsOnScreen.Count; a++)
+                    {
+                        ambientEffectsOnScreen[a].Update(gameTime);
+                        if (ambientEffectsOnScreen[a].destroy)
+                        {
+                            ambientEffectsOnScreen.RemoveAt(a);
+                            a--;
+                        }
+                    }
                     break;
                 case 5:
                     timeSinceLastEffect += gameTime.ElapsedGameTime.TotalSeconds;
@@ -91,6 +108,15 @@ namespace RogueLike
 
                     break;
                 case 6:
+                    for (int a = 0; a < ambientEffectsOnScreen.Count; a++)
+                    {
+                        ambientEffectsOnScreen[a].Update(gameTime);
+                        if (ambientEffectsOnScreen[a].destroy)
+                        {
+                            ambientEffectsOnScreen.RemoveAt(a);
+                            a--;
+                        }
+                    }
                     break;
                 case 7:
                     ambientEffectsOnScreen.Add(fireDrop(playerPos));
@@ -106,6 +132,15 @@ namespace RogueLike
                     }
                     break;
                 case 8:
+                    for (int a = 0; a < ambientEffectsOnScreen.Count; a++)
+                    {
+                        ambientEffectsOnScreen[a].Update(gameTime);
+                        if (ambientEffectsOnScreen[a].destroy)
+                        {
+                            ambientEffectsOnScreen.RemoveAt(a);
+                            a--;
+                        }
+                    }
                     break;
                 case 9:
                     timeSinceLastEffect += gameTime.ElapsedGameTime.TotalSeconds;
@@ -139,7 +174,6 @@ namespace RogueLike
             }
         }
 
-
         static AmbientEffect windBreeze(Vector2 playerPos)
         {
             return new AmbientEffect(SpriteSheetManager.windBreeze, 0.2, new Vector2(-3, 1), RandomLocation(playerPos), 1, 0.75f);
@@ -171,6 +205,12 @@ namespace RogueLike
             int vectorY = rnd.Next((int)playerPos.Y - Constants.windowHeight * (3 / 2), (int)playerPos.Y + Constants.windowHeight * (3 / 2));
 
             return new Vector2(vectorX, vectorY);
+        }
+
+        public static void AddShatteredVase(Vector2 pos)
+        {
+            ambientEffectsOnScreen.Add( new AmbientEffect(SpriteSheetManager.shatteredVase, 0.1, new Vector2(0, 0), pos, 10, 0.9f));
+
         }
 
     }

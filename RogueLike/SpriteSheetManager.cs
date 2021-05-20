@@ -45,7 +45,8 @@ namespace RogueLike
         public static SpriteSheet throwing, throwItem, shuriken;
         public static SpriteSheet fireRod, fireRodItem, fireBall;
         public static SpriteSheet iceRod, iceRodItem, iceBall;
-        
+
+        public static SpriteSheet vase, shatteredVase;
 
         private static List<Point[]> playerAnimations = new List<Point[]>();
         private static List<Point[]> fireAnimations = new List<Point[]>();
@@ -59,6 +60,8 @@ namespace RogueLike
         private static List<Point[]> rodBallAnimation = new List<Point[]>();
         private static List<Point[]> strongWindAnimation = new List<Point[]>();
         private static List<Point[]> bubblesAnimation = new List<Point[]>();
+        private static List<Point[]> shatterAnimation = new List<Point[]>();
+
 
         //Alla sprites hanteras med SpriteSheet objekt.
         //Alla SpriteSheet objekt sparas och hämtas från SpriteSheetManager
@@ -124,6 +127,7 @@ namespace RogueLike
             bowItem = new SpriteSheet(c.Load<Texture2D>("bowitem"), sheetSize);
             arrowBow = new SpriteSheet(c.Load<Texture2D>("arrowbow"), sheetSize);
 
+            
             //Minos arm
             texture = c.Load<Texture2D>("Minos_arm");
 
@@ -174,7 +178,7 @@ namespace RogueLike
             fireBall = new SpriteSheet(c.Load<Texture2D>("fireball"), sheetSize, rodBallAnimation);
             iceBall = new SpriteSheet(c.Load<Texture2D>("iceball"), sheetSize, rodBallAnimation);
 
-
+            
 
             //Fire
             sheetSize = new Point(4, 0);
@@ -190,6 +194,16 @@ namespace RogueLike
             });
 
             fire = new SpriteSheet(texture, sheetSize, fireAnimations);
+
+            shatterAnimation.Add(new Point[]
+            {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(2, 0),
+                new Point(3, 0),
+                new Point(4, 0),
+            });
+            shatteredVase = new SpriteSheet(c.Load<Texture2D>("shattervase"), sheetSize, shatterAnimation);
 
             //Minos
             sheetSize = new Point(5, 0);
@@ -219,6 +233,9 @@ namespace RogueLike
             });
 
             minosGround = new SpriteSheet(texture, sheetSize, minosGroundAnimation);
+
+            vase = new SpriteSheet(c.Load<Texture2D>("vase"), sheetSize);
+
 
             sheetSize = new Point(6, 0);
             windBreezeAnimation.Add(new Point[]

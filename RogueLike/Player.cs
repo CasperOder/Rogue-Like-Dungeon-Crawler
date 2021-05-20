@@ -412,31 +412,31 @@ namespace RogueLike
         }
 
 
-        public void InflictMeleeDamage(Enemy e)
+        public void InflictMeleeDamage(Moveable_Object m)
         {
-            if (equippedMelee != null && !e.beenHit)
+            if (equippedMelee != null && !m.beenHit)
             {
-                if (e.hitbox.Intersects(equippedMelee.hitbox))
+                if (m.hitbox.Intersects(equippedMelee.hitbox))
                 {
-                    e.health -= (equippedMelee.baseDamage * equippedMelee.damageMultiplyier*damageMultiplier);
-                    e.beenHit = true;
+                    m.health -= (equippedMelee.baseDamage * equippedMelee.damageMultiplyier*damageMultiplier);
+                    m.beenHit = true;
                 }
             }            
         }
 
 
 
-        public void InflictDamage(Boss b)
-        {
-            if (equippedMelee != null && !b.beenHit)
-            {
-                if (b.hitbox.Intersects(equippedMelee.hitbox))
-                {
-                    b.health -= (equippedMelee.baseDamage * equippedMelee.damageMultiplyier);
-                    b.beenHit = true;
-                }
-            }
-        }
+        //public void InflictDamage(Boss b)
+        //{
+        //    if (equippedMelee != null && !b.beenHit)
+        //    {
+        //        if (b.hitbox.Intersects(equippedMelee.hitbox))
+        //        {
+        //            b.health -= (equippedMelee.baseDamage * equippedMelee.damageMultiplyier);
+        //            b.beenHit = true;
+        //        }
+        //    }
+        //}
 
 
 
