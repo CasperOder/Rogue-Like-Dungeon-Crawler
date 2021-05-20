@@ -476,6 +476,18 @@
 /processorParam:TextureFormat=Color
 /build:rock.png
 
+#begin shattervase.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:shattervase.png
+
 #begin shopkeeper.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -679,6 +691,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:throwitem.png
+
+#begin vase.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:vase.png
 
 #begin walltiles.png
 /importer:TextureImporter

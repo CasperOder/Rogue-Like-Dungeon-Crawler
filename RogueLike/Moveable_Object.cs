@@ -15,6 +15,8 @@ namespace RogueLike
         protected float speedMultiplier;
         protected Vector2 direction;
         protected bool moving;
+        public bool beenHit;
+
 
         public float maxHealth, health;
 
@@ -37,7 +39,15 @@ namespace RogueLike
             this.maxHealth = maxHealth;
         }
 
-        
+        public Moveable_Object(SpriteSheet spriteSheet, double timeBetweenFrames, float health, float maxHealth,Vector2 position, Point hitboxSize) : base(spriteSheet, timeBetweenFrames)
+        {
+            speedMultiplier = 1;
+            this.health = health;
+            this.maxHealth = maxHealth;
+            middlepos = position;
+            hitbox.Size = hitboxSize;
+            hitbox.Location = new Point((int)middlepos.X - hitbox.Size.X / 2, (int)middlepos.Y - hitbox.Size.Y / 2);
+        }
 
     }
 }
