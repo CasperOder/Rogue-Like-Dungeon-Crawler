@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,9 @@ namespace RogueLike
         public string buttonName;
         public Rectangle pos;
         public Texture2D tex;
+        public static bool isFullScreen = false;
+        public static bool willQuit = false;
+
 
         public Button(Texture2D tex, Rectangle pos, string buttonName)
         {
@@ -28,16 +32,68 @@ namespace RogueLike
             {
                 if (pos.Contains(new Point(mouseState.X, mouseState.Y)))
                 {
-                    if (buttonName == "startButton")
+                    //Start
+                    if (buttonName == "start")
                     {
-                        if (Menu.f == 100)
+                        Menu.stateName = "play";
+                        if (Menu.f == 255)
                         {
                             Menu.fadeOut = true;
                             Menu.fadeIn = false;
                         }
                         
                     }
-                    else if (buttonName == "playButton")
+                    else if (buttonName == "options")
+                    {
+                        Menu.stateName = "options";
+                        if (Menu.f == 255)
+                        {
+                            Menu.fadeOut = true;
+                            Menu.fadeIn = false;
+                        }
+                    }
+                    else if (buttonName == "quit")
+                    {
+                        willQuit = true;
+                    }
+                    //Options
+                    else if (buttonName == "back")
+                    {
+                        Menu.stateName = "main";
+                        if (Menu.f == 255)
+                        {
+                            Menu.fadeOut = true;
+                            Menu.fadeIn = false;
+                        }
+                    }
+                    else if (buttonName == "muteMusic")
+                    {
+                        if (MediaPlayer.IsMuted == true)
+                        {
+                            Menu.buttons[1].tex = Menu.muteMusicOff;
+                            MediaPlayer.IsMuted = false;
+                        }
+                        else if (MediaPlayer.IsMuted == false)
+                        {
+                            Menu.buttons[1].tex = Menu.muteMusicOn;
+                            MediaPlayer.IsMuted = true;
+                        }
+                    }
+                    else if (buttonName == "fullScreen")
+                    {
+                        if (isFullScreen == true)
+                        {
+                            Menu.buttons[2].tex = Menu.fullScreenOff;
+                            isFullScreen = false;
+                        }
+                        else if (isFullScreen == false)
+                        {
+                            Menu.buttons[2].tex = Menu.fullScreenOn;
+                            isFullScreen = true;
+                        }
+                    }
+                    //Play
+                    else if (buttonName == "newGame")
                     {
                         Game1.gameState = Game1.GameState.Play;
                     }
