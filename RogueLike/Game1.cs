@@ -75,7 +75,7 @@ namespace RogueLike
                         graphics.ApplyChanges();
                         Button.isFullScreen = false;
                     }
-                    else if (Button.willQuit)
+                    if (Button.willQuit)
                     {
                         Exit();
                     }

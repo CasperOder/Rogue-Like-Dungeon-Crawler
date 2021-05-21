@@ -33,7 +33,7 @@ namespace RogueLike
                 if (pos.Contains(new Point(mouseState.X, mouseState.Y)))
                 {
                     //Start
-                    if (buttonName == "start")
+                    if (buttonName == "start" && Menu.fadeOut == false)
                     {
                         Menu.stateName = "play";
                         if (Menu.f == 255)
@@ -43,7 +43,7 @@ namespace RogueLike
                         }
                         
                     }
-                    else if (buttonName == "options")
+                    else if (buttonName == "options" && Menu.fadeOut == false)
                     {
                         Menu.stateName = "options";
                         if (Menu.f == 255)
