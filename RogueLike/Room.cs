@@ -231,7 +231,12 @@ namespace RogueLike
                                 }
                             }
                             break;
+                        case 'o':
+                            tileArray[i, j] = NewInvisibleTile(i, j, frameY, rnd);
 
+                            wallTiles.Add(tileArray[i, j]);
+
+                            break;
                     }
 
                 }
@@ -245,6 +250,14 @@ namespace RogueLike
 
             return new Tile(SpriteSheetManager.wallTiles, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), frameX, frameY, true);
         }
+
+        private Tile NewInvisibleTile(int i, int j, int frameY, Random rnd)
+        {
+            int frameX = rnd.Next(0, 6);
+
+            return new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), frameX, frameY, true);
+        }
+
 
         private Tile NewFloorTile(int i, int j, int frameY, Random rnd)
         {

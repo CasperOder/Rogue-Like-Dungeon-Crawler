@@ -8,5 +8,7 @@ namespace RogueLike
 {
     class s
     {
+        //livsviktig klass
+
     }
 }

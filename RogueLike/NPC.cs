@@ -31,7 +31,6 @@ namespace RogueLike
 
         public void Update(GameTime gameTime)
         {
-            //OBS! Animeras inte?
             Animate(gameTime, 0);
         }
 

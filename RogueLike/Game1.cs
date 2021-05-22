@@ -14,6 +14,7 @@ namespace RogueLike
             GameOver
         }
 
+        //static bool useSaveFile;
         public static GameState gameState;
         public static Camera camera;
         GraphicsDeviceManager graphics;
@@ -49,8 +50,9 @@ namespace RogueLike
             EnemyManager.LoadEnemies();
             HUD.Load(Content);
             Menu.Load(Content);
-           
-            
+            SavefileReader.ReadFile("savefile.txt");
+
+
             camera = new Camera(GraphicsDevice.Viewport);
             Level.Load_Level(graphics, Content);
 
@@ -69,6 +71,13 @@ namespace RogueLike
                 case GameState.Start:
                     Menu.LoadButtons();
                     Menu.Update();
+
+                    if(Keyboard.GetState().IsKeyDown(Keys.Enter))
+                    {
+                        Level.LoadFromSave(graphics);
+                        gameState = GameState.Play;
+                    }
+
                     break;
                 case GameState.Play:
                     Level.Update(gameTime, graphics);
