@@ -51,12 +51,13 @@ namespace RogueLike
             HUD.Load(Content);
             Menu.Load(Content);
             SavefileReader.ReadFile("savefile.txt");
-
+            Menu.LoadButtons();
 
             camera = new Camera(GraphicsDevice.Viewport);
             Level.Load_Level(graphics, Content);
 
             MediaPlayer.IsRepeating = true;
+            
 
         }
 
@@ -69,7 +70,6 @@ namespace RogueLike
             switch (gameState)
             {
                 case GameState.Start:
-                    Menu.LoadButtons();
                     Menu.Update();
 
                     if(Keyboard.GetState().IsKeyDown(Keys.Enter))
@@ -78,6 +78,16 @@ namespace RogueLike
                         gameState = GameState.Play;
                     }
 
+                    if (Button.isFullScreen == true)
+                    {
+                        graphics.ToggleFullScreen();
+                        graphics.ApplyChanges();
+                        Button.isFullScreen = false;
+                    }
+                    if (Button.willQuit)
+                    {
+                        Exit();
+                    }
                     break;
                 case GameState.Play:
                     Level.Update(gameTime, graphics);
