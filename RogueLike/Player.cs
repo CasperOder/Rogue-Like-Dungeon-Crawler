@@ -575,7 +575,7 @@ namespace RogueLike
             {
                 weaponToSave = equippedRange;
             }
-            SavefileReader.SaveToFile(weaponToSave, health, maxHealth, attackSpeedMultiplier, damageMultiplier, speedMultiplier);
+            SavefileHandler.SaveToFile(weaponToSave, health, maxHealth, attackSpeedMultiplier, damageMultiplier, speedMultiplier);
         }
 
         public void Draw(SpriteBatch sb)

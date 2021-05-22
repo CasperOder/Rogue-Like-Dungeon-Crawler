@@ -7,7 +7,7 @@ using System.IO;
 
 namespace RogueLike
 {
-    static class SavefileReader
+    static class SavefileHandler
     {
         static Weapon savedWeapon;
         static int savedCircle, savedCurrency;
@@ -53,6 +53,11 @@ namespace RogueLike
 
             File.WriteAllLines("savefile.txt", newSavedContent.ToArray());
 
+        }
+
+        public static void DeleteSavefile()
+        {
+            File.Delete("savefile.txt");
         }
 
     }

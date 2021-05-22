@@ -14,7 +14,7 @@ namespace RogueLike
             GameOver
         }
 
-        //static bool useSaveFile;
+        public static bool saveFileExist;
         public static GameState gameState;
         public static Camera camera;
         GraphicsDeviceManager graphics;
@@ -52,7 +52,15 @@ namespace RogueLike
             EnemyManager.LoadEnemies();
             HUD.Load(Content);
             Menu.Load(Content);
-            SavefileReader.ReadFile("savefile.txt");
+            try
+            {
+                SavefileHandler.ReadFile("savefile.txt");
+                saveFileExist = true;
+            }
+            catch
+            {
+                saveFileExist = false;
+            }
             Menu.LoadButtons();
 
             camera = new Camera(GraphicsDevice.Viewport);
