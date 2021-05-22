@@ -93,7 +93,7 @@ namespace RogueLike
 
        public static void LoadFromSave()
        {
-            SavefileReader.LoadFromFile();
+            SavefileHandler.LoadFromFile();
             loadBoss = false;
             LoadBossRoom();
             loadBoss = true;
