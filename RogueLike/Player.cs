@@ -538,6 +538,16 @@ namespace RogueLike
                     HUD.UpdateCurrentHealthHUD((int)health);
                     HUD.UpdateMaxHealthHUD((int)maxHealth);
                     break;
+                case Item.ItemType.healAndSave:
+
+                    health += multiplier;
+                    if(health>maxHealth)
+                    {
+                        health = maxHealth;
+                    }
+                    HUD.UpdateCurrentHealthHUD((int)health);
+                    SetSaveFile();
+                    break;
             }
         }
 

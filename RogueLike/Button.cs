@@ -97,6 +97,12 @@ namespace RogueLike
                     {
                         Game1.gameState = Game1.GameState.Play;
                     }
+                    //Continue on saved file
+                    else if (buttonName=="continue")
+                    {
+                        Level.LoadFromSave();
+                        Game1.gameState = Game1.GameState.Play;
+                    }
                 }
             }
         }
