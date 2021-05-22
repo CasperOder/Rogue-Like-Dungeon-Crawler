@@ -541,6 +541,32 @@ namespace RogueLike
             }
         }
 
+        public void SetStatsFromSaveFile(Weapon savedWeapon, float savedHealth, float savedMaxHealth, float savedAttackSpeedMultiplier, float savedDamageMultiplier, float savedSpeedMultiplier)
+        {
+            health = savedHealth;
+            maxHealth = savedMaxHealth;
+            attackSpeedMultiplier = savedAttackSpeedMultiplier;
+            damageMultiplier = savedDamageMultiplier;
+            speedMultiplier = savedSpeedMultiplier;
+            ChangeWeapon(savedWeapon);
+
+            HUD.UpdateCurrentHealthHUD((int)health);
+            HUD.UpdateMaxHealthHUD((int)maxHealth);
+        }
+
+        public void SetSaveFile()
+        {
+            Weapon weaponToSave;
+            if(equippedMelee!=null)
+            {
+                weaponToSave = equippedMelee;
+            }
+            else
+            {
+                weaponToSave = equippedRange;
+            }
+            SavefileReader.SaveToFile(weaponToSave, health, maxHealth, attackSpeedMultiplier, damageMultiplier, speedMultiplier);
+        }
 
         public void Draw(SpriteBatch sb)
         {

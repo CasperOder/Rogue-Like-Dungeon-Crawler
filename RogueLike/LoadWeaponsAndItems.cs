@@ -207,5 +207,21 @@ namespace RogueLike
 
         }
 
+
+        public static Weapon SavedWeaponFromList(string weaponName)
+        {
+            Weapon returnWeapon=testMelee; //måste anges ett värde för att kunna returna. Värdet ändras i loopen nedan
+
+            foreach(Weapon weapon in AllWeaponList)
+            {
+                if(weapon.itemName==weaponName)
+                {
+                    returnWeapon = weapon;
+                    break;
+                }
+            }
+            return returnWeapon;
+        }
+
     }
 }

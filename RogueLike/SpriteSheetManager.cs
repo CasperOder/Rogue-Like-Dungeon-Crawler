@@ -34,7 +34,7 @@ namespace RogueLike
         public static SpriteSheet rock;
         public static SpriteSheet knife;
         public static SpriteSheet knifeItem;
-        public static SpriteSheet wallTiles;
+        public static SpriteSheet wallTiles, invisibleTile;
         public static SpriteSheet damageBoost, healthBoost, attackSpeedBoost, speedBoost;
         public static SpriteSheet spear, spearItem;
         public static SpriteSheet upLadder, downLadder;
@@ -45,6 +45,7 @@ namespace RogueLike
         public static SpriteSheet throwing, throwItem, shuriken;
         public static SpriteSheet fireRod, fireRodItem, fireBall;
         public static SpriteSheet iceRod, iceRodItem, iceBall;
+
 
         public static SpriteSheet vase, shatteredVase;
 
@@ -114,7 +115,7 @@ namespace RogueLike
             fireRodItem = new SpriteSheet(c.Load<Texture2D>("fireroditem"), sheetSize);
             iceRod = new SpriteSheet(c.Load<Texture2D>("icerod"), sheetSize);
             iceRodItem = new SpriteSheet(c.Load<Texture2D>("iceroditem"), sheetSize);
-
+            invisibleTile = new SpriteSheet(c.Load<Texture2D>("invisibletile"), sheetSize);
 
             damageBoost = new SpriteSheet(c.Load<Texture2D>("damageboost"), sheetSize);
             healthBoost = new SpriteSheet(c.Load<Texture2D>("healthboost"), sheetSize);

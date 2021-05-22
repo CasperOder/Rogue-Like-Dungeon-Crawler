@@ -50,6 +50,7 @@ namespace RogueLike
         public static int currentCircle, minimumNoOfRooms;
 
         static bool isBossRoom; //true om spelaren är i ett bossrum, false annars
+        static bool loadBoss; //false om man startar från en savefile, annars true
         static List<Boss> bossList = new List<Boss>();
         static byte currentBoss = 1;
         //static Vector2 bossStartPos;
@@ -71,7 +72,7 @@ namespace RogueLike
             shopRoomArray = new Room[3, 3];
 
             //shopRoom = new Room(new Vector2(-1000, -1000), "shopRoom.txt", SpriteSheetManager.wallTiles);
-
+            loadBoss = true;
 
             frontRenderTarget = new RenderTarget2D(g.GraphicsDevice, Constants.roomWidth * Constants.noOfRoomsX, Constants.roomHeight * Constants.noOfRoomsY);
             backRenderTarget = new RenderTarget2D(g.GraphicsDevice, Constants.roomWidth * Constants.noOfRoomsX, Constants.roomHeight * Constants.noOfRoomsY);
@@ -85,11 +86,18 @@ namespace RogueLike
 
             
 
-            //Minos
-            bossList.Add(new Minos(SpriteSheetManager.bossMinos, 0.1d, 400, 400));
 
             LoadNewLevel(g);            
         }
+
+       public static void LoadFromSave(GraphicsDeviceManager g)
+       {
+            SavefileReader.LoadFromFile();
+            loadBoss = false;
+            LoadBossRoom(g);
+            loadBoss = true;
+            HUD.UpdateCurrencyHUD(currency);
+       }
 
         public static void LoadNewLevel(GraphicsDeviceManager g)
         {
@@ -412,13 +420,13 @@ namespace RogueLike
                 }
             }
 
-
             Room.wallTiles.Clear();
             generatedRoomList.Clear();
             backgroundRoomList.Clear();
             endTileList.Clear();
             enemyList.Clear();
             itemsList.Clear();
+            vaseList.Clear();
 
             Room bossRoom = new Room(Vector2.Zero, "bossRoom.txt", SpriteSheetManager.tempTile)
             {
@@ -428,14 +436,58 @@ namespace RogueLike
             bossRoom.CreateLevel(rnd, currentCircle);        
             generatedRoomList.Add(bossRoom);
 
+            if (loadBoss)
+            {
+                switch (currentCircle)
+                {
+                    case 1:
+                        //Minos
+                        bossList.Add(new Minos(SpriteSheetManager.bossMinos, 0.1d, 400, 400));
+                        break;
+                    case 2:
+
+                        break;
+                    case 3:
+
+                        break;
+                    case 4:
+
+                        break;
+                    case 5:
+
+                        break;
+                    case 6:
+
+                        break;
+                    case 7:
+
+                        break;
+                    case 8:
+
+                        break;
+                    case 9:
+
+                        break;
+                }
+            }
+            
+
             DrawOnFrontRenderTarget(g.GraphicsDevice);
             DrawOnBackRenderTarget(g.GraphicsDevice);
 
             player.SetPlayerPosition(bossRoom.playerSpawnPoint);
 
-            bossList[currentBoss - 1].SetPosition(bossRoom.bossSpawnPoint);
+            if (bossList.Count!=0)
+            {
+                bossList[currentBoss - 1].SetPosition(bossRoom.bossSpawnPoint);
 
-            bossList[currentBoss - 1].alive = true;
+                bossList[currentBoss - 1].alive = true;
+            }
+            else
+            {
+                RemoveRockTiles(g.GraphicsDevice);
+            }
+
         }
 
         public static void Update(GameTime gameTime, GraphicsDeviceManager g)
@@ -618,7 +670,9 @@ namespace RogueLike
 
             if (keyboardState.IsKeyDown(Keys.R))
             {
-                RemoveRockTiles(g.GraphicsDevice);
+                //RemoveRockTiles(g.GraphicsDevice);
+
+                player.SetSaveFile();
             }
             
 
