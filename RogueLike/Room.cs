@@ -162,28 +162,28 @@ namespace RogueLike
 
                             tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
 
-                            Level.itemsList.Add(LoadWeaponsAndItems.newStatUpgrade(tileArray[i, j].middlepos, false, rnd));
+                            Level.itemsList.Add(LoadWeaponsAndItems.NewStatUpgrade(tileArray[i, j].middlepos, false, rnd));
 
                             break;
                         case 'I':
 
                             tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
 
-                            Level.itemsList.Add(LoadWeaponsAndItems.newStatUpgrade(tileArray[i, j].middlepos, true, rnd));
+                            Level.itemsList.Add(LoadWeaponsAndItems.NewStatUpgrade(tileArray[i, j].middlepos, true, rnd));
 
                             break;
                         case 'w':
 
                             tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
 
-                            Level.itemsList.Add(LoadWeaponsAndItems.newWeaponItem(tileArray[i, j].middlepos, currCircle, false, rnd));
+                            Level.itemsList.Add(LoadWeaponsAndItems.NewWeaponItem(tileArray[i, j].middlepos, currCircle, false, rnd));
 
                             break;
                         case 'W':
 
                             tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
 
-                            Level.itemsList.Add(LoadWeaponsAndItems.newWeaponItem(tileArray[i, j].middlepos, currCircle, true, rnd));
+                            Level.itemsList.Add(LoadWeaponsAndItems.NewWeaponItem(tileArray[i, j].middlepos, currCircle, true, rnd));
 
                             break;
                         case 'K':

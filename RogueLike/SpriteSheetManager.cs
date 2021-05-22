@@ -45,7 +45,7 @@ namespace RogueLike
         public static SpriteSheet throwing, throwItem, shuriken;
         public static SpriteSheet fireRod, fireRodItem, fireBall;
         public static SpriteSheet iceRod, iceRodItem, iceBall;
-
+        public static SpriteSheet healPotion;
 
         public static SpriteSheet vase, shatteredVase;
 
@@ -116,6 +116,7 @@ namespace RogueLike
             iceRod = new SpriteSheet(c.Load<Texture2D>("icerod"), sheetSize);
             iceRodItem = new SpriteSheet(c.Load<Texture2D>("iceroditem"), sheetSize);
             invisibleTile = new SpriteSheet(c.Load<Texture2D>("invisibletile"), sheetSize);
+            healPotion = new SpriteSheet(c.Load<Texture2D>("healpotion"), sheetSize);
 
             damageBoost = new SpriteSheet(c.Load<Texture2D>("damageboost"), sheetSize);
             healthBoost = new SpriteSheet(c.Load<Texture2D>("healthboost"), sheetSize);

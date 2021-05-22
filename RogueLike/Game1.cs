@@ -22,8 +22,10 @@ namespace RogueLike
 
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
-            graphics.GraphicsProfile = GraphicsProfile.HiDef;
+            graphics = new GraphicsDeviceManager(this)
+            {
+                GraphicsProfile = GraphicsProfile.HiDef
+            };
             Content.RootDirectory = "Content";
         }
 
@@ -72,12 +74,6 @@ namespace RogueLike
                 case GameState.Start:
                     Menu.Update();
 
-                    if(Keyboard.GetState().IsKeyDown(Keys.Enter))
-                    {
-                        Level.LoadFromSave(graphics);
-                        gameState = GameState.Play;
-                    }
-
                     if (Button.isFullScreen == true)
                     {
                         graphics.ToggleFullScreen();
@@ -90,7 +86,7 @@ namespace RogueLike
                     }
                     break;
                 case GameState.Play:
-                    Level.Update(gameTime, graphics);
+                    Level.Update(gameTime);
                     break;
             }
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))

@@ -53,16 +53,16 @@ namespace RogueLike
             AllWeaponList.Add(iceRod);
         }
 
-        public static Item coin (Vector2 pos)
+        public static Item Coin (Vector2 pos)
         {
             return new Item(10, true, SpriteSheetManager.coin, pos, Item.ItemType.coin, "+10 coins");
         }
 
-        public static Item newStatUpgrade(Vector2 pos, bool stronger, Random rnd)
+        public static Item NewStatUpgrade(Vector2 pos, bool stronger, Random rnd)
         {
             int whichBoost= rnd.Next(0,4);
             int coinGain=0;
-            float multiplier=1;
+            float itemMultiplier=1;
             string itemTypeName=null; //får värde längre ner.
             Item.ItemType itemType= Item.ItemType.coin;
             SpriteSheet spriteSheet = SpriteSheetManager.fire;
@@ -74,7 +74,7 @@ namespace RogueLike
                     {
                         coinGain = -40;
                         itemType = Item.ItemType.attackSpeedBoost;
-                        multiplier = 1.1f;
+                        itemMultiplier = 1.1f;
                         spriteSheet = SpriteSheetManager.attackSpeedBoost;
                         itemTypeName = "Attack Speed: +10%";
                     }
@@ -82,7 +82,7 @@ namespace RogueLike
                     {
                         coinGain = -20;
                         itemType = Item.ItemType.attackSpeedBoost;
-                        multiplier = 1.05f;
+                        itemMultiplier = 1.05f;
                         spriteSheet = SpriteSheetManager.attackSpeedBoost;
                         itemTypeName = "Attack Speed: +5%";
                     }
@@ -93,7 +93,7 @@ namespace RogueLike
                     {
                         coinGain = -40;
                         itemType = Item.ItemType.damageBoost;
-                        multiplier = 1.1f;
+                        itemMultiplier = 1.1f;
                         spriteSheet = SpriteSheetManager.damageBoost;
                         itemTypeName = "Damage: +10%";
                     }
@@ -101,7 +101,7 @@ namespace RogueLike
                     {
                         coinGain = -20;
                         itemType = Item.ItemType.damageBoost;
-                        multiplier = 1.05f;
+                        itemMultiplier = 1.05f;
                         spriteSheet = SpriteSheetManager.damageBoost;
                         itemTypeName = "Damage: +5%";
                     }
@@ -112,7 +112,7 @@ namespace RogueLike
                     {
                         coinGain = -20;
                         itemType = Item.ItemType.speedBoost;
-                        multiplier = 1.1f;
+                        itemMultiplier = 1.1f;
                         spriteSheet = SpriteSheetManager.speedBoost;
                         itemTypeName = "Speed: +10%";
                     }
@@ -120,7 +120,7 @@ namespace RogueLike
                     {
                         coinGain = -10;
                         itemType = Item.ItemType.speedBoost;
-                        multiplier = 1.05f;
+                        itemMultiplier = 1.05f;
                         spriteSheet = SpriteSheetManager.speedBoost;
                         itemTypeName = "Speed: +5%";
                     }
@@ -131,7 +131,7 @@ namespace RogueLike
                     {
                         coinGain = -50;
                         itemType = Item.ItemType.healthBoost;
-                        multiplier = 50;
+                        itemMultiplier = 50;
                         spriteSheet = SpriteSheetManager.healthBoost;
                         itemTypeName = "Health: +50";
                     }
@@ -139,32 +139,39 @@ namespace RogueLike
                     {
                         coinGain = -25;
                         itemType = Item.ItemType.healthBoost;
-                        multiplier = 25;
+                        itemMultiplier = 25;
                         spriteSheet = SpriteSheetManager.healthBoost;
                         itemTypeName = "Health: +25%";
                     }
 
                     break;
             }
-            Item newItem = new Item(coinGain, false, spriteSheet, pos, itemType, itemTypeName);
-            newItem.multiplier = multiplier;
+            Item newItem = new Item(coinGain, false, spriteSheet, pos, itemType, itemTypeName)
+            {
+                multiplier = itemMultiplier
+            };
 
             return newItem;
 
         }
 
-        public static WeaponItem newWeaponItem (Vector2 pos, int currCircle, bool betterWeapon, Random rnd)
-        {            
-            bool weaponChosen = false;
-            int weightChoser = currCircle;
-            int coinGain=0;
+        public static Item HealPotion(Vector2 pos, int healAmount)
+        {
+            return new Item(0, false, SpriteSheetManager.healPotion, pos, Item.ItemType.healAndSave, "Heal and Save!",32, 64) { multiplier = healAmount };
+        }
 
-            if(betterWeapon)
+        public static WeaponItem NewWeaponItem(Vector2 pos, int currCircle, bool betterWeapon, Random rnd)
+        {
+            //bool weaponChosen = false;
+            int weightChoser = currCircle;
+            int coinGain = 0;
+
+            if (betterWeapon)
             {
                 weightChoser++;
             }
 
-            switch(weightChoser)
+            switch (weightChoser)
             {
                 case 1:
                     coinGain = -25;
