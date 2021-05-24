@@ -12,7 +12,7 @@ namespace RogueLike
     {
         protected Vector2 position;
 
-        public bool beenHit;
+        //public bool beenHit;
         public bool alive = false;
 
         public Boss(SpriteSheet spriteSheet, double timeBetweenFrames, float health, float maxHealth) :

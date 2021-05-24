@@ -26,6 +26,7 @@ namespace RogueLike
             healthBoost,
             weaponType,
             coin,
+            healAndSave,
         }
         public ItemType itemType;
 
@@ -40,7 +41,17 @@ namespace RogueLike
             hitbox = new Rectangle((int)middlepos.X - Constants.itemSize / 2, (int)middlepos.Y - Constants.itemSize / 2, Constants.itemSize, Constants.itemSize);
         }
 
-        
+        public Item(int coinGain, bool autoPickUp, SpriteSheet spriteSheet, Vector2 spawnPos, ItemType itemType, string itemName, int hitboxX, int hitboxY) : base(spriteSheet)
+        {
+            this.itemType = itemType;
+            this.coinGain = coinGain;
+            this.autoPickUp = autoPickUp;
+            this.itemName = itemName;
+            middlepos = spawnPos;
+
+            hitbox = new Rectangle((int)middlepos.X - hitboxX / 2, (int)middlepos.Y - hitboxY / 2, hitboxX, hitboxY);
+        }
+
 
         public void Draw(SpriteBatch sb)
         {

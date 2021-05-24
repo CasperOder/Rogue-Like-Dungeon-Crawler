@@ -36,16 +36,21 @@ namespace RogueLike
         public static SpriteSheet rock;
         public static SpriteSheet knife;
         public static SpriteSheet knifeItem;
-        public static SpriteSheet wallTiles;
+        public static SpriteSheet wallTiles, invisibleTile;
         public static SpriteSheet damageBoost, healthBoost, attackSpeedBoost, speedBoost;
         public static SpriteSheet spear, spearItem;
         public static SpriteSheet upLadder, downLadder;
         public static SpriteSheet punch, punchItem, smash, smashItem;
         public static SpriteSheet shopKeeper, shopKeeperTextbox;
         public static SpriteSheet bow, bowItem, arrowBow;
-        public static SpriteSheet windBreeze, raindrops, fireDrops;
+        public static SpriteSheet windBreeze, raindrops, fireDrops, strongWind, bubbles;
         public static SpriteSheet throwing, throwItem, shuriken;
         public static SpriteSheet swordSwing;
+        public static SpriteSheet fireRod, fireRodItem, fireBall;
+        public static SpriteSheet iceRod, iceRodItem, iceBall;
+        public static SpriteSheet healPotion;
+
+        public static SpriteSheet vase, shatteredVase;
 
         private static List<Point[]> playerPlaceHolderAnimations = new List<Point[]>();
         private static List<Point[]> fireAnimations = new List<Point[]>();
@@ -56,6 +61,11 @@ namespace RogueLike
         private static List<Point[]> rainAnimation = new List<Point[]>();
         private static List<Point[]> fireDropsAnimation = new List<Point[]>();
         private static List<Point[]> shopKeeperAnimation = new List<Point[]>();
+        private static List<Point[]> rodBallAnimation = new List<Point[]>();
+        private static List<Point[]> strongWindAnimation = new List<Point[]>();
+        private static List<Point[]> bubblesAnimation = new List<Point[]>();
+        private static List<Point[]> shatterAnimation = new List<Point[]>();
+
 
         private static List<Point[]> swordSwingAnimation = new List<Point[]>();
 
@@ -110,6 +120,12 @@ namespace RogueLike
             throwing = new SpriteSheet(c.Load<Texture2D>("throw"), sheetSize);
             throwItem = new SpriteSheet(c.Load<Texture2D>("throwitem"), sheetSize);
             shuriken = new SpriteSheet(c.Load<Texture2D>("shuriken"), sheetSize);
+            fireRod = new SpriteSheet(c.Load<Texture2D>("firerod"), sheetSize);
+            fireRodItem = new SpriteSheet(c.Load<Texture2D>("fireroditem"), sheetSize);
+            iceRod = new SpriteSheet(c.Load<Texture2D>("icerod"), sheetSize);
+            iceRodItem = new SpriteSheet(c.Load<Texture2D>("iceroditem"), sheetSize);
+            invisibleTile = new SpriteSheet(c.Load<Texture2D>("invisibletile"), sheetSize);
+            healPotion = new SpriteSheet(c.Load<Texture2D>("healpotion"), sheetSize);
 
             damageBoost = new SpriteSheet(c.Load<Texture2D>("damageboost"), sheetSize);
             healthBoost = new SpriteSheet(c.Load<Texture2D>("healthboost"), sheetSize);
@@ -122,6 +138,7 @@ namespace RogueLike
             bowItem = new SpriteSheet(c.Load<Texture2D>("bowitem"), sheetSize);
             arrowBow = new SpriteSheet(c.Load<Texture2D>("arrowbow"), sheetSize);
 
+            
             //Minos arm
             texture = c.Load<Texture2D>("Minos_arm");
 
@@ -162,8 +179,17 @@ namespace RogueLike
                 new Point(0,0),
                 new Point(1,0)
             });
-
             shopKeeper = new SpriteSheet(c.Load<Texture2D>("shopkeeper"), sheetSize, shopKeeperAnimation);
+
+            rodBallAnimation.Add(new Point[]
+            {
+                new Point(0,0),
+                new Point(1,0),
+            });
+            fireBall = new SpriteSheet(c.Load<Texture2D>("fireball"), sheetSize, rodBallAnimation);
+            iceBall = new SpriteSheet(c.Load<Texture2D>("iceball"), sheetSize, rodBallAnimation);
+
+            
 
             //Fire
             sheetSize = new Point(4, 0);
@@ -179,6 +205,16 @@ namespace RogueLike
             });
 
             fire = new SpriteSheet(texture, sheetSize, fireAnimations);
+
+            shatterAnimation.Add(new Point[]
+            {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(2, 0),
+                new Point(3, 0),
+                new Point(4, 0),
+            });
+            shatteredVase = new SpriteSheet(c.Load<Texture2D>("shattervase"), sheetSize, shatterAnimation);
 
             //Minos
             sheetSize = new Point(5, 0);
@@ -209,6 +245,9 @@ namespace RogueLike
 
             minosGround = new SpriteSheet(texture, sheetSize, minosGroundAnimation);
 
+            vase = new SpriteSheet(c.Load<Texture2D>("vase"), sheetSize);
+
+
             sheetSize = new Point(6, 0);
             windBreezeAnimation.Add(new Point[]
             {
@@ -222,6 +261,22 @@ namespace RogueLike
             });
 
             windBreeze = new SpriteSheet(c.Load<Texture2D>("windbreeze"), sheetSize, windBreezeAnimation);
+
+            sheetSize = new Point(8, 0);
+            strongWindAnimation.Add(new Point[]
+            {
+                new Point(0,0),
+                new Point(1,0),
+                new Point(2,0),
+                new Point(3,0),
+                new Point(4,0),
+                new Point(5,0),
+                new Point(6,0),
+                new Point(7,0),
+                new Point(8,0),
+
+            });
+            strongWind = new SpriteSheet(c.Load<Texture2D>("strongwind"), sheetSize, strongWindAnimation);
 
             sheetSize = new Point(11, 0);
             fireDropsAnimation.Add(new Point[]
@@ -312,6 +367,18 @@ namespace RogueLike
             });
 
             player = new SpriteSheet(c.Load<Texture2D>("Run-Sheet"), sheetSize, playerAnimations);
+
+          sheetSize = new Point(5, 0);
+            bubblesAnimation.Add(new Point[]
+            {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(3, 0),
+                new Point(4, 0),
+                new Point(5, 0),
+            });
+            bubbles = new SpriteSheet(c.Load<Texture2D>("bubbles"), sheetSize, bubblesAnimation);
+
         }
 
     }

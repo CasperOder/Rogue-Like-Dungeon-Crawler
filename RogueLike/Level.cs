@@ -17,21 +17,23 @@ namespace RogueLike
     static class Level
     {
 
-
+        static GraphicsDeviceManager graphics;
         static SpriteBatch sb;
         public static Player player;
-        public static Tile[,] backgroundTiles;
+        //public static Tile[,] backgroundTiles;
         private static RenderTarget2D backRenderTarget;
         private static RenderTarget2D frontRenderTarget;
+        private static RenderTarget2D shopRenderTarget;
         public static List<Room> generatedRoomList = new List<Room>();
         static List<Room> backgroundRoomList = new List<Room>();
         static Room[,] roomArray;
+        static Room[,] shopRoomArray;
         static Room shopRoom;
         public static List<Projectile> projectilesOnScreenList = new List<Projectile>();
 
         public static NPC shopKeeper;
 
-        static Texture2D lineTex;
+        //static Texture2D lineTex;
 
         public static List<Tile> enemySpawnTiles= new List<Tile>();
         public static Ladder[] shopLadders= new Ladder[2]; //0 är ladder:n i roomArray, 1 är i shopen
@@ -48,28 +50,34 @@ namespace RogueLike
         public static int currentCircle, minimumNoOfRooms;
 
         static bool isBossRoom; //true om spelaren är i ett bossrum, false annars
+        static bool loadBoss; //false om man startar från en savefile, annars true
         static List<Boss> bossList = new List<Boss>();
         static byte currentBoss = 1;
-        static Vector2 bossStartPos;
+        //static Vector2 bossStartPos;
 
         public static KeyboardState keyboardState, oldKeyboardState = Keyboard.GetState();
 
         public static int currency;
 
+        public static List<Moveable_Object> vaseList = new List<Moveable_Object>();
+
         public static void Load_Level(GraphicsDeviceManager g, ContentManager c)
         {
+            graphics = g;
             itemFont = c.Load <SpriteFont> ("itemfont");
-            sb = new SpriteBatch(g.GraphicsDevice);
+            sb = new SpriteBatch(graphics.GraphicsDevice);
             //noOfRoomsX = 8;
             //noOfRoomsY = 8;
             roomArray = new Room[Constants.noOfRoomsX, Constants.noOfRoomsY];
 
-            shopRoom = new Room(new Vector2(-1000, -1000), "shopRoom.txt", SpriteSheetManager.wallTiles);
+            shopRoomArray = new Room[3, 3];
 
+            //shopRoom = new Room(new Vector2(-1000, -1000), "shopRoom.txt", SpriteSheetManager.wallTiles);
+            loadBoss = true;
 
             frontRenderTarget = new RenderTarget2D(g.GraphicsDevice, Constants.roomWidth * Constants.noOfRoomsX, Constants.roomHeight * Constants.noOfRoomsY);
             backRenderTarget = new RenderTarget2D(g.GraphicsDevice, Constants.roomWidth * Constants.noOfRoomsX, Constants.roomHeight * Constants.noOfRoomsY);
-            
+            shopRenderTarget = new RenderTarget2D(g.GraphicsDevice, Constants.roomWidth * 3, Constants.roomHeight * 3);
             player = new Player(SpriteSheetManager.player, 0.1d);
 
             HUD.UpdateMaxHealthHUD((int)player.maxHealth);
@@ -79,14 +87,20 @@ namespace RogueLike
 
             
 
-            //Minos
-            bossList.Add(new Minos(SpriteSheetManager.bossMinos, 0.1d, 400, 400));
 
-            LoadNewLevel(g);            
-
+            LoadNewLevel();            
         }
 
-        public static void LoadNewLevel(GraphicsDeviceManager g)
+       public static void LoadFromSave()
+       {
+            SavefileHandler.LoadFromFile();
+            loadBoss = false;
+            LoadBossRoom();
+            loadBoss = true;
+            HUD.UpdateCurrencyHUD(currency);
+       }
+
+        public static void LoadNewLevel()
         {
             isBossRoom = false;
             currentCircle++;
@@ -94,49 +108,49 @@ namespace RogueLike
             switch (currentCircle)
             {
                 case 1:
-                    minimumNoOfRooms = 5;
-                    MediaPlayer.Stop();
-                    MediaPlayer.Play(SoundManager.mainMenuTheme);
-                    break;
-                case 2:
                     minimumNoOfRooms = 10;
                     MediaPlayer.Stop();
                     MediaPlayer.Play(SoundManager.mainMenuTheme);
                     break;
-                case 3:
+                case 2:
                     minimumNoOfRooms = 15;
+                    MediaPlayer.Stop();
+                    MediaPlayer.Play(SoundManager.mainMenuTheme);
+                    break;
+                case 3:
+                    minimumNoOfRooms = 20;
                     break;
                 case 4:
-                    minimumNoOfRooms = 20;
+                    minimumNoOfRooms = 25;
 
                     break;
                 case 5:
-                    minimumNoOfRooms = 25;
+                    minimumNoOfRooms = 30;
                     break;
                 case 6:
-                    minimumNoOfRooms = 30;
-
-                    break;
-                case 7:
                     minimumNoOfRooms = 35;
 
                     break;
-                case 8:
+                case 7:
                     minimumNoOfRooms = 40;
 
                     break;
-                case 9:
+                case 8:
                     minimumNoOfRooms = 45;
+
+                    break;
+                case 9:
+                    minimumNoOfRooms = 50;
 
                     break;
             }
 
-            LoadLayout(rnd, g);
+            LoadLayout(rnd);
 
         }
 
         //Ritar room Layouten
-        public static void LoadLayout(Random rnd, GraphicsDeviceManager g)
+        public static void LoadLayout(Random rnd)
         {
             Room.wallTiles.Clear();
             generatedRoomList.Clear();
@@ -148,9 +162,11 @@ namespace RogueLike
             AmbientEffectManager.NewCircle();
 
 
-            
-            roomArray[Constants.startRoomCoords, Constants.startRoomCoords] = new Room(new Vector2(Constants.roomWidth * Constants.startRoomCoords, Constants.roomHeight * Constants.startRoomCoords), "spawnRoom.txt", SpriteSheetManager.wallTiles);
-            roomArray[Constants.startRoomCoords, Constants.startRoomCoords].isSpawn = true;
+
+            roomArray[Constants.startRoomCoords, Constants.startRoomCoords] = new Room(new Vector2(Constants.roomWidth * Constants.startRoomCoords, Constants.roomHeight * Constants.startRoomCoords), "spawnRoom.txt", SpriteSheetManager.wallTiles)
+            {
+                isSpawn = true
+            };
             generatedRoomList.Add(roomArray[Constants.startRoomCoords, Constants.startRoomCoords]);
             player.SetPlayerPosition(roomArray[Constants.startRoomCoords, Constants.startRoomCoords].playerSpawnPoint);
 
@@ -172,9 +188,12 @@ namespace RogueLike
                                     chance = rnd.Next(1, 101);
                                     if (chance == 1)
                                     {
-                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * (x-1), Constants.roomHeight * y), "smallRoom.txt", SpriteSheetManager.wallTiles);
+                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * (x - 1), Constants.roomHeight * y), "smallRoom.txt", SpriteSheetManager.wallTiles)
+                                        {
+                                            rightConnection = true
+                                        };
 
-                                        newRoom.rightConnection = true;
+                                        //newRoom.rightConnection = true;
                                         roomArray[x, y].leftConnection = true;
                                         roomArray[x - 1, y] = newRoom;
                                         generatedRoomList.Add(newRoom);
@@ -189,8 +208,10 @@ namespace RogueLike
                                     chance = rnd.Next(1, 101);
                                     if (chance == 1)
                                     {
-                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * x, Constants.roomHeight * (y-1)), "smallRoom.txt", SpriteSheetManager.wallTiles);
-                                        newRoom.downConnection = true;
+                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * x, Constants.roomHeight * (y - 1)), "smallRoom.txt", SpriteSheetManager.wallTiles)
+                                        {
+                                            downConnection = true
+                                        };
                                         roomArray[x, y].upConnection = true;
                                         roomArray[x, y - 1] = newRoom;
                                         generatedRoomList.Add(newRoom);
@@ -205,8 +226,10 @@ namespace RogueLike
                                     chance = rnd.Next(1, 101);
                                     if (chance == 1)
                                     {
-                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * (x+1), Constants.roomHeight * y), "smallRoom.txt", SpriteSheetManager.wallTiles);
-                                        newRoom.leftConnection = true;
+                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * (x + 1), Constants.roomHeight * y), "smallRoom.txt", SpriteSheetManager.wallTiles)
+                                        {
+                                            leftConnection = true
+                                        };
                                         roomArray[x, y].rightConnection = true;
                                         roomArray[x + 1, y] = newRoom;
                                         generatedRoomList.Add(newRoom);
@@ -221,8 +244,10 @@ namespace RogueLike
                                     chance = rnd.Next(1, 101);
                                     if (chance == 1)
                                     {
-                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * x, Constants.roomHeight * (y+1)), "smallRoom.txt", SpriteSheetManager.wallTiles);
-                                        newRoom.upConnection = true;
+                                        Room newRoom = new Room(new Vector2(Constants.roomWidth * x, Constants.roomHeight * (y + 1)), "smallRoom.txt", SpriteSheetManager.wallTiles)
+                                        {
+                                            upConnection = true
+                                        };
                                         roomArray[x, y].downConnection = true;
                                         roomArray[x, y + 1] = newRoom;
                                         generatedRoomList.Add(newRoom);
@@ -231,6 +256,26 @@ namespace RogueLike
                             }
                         }
                     }
+                }
+            }
+
+            for(int x=0;x<shopRoomArray.GetLength(0);x++)
+            {
+                for(int y=0;y<shopRoomArray.GetLength(1);y++)
+                {
+                    if(x==1 && y==1)
+                    {
+                        shopRoom = new Room(new Vector2(Constants.roomWidth * x-2000, Constants.roomHeight * y-2000), "shopRoom.txt", SpriteSheetManager.wallTiles);
+                        shopRoomArray[x, y] = shopRoom;
+                    }
+                    else
+                    {
+                        shopRoomArray[x, y] = new Room(new Vector2(Constants.roomWidth * x - 2000, Constants.roomHeight * y - 2000), "backRoom.txt", SpriteSheetManager.tempTile);
+                    }
+
+                    
+
+
                 }
             }
 
@@ -304,9 +349,7 @@ namespace RogueLike
                             }
                         }
 
-                        
-                        Item coin= LoadWeaponsAndItems.coin(roomArray[x,y].middlepos);
-                        itemsList.Add(coin);
+
 
                     }
                     else
@@ -347,17 +390,29 @@ namespace RogueLike
             {
                 r.CreateLevel(rnd, currentCircle);
             }
-            shopRoom.CreateLevel(rnd, currentCircle);
+            //shopRoom.CreateLevel(rnd, currentCircle);
+            
+            graphics.GraphicsDevice.SetRenderTarget(shopRenderTarget);
+            graphics.GraphicsDevice.Clear(Color.Transparent);
+            sb.Begin();
+
+            foreach (Room room in shopRoomArray)
+            {
+                room.CreateLevel(rnd, currentCircle);
+            }
+
+            sb.End();
+            graphics.GraphicsDevice.SetRenderTarget(null);
 
             enemyList = EnemyManager.spawnEnemies(enemySpawnTiles, currentCircle, rnd);
 
             
-            DrawOnFrontRenderTarget(g.GraphicsDevice);
-            DrawOnBackRenderTarget(g.GraphicsDevice);
+            DrawOnFrontRenderTarget();
+            DrawOnBackRenderTarget();
 
         }
 
-        public static void LoadBossRoom(GraphicsDeviceManager g)
+        public static void LoadBossRoom()
         {
             isBossRoom = true;
 
@@ -372,31 +427,78 @@ namespace RogueLike
                 }
             }
 
-
             Room.wallTiles.Clear();
             generatedRoomList.Clear();
             backgroundRoomList.Clear();
             endTileList.Clear();
             enemyList.Clear();
             itemsList.Clear();
+            vaseList.Clear();
 
-            Room bossRoom = new Room(Vector2.Zero, "bossRoom.txt", SpriteSheetManager.tempTile);
-            bossRoom.exitRoom = true;
+            Room bossRoom = new Room(Vector2.Zero, "bossRoom.txt", SpriteSheetManager.tempTile)
+            {
+                exitRoom = true
+            };
 
             bossRoom.CreateLevel(rnd, currentCircle);        
             generatedRoomList.Add(bossRoom);
 
-            DrawOnFrontRenderTarget(g.GraphicsDevice);
-            DrawOnBackRenderTarget(g.GraphicsDevice);
+            if (loadBoss)
+            {
+                switch (currentCircle)
+                {
+                    case 1:
+                        //Minos
+                        bossList.Add(new Minos(SpriteSheetManager.bossMinos, 0.1d, 400, 400));
+                        break;
+                    case 2:
+
+                        break;
+                    case 3:
+
+                        break;
+                    case 4:
+
+                        break;
+                    case 5:
+
+                        break;
+                    case 6:
+
+                        break;
+                    case 7:
+
+                        break;
+                    case 8:
+
+                        break;
+                    case 9:
+
+                        break;
+                }
+            }
+            
+
+            DrawOnFrontRenderTarget();
+            DrawOnBackRenderTarget();
 
             player.SetPlayerPosition(bossRoom.playerSpawnPoint);
 
-            bossList[currentBoss - 1].SetPosition(bossRoom.bossSpawnPoint);
+            if (bossList.Count!=0)
+            {
+                bossList[currentBoss - 1].SetPosition(bossRoom.bossSpawnPoint);
 
-            bossList[currentBoss - 1].alive = true;
+                bossList[currentBoss - 1].alive = true;
+            }
+            else
+            {
+                RemoveRockTiles();
+            }
+
         }
 
-        public static void Update(GameTime gameTime, GraphicsDeviceManager g)
+
+        public static void Update(GameTime gameTime)
         {
             oldKeyboardState = keyboardState;
             keyboardState = Keyboard.GetState();
@@ -408,43 +510,50 @@ namespace RogueLike
 
             for (int p = 0; p < projectilesOnScreenList.Count; p++)
             {
-                projectilesOnScreenList[p].Update();
-                
+                projectilesOnScreenList[p].Update(gameTime);
 
-                for(int e=0;e<enemyList.Count;e++)
+
+                for (int vase = 0; vase < vaseList.Count; vase++)
                 {
-                    projectilesOnScreenList[p].CheckEnemyCollision(enemyList[e]);
+                    projectilesOnScreenList[p].CheckTargetCollision(vaseList[vase]);
+
+                    if (vaseList[vase].health <= 0)
+                    {                        
+                        if (rnd.Next(5) == 0)
+                        {
+                            Item coin = LoadWeaponsAndItems.Coin(vaseList[vase].middlepos);
+                            itemsList.Add(coin);
+                        }
+                        AmbientEffectManager.AddShatteredVase(vaseList[vase].middlepos);
+                        vaseList.RemoveAt(vase);
+                        vase--;
+                    }
+                }
+
+                for (int e=0;e<enemyList.Count;e++)
+                {
+                    projectilesOnScreenList[p].CheckTargetCollision(enemyList[e]);
 
                     if (enemyList[e].health <= 0)
                     {
-                        Item coin = LoadWeaponsAndItems.coin(enemyList[e].middlepos);
+                        Item coin = LoadWeaponsAndItems.Coin(enemyList[e].middlepos);
                         itemsList.Add(coin);
                         enemyList.RemoveAt(e);
                         e--;
                     }
-
                 }
 
 
                 for (int b = 0; b < bossList.Count; b++)
                 {
-                    //Spara ndeanstående rad tills vidare
-                    //projectilesOnScreenList[p].CheckEnemyCollision(bossList[b]);
+                    projectilesOnScreenList[p].CheckTargetCollision(bossList[b]);
 
-                    //nedanstående kan ersättas när Boss har satts så att den ärver ifrån Enemy
-                    if (bossList[b].hitbox.Intersects(projectilesOnScreenList[p].hitbox))
-                    {
-                        bossList[b].health -= (projectilesOnScreenList[p].damage * projectilesOnScreenList[p].damageMultiplyier);
-
-                        projectilesOnScreenList[p].destroy = true; ;
-                    }
-
-                    if (bossList[b].health <= 0)
+                    if (bossList[b].health <= 0 && bossList[b].alive)
                     {
                         bossList[b].alive = false;
-                        RemoveRockTiles(g.GraphicsDevice);
+                        RemoveRockTiles();
+                        itemsList.Add(LoadWeaponsAndItems.HealPotion(bossList[b].middlepos, 50));
                     }
-
                 }
 
                 if (projectilesOnScreenList[p].destroy)
@@ -515,33 +624,49 @@ namespace RogueLike
                     l.showText = false;
                 }
             }
-            
 
+
+            for (int vase = 0; vase < vaseList.Count; vase++)
+            {
+                player.InflictMeleeDamage(vaseList[vase]);
+                if (vaseList[vase].health <= 0)
+                {
+                    if (rnd.Next(5) == 0)
+                    {
+                        Item coin = LoadWeaponsAndItems.Coin(vaseList[vase].middlepos);
+                        itemsList.Add(coin);
+                    }
+                    AmbientEffectManager.AddShatteredVase(vaseList[vase].middlepos);
+                    vaseList.RemoveAt(vase);
+                    vase--;
+
+                }
+            }
 
             for (int e = 0; e < enemyList.Count; e++)
             {
                 player.InflictMeleeDamage(enemyList[e]);
                 if (enemyList[e].health <= 0)
                 {
-                    Item coin = LoadWeaponsAndItems.coin(enemyList[e].middlepos);
+                    Item coin = LoadWeaponsAndItems.Coin(enemyList[e].middlepos);
                     itemsList.Add(coin);
                     enemyList.RemoveAt(e);
                     e--;
                 }
-
             }
 
             for (int b = 0; b < bossList.Count; b++)
             {
-                player.InflictDamage(bossList[b]);
-                if (bossList[b].health <= 0)
+                player.InflictMeleeDamage(bossList[b]);
+                if (bossList[b].health <= 0 && bossList[b].alive)
                 {
                     bossList[b].alive = false;
-                    RemoveRockTiles(g.GraphicsDevice);
+                    RemoveRockTiles();
+                    itemsList.Add(LoadWeaponsAndItems.HealPotion(bossList[b].middlepos, 50));
                 }
             }
 
-            
+            //flytta dessa till for-looparna ovan?
             foreach (Enemy e in enemyList)
             {
                 e.Update(gameTime);
@@ -553,10 +678,6 @@ namespace RogueLike
                     boss.Update(gameTime);
             }
 
-            if (keyboardState.IsKeyDown(Keys.R))
-            {
-                RemoveRockTiles(g.GraphicsDevice);
-            }
             
 
             foreach (Tile t in endTileList)
@@ -565,11 +686,11 @@ namespace RogueLike
                 {
                     if (isBossRoom)
                     {
-                        LoadNewLevel(g);
+                        LoadNewLevel();
                     }
                     else
                     {
-                        LoadBossRoom(g);
+                        LoadBossRoom();
                     }
                     break;
 
@@ -583,7 +704,7 @@ namespace RogueLike
             HUD.Update(player.middlepos); //positionerar HUD:en, måste ligga bland det sista i denna metoden.
         }
 
-        public static void RemoveRockTiles(GraphicsDevice g)
+        public static void RemoveRockTiles()
         {
             for (int r = 0; r < Room.wallTiles.Count; r++)
             {
@@ -595,14 +716,14 @@ namespace RogueLike
             }
 
             rockTiles.Clear();
-            DrawOnFrontRenderTarget(g);
+            DrawOnFrontRenderTarget();
         }
 
-        public static void DrawOnFrontRenderTarget(GraphicsDevice g)
+        public static void DrawOnFrontRenderTarget()
         {
 
-            g.SetRenderTarget(frontRenderTarget);
-            g.Clear(Color.Transparent);
+            graphics.GraphicsDevice.SetRenderTarget(frontRenderTarget);
+            graphics.GraphicsDevice.Clear(Color.Transparent);
             sb.Begin();
 
             foreach (Tile r in rockTiles)
@@ -616,7 +737,7 @@ namespace RogueLike
             }
 
             sb.End();
-            g.SetRenderTarget(null);
+            graphics.GraphicsDevice.SetRenderTarget(null);
         }
 
         public static void UnhitAllEnemies()
@@ -632,13 +753,18 @@ namespace RogueLike
             }
         }
 
-
-
-
-        public static void DrawOnBackRenderTarget(GraphicsDevice g)
+        public static void NewVase(Vector2 position)
         {
-            g.SetRenderTarget(backRenderTarget);
-            g.Clear(Color.Transparent);
+            Moveable_Object vase = new Moveable_Object(SpriteSheetManager.vase, 1, 1, 1, position, new Point(32, 32));
+            vase.currentFrame.X = rnd.Next(vase.spriteSheet.sheetSize.X+1);
+            vaseList.Add(vase);
+        }
+
+
+        public static void DrawOnBackRenderTarget()
+        {
+            graphics.GraphicsDevice.SetRenderTarget(backRenderTarget);
+            graphics.GraphicsDevice.Clear(Color.Transparent);
             sb.Begin();
 
 
@@ -653,14 +779,21 @@ namespace RogueLike
             }
 
             sb.End();
-            g.SetRenderTarget(null);
+            graphics.GraphicsDevice.SetRenderTarget(null);
         }
 
         public static void Draw(SpriteBatch sb)
         {
             sb.Draw(frontRenderTarget, Vector2.Zero, Color.White);
             sb.Draw(backRenderTarget, Vector2.Zero, Color.White);
-            shopRoom.Draw(sb);
+            sb.Draw(shopRenderTarget, new Vector2(-2000, -2000), Color.White);
+
+
+            foreach(Room room in shopRoomArray)
+            {
+                room.Draw(sb);
+            }
+            
 
             foreach (Boss boss in bossList)
             {
@@ -691,6 +824,11 @@ namespace RogueLike
             foreach (Item i in itemsList)
             {
                 i.Draw(sb);
+            }
+
+            foreach(Moveable_Object vase in vaseList)
+            {
+                vase.Draw(sb);
             }
 
             foreach (Enemy e in enemyList)

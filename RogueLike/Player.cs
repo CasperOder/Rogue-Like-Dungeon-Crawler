@@ -428,31 +428,31 @@ namespace RogueLike
         }
 
 
-        public void InflictMeleeDamage(Enemy e)
+        public void InflictMeleeDamage(Moveable_Object m)
         {
-            if (equippedMelee != null && !e.beenHit)
+            if (equippedMelee != null && !m.beenHit)
             {
-                if (e.hitbox.Intersects(equippedMelee.hitbox))
+                if (m.hitbox.Intersects(equippedMelee.hitbox))
                 {
-                    e.health -= (equippedMelee.baseDamage * equippedMelee.damageMultiplyier*damageMultiplier);
-                    e.beenHit = true;
+                    m.health -= (equippedMelee.baseDamage * equippedMelee.damageMultiplyier*damageMultiplier);
+                    m.beenHit = true;
                 }
             }            
         }
 
 
 
-        public void InflictDamage(Boss b)
-        {
-            if (equippedMelee != null && !b.beenHit)
-            {
-                if (b.hitbox.Intersects(equippedMelee.hitbox))
-                {
-                    b.health -= (equippedMelee.baseDamage * equippedMelee.damageMultiplyier);
-                    b.beenHit = true;
-                }
-            }
-        }
+        //public void InflictDamage(Boss b)
+        //{
+        //    if (equippedMelee != null && !b.beenHit)
+        //    {
+        //        if (b.hitbox.Intersects(equippedMelee.hitbox))
+        //        {
+        //            b.health -= (equippedMelee.baseDamage * equippedMelee.damageMultiplyier);
+        //            b.beenHit = true;
+        //        }
+        //    }
+        //}
 
 
 
@@ -555,9 +555,45 @@ namespace RogueLike
                     HUD.UpdateCurrentHealthHUD((int)health);
                     HUD.UpdateMaxHealthHUD((int)maxHealth);
                     break;
+                case Item.ItemType.healAndSave:
+
+                    health += multiplier;
+                    if(health>maxHealth)
+                    {
+                        health = maxHealth;
+                    }
+                    HUD.UpdateCurrentHealthHUD((int)health);
+                    SetSaveFile();
+                    break;
             }
         }
 
+        public void SetStatsFromSaveFile(Weapon savedWeapon, float savedHealth, float savedMaxHealth, float savedAttackSpeedMultiplier, float savedDamageMultiplier, float savedSpeedMultiplier)
+        {
+            health = savedHealth;
+            maxHealth = savedMaxHealth;
+            attackSpeedMultiplier = savedAttackSpeedMultiplier;
+            damageMultiplier = savedDamageMultiplier;
+            speedMultiplier = savedSpeedMultiplier;
+            ChangeWeapon(savedWeapon);
+
+            HUD.UpdateCurrentHealthHUD((int)health);
+            HUD.UpdateMaxHealthHUD((int)maxHealth);
+        }
+
+        public void SetSaveFile()
+        {
+            Weapon weaponToSave;
+            if(equippedMelee!=null)
+            {
+                weaponToSave = equippedMelee;
+            }
+            else
+            {
+                weaponToSave = equippedRange;
+            }
+            SavefileHandler.SaveToFile(weaponToSave, health, maxHealth, attackSpeedMultiplier, damageMultiplier, speedMultiplier);
+        }
 
         public void Draw(SpriteBatch sb)
         {

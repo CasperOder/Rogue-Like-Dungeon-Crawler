@@ -12,6 +12,7 @@ namespace RogueLike
     {
         public double timeBetweenFrames;
         private double timeSinceLastFrame;
+        protected float colorOpacity=1;
 
         //ändra inte currentFrame utan att ställa in sequenceIndex och vise versa. Kan göras till en metod eller set property om det behövs
         public Point currentFrame;
@@ -63,7 +64,7 @@ namespace RogueLike
 
         public virtual void Draw(SpriteBatch sb)
         {
-            sb.Draw(spriteSheet.texture, hitbox.Location.ToVector2(), null, new Rectangle(spriteSheet.frameSize.X * currentFrame.X, spriteSheet.frameSize.Y * currentFrame.Y, spriteSheet.frameSize.X, spriteSheet.frameSize.Y), Vector2.Zero, 0, Vector2.One, color, SpriteEffects.None, 1f);
+            sb.Draw(spriteSheet.texture, hitbox.Location.ToVector2(), null, new Rectangle(spriteSheet.frameSize.X * currentFrame.X, spriteSheet.frameSize.Y * currentFrame.Y, spriteSheet.frameSize.X, spriteSheet.frameSize.Y), Vector2.Zero, 0, Vector2.One, color*colorOpacity, SpriteEffects.None, 1f);
         }
     }
 }

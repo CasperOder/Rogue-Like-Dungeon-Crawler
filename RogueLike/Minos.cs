@@ -99,6 +99,7 @@ namespace RogueLike
         {
             Animate(gameTime, 0);
             hitbox.Location = position.ToPoint();
+            middlepos = hitbox.Center.ToVector2();
 
             Console.WriteLine(health);
 

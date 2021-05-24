@@ -143,8 +143,10 @@ namespace RogueLike
                             break;
                         case 'G':
 
-                            Tile rockTile = new Tile(SpriteSheetManager.rock, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), 0, 0, true);
-                            rockTile.isRock = true;
+                            Tile rockTile = new Tile(SpriteSheetManager.rock, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), 0, 0, true)
+                            {
+                                isRock = true
+                            };
                             wallTiles.Add(rockTile);
                             Level.rockTiles.Add(rockTile);
                             tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
@@ -160,28 +162,28 @@ namespace RogueLike
 
                             tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
 
-                            Level.itemsList.Add(LoadWeaponsAndItems.newStatUpgrade(tileArray[i, j].middlepos, false, rnd));
+                            Level.itemsList.Add(LoadWeaponsAndItems.NewStatUpgrade(tileArray[i, j].middlepos, false, rnd));
 
                             break;
                         case 'I':
 
                             tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
 
-                            Level.itemsList.Add(LoadWeaponsAndItems.newStatUpgrade(tileArray[i, j].middlepos, true, rnd));
+                            Level.itemsList.Add(LoadWeaponsAndItems.NewStatUpgrade(tileArray[i, j].middlepos, true, rnd));
 
                             break;
                         case 'w':
 
                             tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
 
-                            Level.itemsList.Add(LoadWeaponsAndItems.newWeaponItem(tileArray[i, j].middlepos, currCircle, false, rnd));
+                            Level.itemsList.Add(LoadWeaponsAndItems.NewWeaponItem(tileArray[i, j].middlepos, currCircle, false, rnd));
 
                             break;
                         case 'W':
 
                             tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
 
-                            Level.itemsList.Add(LoadWeaponsAndItems.newWeaponItem(tileArray[i, j].middlepos, currCircle, true, rnd));
+                            Level.itemsList.Add(LoadWeaponsAndItems.NewWeaponItem(tileArray[i, j].middlepos, currCircle, true, rnd));
 
                             break;
                         case 'K':
@@ -189,7 +191,52 @@ namespace RogueLike
 
                             Level.shopKeeper = new NPC(SpriteSheetManager.shopKeeper, 0.5d, new Point(128, 128), new Vector2(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j), SpriteSheetManager.shopKeeperTextbox, new Point(200, 100));
                             break;
+                        case '1':
+                            tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
+                            if (!upConnection&& !exitRoom)
+                            {
+                                if (rnd.Next(2) == 0)
+                                {
+                                    Level.NewVase(tileArray[i, j].middlepos);
+                                }
+                            }
+                            break;
+                        case '2':
+                            tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
+                            if (!rightConnection)
+                            {
+                                if (rnd.Next(2) == 0)
+                                {
+                                    Level.NewVase(tileArray[i, j].middlepos);
+                                }
+                            }
+                            break;
+                        case '3':
+                            tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
+                            if (!downConnection)
+                            {
+                                if (rnd.Next(2) == 0)
+                                {
+                                    Level.NewVase(tileArray[i, j].middlepos);
+                                }
+                            }
+                            break;
+                        case '4':
+                            tileArray[i, j] = NewFloorTile(i, j, frameY, rnd);
+                            if (!leftConnection)
+                            {
+                                if (rnd.Next(2) == 0)
+                                {
+                                    Level.NewVase(tileArray[i, j].middlepos);
+                                }
+                            }
+                            break;
+                        case 'o':
+                            tileArray[i, j] = NewInvisibleTile(i, j, frameY, rnd);
 
+                            wallTiles.Add(tileArray[i, j]);
+
+                            break;
                     }
 
                 }
@@ -203,6 +250,14 @@ namespace RogueLike
 
             return new Tile(SpriteSheetManager.wallTiles, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), frameX, frameY, true);
         }
+
+        private Tile NewInvisibleTile(int i, int j, int frameY, Random rnd)
+        {
+            int frameX = rnd.Next(0, 6);
+
+            return new Tile(SpriteSheetManager.floorTile, new Rectangle(pos.X + Constants.tileSize * i, pos.Y + Constants.tileSize * j, Constants.tileSize, Constants.tileSize), frameX, frameY, true);
+        }
+
 
         private Tile NewFloorTile(int i, int j, int frameY, Random rnd)
         {

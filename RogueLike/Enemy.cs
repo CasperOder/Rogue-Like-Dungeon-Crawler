@@ -19,7 +19,7 @@ namespace RogueLike
 
         //Tiden mellan attacker i sekunder
         public double attackSpeed { get; private set; }
-        public bool beenHit;
+        //public bool beenHit;
 
         bool isColliding = false;
 

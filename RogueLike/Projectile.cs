@@ -11,6 +11,7 @@ namespace RogueLike
 {
     class Projectile:Moveable_Object
     {
+        int gameticksTillWallCheck;
         public Vector2 startPos;
         public int damage;
         public float damageMultiplyier;
@@ -63,7 +64,7 @@ namespace RogueLike
             this.damageMultiplyier = damageMultiplyier;
         }
         
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             middlepos += speed * direction;
             hitbox.Location = new Point((int)middlepos.X, (int)middlepos.Y) - new Point(hitbox.Width / 2, hitbox.Height / 2);
@@ -73,28 +74,37 @@ namespace RogueLike
                 destroy = true;
             }
 
-            foreach(Tile t in Room.wallTiles)
+            gameticksTillWallCheck++;
+            if (gameticksTillWallCheck>3)
             {
-                if(t.hitbox.Intersects(hitbox))
+                gameticksTillWallCheck = 0;
+
+                foreach (Tile t in Room.wallTiles)
                 {
-                    destroy = true;
+                    if (t.hitbox.Intersects(hitbox))
+                    {
+                        destroy = true;
+                        break;
+                    }
                 }
             }
+
+            Animate(gameTime, 0);
         }
 
-        public void CheckEnemyCollision(Enemy e)
+        public void CheckTargetCollision(Moveable_Object target)
         {
-            if (e.hitbox.Intersects(hitbox))
+            if (target.hitbox.Intersects(hitbox))
             {
                 destroy = true;
-                e.health -= (damage*damageMultiplyier);
+                target.health -= (damage*damageMultiplyier);
             }
         }
 
-        public void Draw(SpriteBatch sb)
-        {
-            sb.Draw(spriteSheet.texture, hitbox, Color.White);
-        }
+        //public void Draw(SpriteBatch sb)
+        //{
+        //    sb.Draw(spriteSheet.texture, hitbox, Color.White);
+        //}
 
     }
 }

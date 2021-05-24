@@ -14,6 +14,7 @@ namespace RogueLike
             GameOver
         }
 
+        public static bool saveFileExist;
         public static GameState gameState;
         public static Camera camera;
         GraphicsDeviceManager graphics;
@@ -21,8 +22,10 @@ namespace RogueLike
 
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
-            graphics.GraphicsProfile = GraphicsProfile.HiDef;
+            graphics = new GraphicsDeviceManager(this)
+            {
+                GraphicsProfile = GraphicsProfile.HiDef
+            };
             Content.RootDirectory = "Content";
         }
 
@@ -49,12 +52,22 @@ namespace RogueLike
             EnemyManager.LoadEnemies();
             HUD.Load(Content);
             Menu.Load(Content);
-           
-            
+            try
+            {
+                SavefileHandler.ReadFile("savefile.txt");
+                saveFileExist = true;
+            }
+            catch
+            {
+                saveFileExist = false;
+            }
+            Menu.LoadButtons();
+
             camera = new Camera(GraphicsDevice.Viewport);
             Level.Load_Level(graphics, Content);
 
             MediaPlayer.IsRepeating = true;
+            
 
         }
 
@@ -67,11 +80,21 @@ namespace RogueLike
             switch (gameState)
             {
                 case GameState.Start:
-                    Menu.LoadButtons();
                     Menu.Update();
+
+                    if (Button.isFullScreen == true)
+                    {
+                        graphics.ToggleFullScreen();
+                        graphics.ApplyChanges();
+                        Button.isFullScreen = false;
+                    }
+                    if (Button.willQuit)
+                    {
+                        Exit();
+                    }
                     break;
                 case GameState.Play:
-                    Level.Update(gameTime, graphics);
+                    Level.Update(gameTime);
                     break;
             }
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
