@@ -20,13 +20,9 @@ namespace RogueLike
         }
 
 
-        public void Draw(SpriteBatch sb)
-        {
-            sb.Draw(spriteSheet.texture, hitbox, Color.White);
-            
-        }
-
-
-
+        //public override void Draw(SpriteBatch sb)
+        //{
+        //    sb.Draw(spriteSheet.texture, hitbox, Color.White);
+        //}
     }
 }

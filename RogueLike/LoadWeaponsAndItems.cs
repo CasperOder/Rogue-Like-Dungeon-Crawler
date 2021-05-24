@@ -20,7 +20,7 @@ namespace RogueLike
 
         public static void LoadAllWeaponsAndItems()
         {
-            testMelee = new MeleeWeapon(120, 40, 20, 2, SpriteSheetManager.arrow, SpriteSheetManager.arrowItem, 0.9f, 2, "testweapon", 1);
+            testMelee = new MeleeWeapon(120, 40, 20, 2, SpriteSheetManager.swordSwing, SpriteSheetManager.arrowItem, 0.9f, 2, "testweapon", 1);
             sweepMelee = new MeleeWeapon(60, 180, 75, 1, SpriteSheetManager.sweep, SpriteSheetManager.sweepItem, 0.69f, 2, "battleaxe", 1);
             knifeMelee = new MeleeWeapon(30, 25, 5, 10, SpriteSheetManager.knife, SpriteSheetManager.knifeItem, 1.5f, 2, "knife", 1);
             AllWeaponList.Add(testMelee);

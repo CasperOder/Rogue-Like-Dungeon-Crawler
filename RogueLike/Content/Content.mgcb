@@ -392,6 +392,18 @@
 /processorParam:TextureFormat=Color
 /build:rock.png
 
+#begin Run-Sheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Run-Sheet.png
+
 #begin shopkeeper.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -547,6 +559,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sweepitem.png
+
+#begin sword_swing.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sword_swing.png
 
 #begin tempTile.png
 /importer:TextureImporter

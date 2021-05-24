@@ -42,12 +42,12 @@ namespace RogueLike
                 {
                     timeSinceLastFrame -= timeBetweenFrames;
 
-                    currentFrame = spriteSheet.animationSequence[animationIndex][sequenceIndex];
-
                     if (sequenceIndex == spriteSheet.animationSequence[animationIndex].Count() - 1)
                         sequenceIndex = 0;
                     else
                         sequenceIndex++;
+
+                    currentFrame = spriteSheet.animationSequence[animationIndex][sequenceIndex];
                 }
             }
             else
@@ -58,6 +58,7 @@ namespace RogueLike
         {
             currentFrame = new Point(0, 0);
             sequenceIndex = 0;
+            timeSinceLastFrame = 0;
         }
 
         public virtual void Draw(SpriteBatch sb)
