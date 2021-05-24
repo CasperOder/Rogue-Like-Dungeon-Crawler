@@ -114,14 +114,14 @@ namespace RogueLike
             }
         }
 
-        public static void Update()
+        public static void Update(GraphicsDeviceManager graphics, ContentManager content)
         {
             oldMouseState = mouseState;
             mouseState = Mouse.GetState();
 
             for (int i = 0; i < buttons.Count; i++)
             {
-                buttons[i].ButtonClicked(mouseState, oldMouseState);
+                buttons[i].ButtonClicked(mouseState, oldMouseState, graphics, content);
             }
 
             if (fadeOut && f > 0)

@@ -50,6 +50,9 @@ namespace RogueLike
         public static SpriteSheet iceRod, iceRodItem, iceBall;
         public static SpriteSheet healPotion;
 
+        public static SpriteSheet gameOver;
+        public static SpriteSheet newGame, exitGame;
+
         public static SpriteSheet vase, shatteredVase;
 
         private static List<Point[]> playerPlaceHolderAnimations = new List<Point[]>();
@@ -138,7 +141,12 @@ namespace RogueLike
             bowItem = new SpriteSheet(c.Load<Texture2D>("bowitem"), sheetSize);
             arrowBow = new SpriteSheet(c.Load<Texture2D>("arrowbow"), sheetSize);
 
-            
+            gameOver = new SpriteSheet(c.Load<Texture2D>("gameover"), sheetSize);
+
+            newGame = new SpriteSheet(c.Load<Texture2D>("NewGame"), sheetSize);
+            exitGame = new SpriteSheet(c.Load<Texture2D>("exit"), sheetSize);
+
+
             //Minos arm
             texture = c.Load<Texture2D>("Minos_arm");
 
