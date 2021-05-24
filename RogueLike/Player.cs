@@ -375,6 +375,13 @@ namespace RogueLike
                     }
                 }
             }
+
+
+            if (health <= 0)
+            {
+                Game1.SetGameOverScreen();
+            }
+
         }
 
         public void GetAttackingDirection()
@@ -603,7 +610,7 @@ namespace RogueLike
 
             if(equippedRange!=null)
             {
-                equippedRange.Draw(sb);
+                equippedRange.Draw(sb, mouseDirection);
             }
             else if (equippedMelee != null && isAttacking)
             {
