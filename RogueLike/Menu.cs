@@ -19,6 +19,9 @@ namespace RogueLike
             OptionScreen
         }
 
+        //Skippa fade vid debug
+        static bool debug = true;
+
         public static MenuState menuState = MenuState.MainMenuScreen;
 
         public static List<Button> buttons = new List<Button>();
@@ -63,6 +66,12 @@ namespace RogueLike
             continue_ = content.Load<Texture2D>("Continue");
             newGame = content.Load<Texture2D>("NewGame");
             swap = backGroundTex;
+
+            if (debug)
+            {
+                menuState = MenuState.PlayScreen;
+                Console.WriteLine("menu in debug mode");
+            }
         }
 
         public static void LoadButtons()

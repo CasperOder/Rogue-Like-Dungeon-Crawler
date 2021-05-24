@@ -103,7 +103,7 @@ namespace RogueLike
 
             Console.WriteLine(health);
 
-            int playerPositionX = Level.player.hitbox.Location.X - SpriteSheetManager.player.frameSize.X;
+            int playerPositionX = Level.player.hitbox.Location.X - SpriteSheetManager.playerPlaceHolder.frameSize.X;
 
             switch (state)
             {
