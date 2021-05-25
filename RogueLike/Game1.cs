@@ -89,7 +89,7 @@ namespace RogueLike
             switch (gameState)
             {
                 case GameState.Start:
-                    Menu.Update(graphics, Content, Level.player.middlepos);
+                    Menu.Update(graphics, Content);
 
                     if (Button.isFullScreen == true)
                     {
