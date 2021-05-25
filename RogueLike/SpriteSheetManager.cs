@@ -53,6 +53,11 @@ namespace RogueLike
         public static SpriteSheet gameOver;
         public static SpriteSheet newGame, exitGame;
 
+        public static SpriteSheet backGroundTex, door;
+        public static SpriteSheet start, resume, quit, options, back, continue_, pause;
+        public static SpriteSheet muteMusicOff, muteMusicOn;
+        public static SpriteSheet fullScreenOn, fullScreenOff;
+
         public static SpriteSheet vase, shatteredVase;
 
         private static List<Point[]> playerPlaceHolderAnimations = new List<Point[]>();
@@ -145,6 +150,20 @@ namespace RogueLike
 
             newGame = new SpriteSheet(c.Load<Texture2D>("NewGame"), sheetSize);
             exitGame = new SpriteSheet(c.Load<Texture2D>("exit"), sheetSize);
+
+            backGroundTex = new SpriteSheet(c.Load<Texture2D>("background"), sheetSize);
+            start = new SpriteSheet(c.Load<Texture2D>("start"), sheetSize);
+            door = new SpriteSheet(c.Load<Texture2D>("Door"), sheetSize);
+            resume = new SpriteSheet(c.Load<Texture2D>("ResumeButton"), sheetSize);
+            quit = new SpriteSheet(c.Load<Texture2D>("QuitButton"), sheetSize);
+            options = new SpriteSheet(c.Load<Texture2D>("OptionsButton"), sheetSize);
+            back = new SpriteSheet(c.Load<Texture2D>("BackButton"), sheetSize);
+            muteMusicOff = new SpriteSheet(c.Load<Texture2D>("MuteMusicOff"), sheetSize);
+            muteMusicOn = new SpriteSheet(c.Load<Texture2D>("MuteMusicOn"), sheetSize);
+            fullScreenOff = new SpriteSheet(c.Load<Texture2D>("FullScreenOff"), sheetSize);
+            fullScreenOn = new SpriteSheet(c.Load<Texture2D>("FullScreenOn"), sheetSize);
+            continue_ = new SpriteSheet(c.Load<Texture2D>("Continue"), sheetSize);
+            pause = new SpriteSheet(c.Load<Texture2D>("PauseButton"), sheetSize);
 
 
             //Minos arm
