@@ -89,7 +89,7 @@ namespace RogueLike
             switch (gameState)
             {
                 case GameState.Start:
-                    Menu.Update(graphics, Content);
+                    Menu.Update(graphics, Content, Level.player.middlepos);
 
                     if (Button.isFullScreen == true)
                     {
@@ -104,10 +104,10 @@ namespace RogueLike
                     break;
                 case GameState.Play:
                     Level.Update(gameTime);
-                    Menu.Update(Level.player.middlepos);
+                    Menu.Update(graphics,Content,Level.player.middlepos);
                     break;
                 case GameState.Pause:
-                    Menu.Update(Level.player.middlepos);
+                    Menu.Update(graphics,Content,Level.player.middlepos);
                     break;
                 case GameState.GameOver:
                     GameOver.Update(gameTime, graphics, Content);
