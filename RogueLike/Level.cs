@@ -29,8 +29,7 @@ namespace RogueLike
         static Room[,] roomArray;
         static Room[,] shopRoomArray;
         static Room shopRoom;
-        public static List<Projectile> projectilesOnScreenList = new List<Projectile>();
-
+        public static List<Projectile> projectilesOnScreenList;
         public static NPC shopKeeper;
 
         //static Texture2D lineTex;
@@ -40,7 +39,7 @@ namespace RogueLike
 
         public static SpriteFont itemFont; //används för att avgöra texten nät items kostar. Får gärna flyttas -D
 
-        public static List<Enemy> enemyList = new List<Enemy>();
+        public static List<Enemy> enemyList;
 
         public static Random rnd = new Random();
 
@@ -51,7 +50,7 @@ namespace RogueLike
 
         static bool isBossRoom; //true om spelaren är i ett bossrum, false annars
         static bool loadBoss; //false om man startar från en savefile, annars true
-        static List<Boss> bossList = new List<Boss>();
+        static List<Boss> bossList;
         static byte currentBoss = 1;
         //static Vector2 bossStartPos;
 
@@ -70,6 +69,11 @@ namespace RogueLike
             //noOfRoomsY = 8;
             roomArray = new Room[Constants.noOfRoomsX, Constants.noOfRoomsY];
 
+            bossList = new List<Boss>();
+            enemyList = new List<Enemy>();
+            projectilesOnScreenList = new List<Projectile>();
+
+
             shopRoomArray = new Room[3, 3];
 
             //shopRoom = new Room(new Vector2(-1000, -1000), "shopRoom.txt", SpriteSheetManager.wallTiles);
@@ -85,8 +89,8 @@ namespace RogueLike
 
             player.ChangeWeapon(LoadWeaponsAndItems.testMelee);
 
-            
-
+            currency = 0;
+            currentCircle = 0;
 
             LoadNewLevel();            
         }

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace RogueLike
             this.buttonName = buttonName;
         }
 
-        public void ButtonClicked(MouseState mouseState, MouseState oldMouseState)
+        public void ButtonClicked(MouseState mouseState, MouseState oldMouseState, GraphicsDeviceManager graphics, ContentManager content)
         {
             if (mouseState.LeftButton == ButtonState.Released && oldMouseState.LeftButton == ButtonState.Pressed)
             {
@@ -124,6 +125,10 @@ namespace RogueLike
                             Menu.fadeOut = true;
                             Menu.fadeIn = false;
                         }
+                    else if (buttonName == "exitGame")
+                    {
+                        Level.Load_Level(graphics, content);
+                        Game1.gameState = Game1.GameState.Start;
                     }
                 }
             }

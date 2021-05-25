@@ -13,9 +13,11 @@ namespace RogueLike
     public static class SpriteSheetManager
     {
         public static SpriteSheet ball { get; private set; }
-        public static SpriteSheet player { get; private set; }
+        public static SpriteSheet playerPlaceHolder { get; private set; }
         public static SpriteSheet fire { get; private set; }
         public static SpriteSheet tempTile { get; private set; }
+
+        public static SpriteSheet player;
 
         public static SpriteSheet dummy;
         public static SpriteSheet floorTile { get; private set; }
@@ -43,13 +45,17 @@ namespace RogueLike
         public static SpriteSheet bow, bowItem, arrowBow;
         public static SpriteSheet windBreeze, raindrops, fireDrops, strongWind, bubbles;
         public static SpriteSheet throwing, throwItem, shuriken;
+        public static SpriteSheet swordSwing;
         public static SpriteSheet fireRod, fireRodItem, fireBall;
         public static SpriteSheet iceRod, iceRodItem, iceBall;
         public static SpriteSheet healPotion;
 
+        public static SpriteSheet gameOver;
+        public static SpriteSheet newGame, exitGame;
+
         public static SpriteSheet vase, shatteredVase;
 
-        private static List<Point[]> playerAnimations = new List<Point[]>();
+        private static List<Point[]> playerPlaceHolderAnimations = new List<Point[]>();
         private static List<Point[]> fireAnimations = new List<Point[]>();
         private static List<Point[]> minosAnimations = new List<Point[]>();
         private static List<Point[]> minosGroundAnimation = new List<Point[]>();
@@ -63,6 +69,12 @@ namespace RogueLike
         private static List<Point[]> bubblesAnimation = new List<Point[]>();
         private static List<Point[]> shatterAnimation = new List<Point[]>();
 
+
+        private static List<Point[]> swordSwingAnimation = new List<Point[]>();
+
+        private static List<Point[]> playerAnimations = new List<Point[]>();
+
+        
 
         //Alla sprites hanteras med SpriteSheet objekt.
         //Alla SpriteSheet objekt sparas och hämtas från SpriteSheetManager
@@ -129,7 +141,12 @@ namespace RogueLike
             bowItem = new SpriteSheet(c.Load<Texture2D>("bowitem"), sheetSize);
             arrowBow = new SpriteSheet(c.Load<Texture2D>("arrowbow"), sheetSize);
 
-            
+            gameOver = new SpriteSheet(c.Load<Texture2D>("gameover"), sheetSize);
+
+            newGame = new SpriteSheet(c.Load<Texture2D>("NewGame"), sheetSize);
+            exitGame = new SpriteSheet(c.Load<Texture2D>("exit"), sheetSize);
+
+
             //Minos arm
             texture = c.Load<Texture2D>("Minos_arm");
 
@@ -149,7 +166,7 @@ namespace RogueLike
 
             
 
-            playerAnimations.Add(new Point[]
+            playerPlaceHolderAnimations.Add(new Point[]
             {
                 new Point(0, 0),
                 new Point(1, 0),
@@ -157,7 +174,7 @@ namespace RogueLike
                 new Point(3, 0),
             });
 
-            player = new SpriteSheet(texture, sheetSize, playerAnimations);
+            playerPlaceHolder = new SpriteSheet(texture, sheetSize, playerPlaceHolderAnimations);
 
             sheetSize = new Point(3, 8); 
             wallTiles = new SpriteSheet(c.Load<Texture2D>("walltiles"), sheetSize);
@@ -300,7 +317,66 @@ namespace RogueLike
             });
             raindrops = new SpriteSheet(c.Load<Texture2D>("rainsheet"), sheetSize, rainAnimation);
 
-            sheetSize = new Point(5, 0);
+            //Sword sweep
+
+            sheetSize = new Point(2, 0);
+
+            swordSwingAnimation.Add(new Point[]
+            {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(2, 0),
+            });
+
+            swordSwing = new SpriteSheet(c.Load<Texture2D>("sword_swing"), sheetSize, swordSwingAnimation);
+
+            //Player
+            sheetSize = new Point(5, 3);
+
+            playerAnimations.Add(new Point[]
+            {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(2, 0),
+                new Point(3, 0),
+                new Point(4, 0),
+                new Point(5, 0),
+
+            });
+            playerAnimations.Add(new Point[]
+{
+                new Point(0, 1),
+                new Point(1, 1),
+                new Point(2, 1),
+                new Point(3, 1),
+                new Point(4, 1),
+                new Point(5, 1),
+
+            });
+            playerAnimations.Add(new Point[]
+{
+                new Point(0, 2),
+                new Point(1, 2),
+                new Point(2, 2),
+                new Point(3, 2),
+                new Point(4, 2),
+                new Point(5, 2),
+
+            });
+            playerAnimations.Add(new Point[]
+{
+                new Point(0, 3),
+                new Point(1, 3),
+                new Point(2, 3),
+                new Point(3, 3),
+                new Point(4, 3),
+                new Point(5, 3),
+
+            });
+
+            player = new SpriteSheet(c.Load<Texture2D>("Run-Sheet"), sheetSize, playerAnimations);
+
+          sheetSize = new Point(5, 0);
             bubblesAnimation.Add(new Point[]
             {
                 new Point(0, 0),

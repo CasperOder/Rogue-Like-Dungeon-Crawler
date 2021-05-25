@@ -12,7 +12,8 @@ namespace RogueLike
 {
     class MeleeWeapon:Weapon
     {
-        
+        public Rectangle damageHitbox;
+
         public MeleeWeapon(int hitboxLength, int hitboxWidth, int baseDamage, float baseAttackSpeed, SpriteSheet spriteSheet, SpriteSheet itemSpriteSheet, float speedMultiplier, int weight, string itemName, double timeBetweenFrames) : base(hitboxLength,hitboxWidth,baseDamage, baseAttackSpeed, spriteSheet, itemSpriteSheet, speedMultiplier, weight, itemName, timeBetweenFrames)
         {
             this.spriteSheet = spriteSheet;
@@ -20,13 +21,9 @@ namespace RogueLike
         }
 
 
-        public void Draw(SpriteBatch sb)
-        {
-            sb.Draw(spriteSheet.texture, hitbox, Color.White);
-            
-        }
-
-
-
+        //public override void Draw(SpriteBatch sb)
+        //{
+        //    sb.Draw(spriteSheet.texture, hitbox, Color.White);
+        //}
     }
 }

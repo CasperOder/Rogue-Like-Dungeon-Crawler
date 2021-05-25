@@ -75,13 +75,22 @@ namespace RogueLike
         protected override void UnloadContent()
         {
         }
+        
+
+        public static void SetGameOverScreen()
+        {
+            GameOver.LoadScreen();
+            gameState = GameState.GameOver;
+            SavefileHandler.DeleteSavefile();
+        }
 
         protected override void Update(GameTime gameTime)
         {
             switch (gameState)
             {
                 case GameState.Start:
-                    Menu.Update(Level.player.middlepos);
+                    Menu.Update(graphics, Content);
+
                     if (Button.isFullScreen == true)
                     {
                         graphics.ToggleFullScreen();
@@ -99,6 +108,9 @@ namespace RogueLike
                     break;
                 case GameState.Pause:
                     Menu.Update(Level.player.middlepos);
+                    break;
+                case GameState.GameOver:
+                    GameOver.Update(gameTime, graphics, Content);
                     break;
             }
             //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -127,6 +139,10 @@ namespace RogueLike
                     spriteBatch.Begin();
                     Level.Draw(spriteBatch);
                     Menu.Draw(spriteBatch);
+                    break;
+                case GameState.GameOver:
+                    spriteBatch.Begin();
+                    GameOver.Draw(spriteBatch);
                     break;
             }
 

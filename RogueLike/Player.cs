@@ -74,6 +74,7 @@ namespace RogueLike
 
             if (Keyboard.GetState().IsKeyDown(Keys.Left) && Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.A) && Keyboard.GetState().IsKeyDown(Keys.W))
             {
+                Animate(gameTime, 3);
 
                 TileCollisionHandler(new Rectangle(hitbox.X - (int)(speed * speedMultiplier), hitbox.Y - (int)(speed * speedMultiplier), hitbox.Width, hitbox.Height));
                 if (!isColliding)
@@ -101,17 +102,19 @@ namespace RogueLike
                     }
                 }
             }
-                //direction = new Vector2(-(float)Math.Sqrt(0.5),-(float)Math.Sqrt(0.5));
-                //moving = true;
-            
+            //direction = new Vector2(-(float)Math.Sqrt(0.5),-(float)Math.Sqrt(0.5));
+            //moving = true;
 
 
-            
-                
 
-            
+
+
+
+
             else if (Keyboard.GetState().IsKeyDown(Keys.Right) && Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.D) && Keyboard.GetState().IsKeyDown(Keys.W))
             {
+                Animate(gameTime, 3);
+
                 TileCollisionHandler(new Rectangle(hitbox.X + (int)(speed * speedMultiplier), hitbox.Y - (int)(speed * speedMultiplier), hitbox.Width, hitbox.Height));
                 if (!isColliding)
                 {
@@ -142,11 +145,13 @@ namespace RogueLike
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Right) && Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.D) && Keyboard.GetState().IsKeyDown(Keys.S))
             {
+                Animate(gameTime, 0);
+
                 TileCollisionHandler(new Rectangle(hitbox.X + (int)(speed * speedMultiplier), hitbox.Y + (int)(speed * speedMultiplier), hitbox.Width, hitbox.Height));
                 if (!isColliding)
                 {
-                    hitbox.X += (int)(Math.Sqrt(0.5) * (int)(speed * speedMultiplier)); 
-                    hitbox.Y += (int)(Math.Sqrt(0.5) * (int)(speed * speedMultiplier)); 
+                    hitbox.X += (int)(Math.Sqrt(0.5) * (int)(speed * speedMultiplier));
+                    hitbox.Y += (int)(Math.Sqrt(0.5) * (int)(speed * speedMultiplier));
                     moving = true;
                     isColliding = false;
                 }
@@ -172,11 +177,13 @@ namespace RogueLike
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Left) && Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.A) && Keyboard.GetState().IsKeyDown(Keys.S))
             {
+                Animate(gameTime, 0);
+
                 TileCollisionHandler(new Rectangle(hitbox.X - speed, hitbox.Y + speed, hitbox.Width, hitbox.Height));
                 if (!isColliding)
                 {
-                    hitbox.X -= (int)(Math.Sqrt(0.5) * (int)(speed * speedMultiplier)); 
-                    hitbox.Y += (int)(Math.Sqrt(0.5) * (int)(speed * speedMultiplier)); 
+                    hitbox.X -= (int)(Math.Sqrt(0.5) * (int)(speed * speedMultiplier));
+                    hitbox.Y += (int)(Math.Sqrt(0.5) * (int)(speed * speedMultiplier));
                     moving = true;
                     isColliding = false;
                 }
@@ -202,6 +209,7 @@ namespace RogueLike
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A)) //left
             {
+                Animate(gameTime, 1);
 
                 TileCollisionHandler(new Rectangle(hitbox.X - (int)(speed * speedMultiplier), hitbox.Y, hitbox.Width, hitbox.Height));
 
@@ -217,6 +225,8 @@ namespace RogueLike
 
             else if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D)) //right
             {
+                Animate(gameTime, 2);
+
                 TileCollisionHandler(new Rectangle(hitbox.X + (int)(speed * speedMultiplier), hitbox.Y, hitbox.Width, hitbox.Height));
                 if (!isColliding)
                 {
@@ -230,6 +240,7 @@ namespace RogueLike
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S)) //down
             {
+                Animate(gameTime, 0);
 
                 TileCollisionHandler(new Rectangle(hitbox.X, hitbox.Y + (int)(speed * speedMultiplier), hitbox.Width, hitbox.Height));
                 if (!isColliding)
@@ -241,10 +252,11 @@ namespace RogueLike
                 //direction = new Vector2(0,1);
                 //moving = true;
 
-               
+
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))//up
             {
+                Animate(gameTime, 3);
 
                 TileCollisionHandler(new Rectangle(hitbox.X, hitbox.Y - (int)(speed * speedMultiplier), hitbox.Width, hitbox.Height));
                 if (!isColliding)
@@ -255,9 +267,13 @@ namespace RogueLike
                 }
                 //direction = new Vector2(0,-1);
                 //moving = true;
-            }            
-            
-            
+            }
+            else
+            {
+                //Idle here
+                ResetFrame();
+            }
+                        
             middlepos = new Vector2(hitbox.Center.X, hitbox.Center.Y);
 
 
@@ -268,14 +284,9 @@ namespace RogueLike
                 //    middlepos += speed * direction;
                 //    hitbox.Location = new Point((int)middlepos.X, (int)middlepos.Y) - new Point(hitbox.Width / 2, hitbox.Height / 2);
                 //}
-
-
-                ResetFrame();
             }
             else
-            {
-                Animate(gameTime, 0);
-                
+            {                
             }
 
             if (!isAttacking)
@@ -283,27 +294,31 @@ namespace RogueLike
             }
             else
             {
+
                 if (equippedMelee != null)
                 {
+                    equippedMelee.Animate(gameTime, 0);
+
                     switch (mouseDirection)
                     {
                         case CardinalDirection.up:
-                            equippedMelee.hitbox = new Rectangle(hitbox.Center.X - equippedMelee.hitboxWidth / 2, hitbox.Top - equippedMelee.hitboxLength, equippedMelee.hitboxWidth, equippedMelee.hitboxLength);
+                            equippedMelee.hitbox = new Rectangle(hitbox.Center.X - equippedMelee.hitboxWidth / 2, hitbox.Top - equippedMelee.hitboxLength / 2, equippedMelee.hitboxWidth, equippedMelee.hitboxLength);
+                            equippedMelee.damageHitbox = new Rectangle(hitbox.Center.X - equippedMelee.hitboxWidth / 2, hitbox.Top - equippedMelee.hitboxLength, equippedMelee.hitboxWidth, equippedMelee.hitboxLength);
 
                             break;
                         case CardinalDirection.down:
-                            equippedMelee.hitbox = new Rectangle(hitbox.Center.X - equippedMelee.hitboxWidth / 2, hitbox.Bottom, equippedMelee.hitboxWidth, equippedMelee.hitboxLength);
-
+                            equippedMelee.hitbox = new Rectangle(hitbox.Center.X - equippedMelee.hitboxWidth / 2, hitbox.Bottom + equippedMelee.hitboxLength / 2, equippedMelee.hitboxWidth, equippedMelee.hitboxLength);
+                            equippedMelee.damageHitbox = new Rectangle(hitbox.Center.X - equippedMelee.hitboxWidth / 2, hitbox.Bottom, equippedMelee.hitboxWidth, equippedMelee.hitboxLength);
 
                             break;
                         case CardinalDirection.right:
-                            equippedMelee.hitbox = new Rectangle(hitbox.Right, hitbox.Center.Y - equippedMelee.hitboxWidth / 2, equippedMelee.hitboxLength, equippedMelee.hitboxWidth);
-
+                            equippedMelee.hitbox = new Rectangle(hitbox.Right + equippedMelee.hitboxWidth, hitbox.Center.Y - equippedMelee.hitboxWidth / 2, equippedMelee.hitboxLength, equippedMelee.hitboxWidth);
+                            equippedMelee.damageHitbox = new Rectangle(hitbox.Right, hitbox.Center.Y - equippedMelee.hitboxWidth / 2, equippedMelee.hitboxLength, equippedMelee.hitboxWidth);
 
                             break;
                         case CardinalDirection.left:
-                            equippedMelee.hitbox = new Rectangle(hitbox.Left - equippedMelee.hitboxLength, hitbox.Center.Y - equippedMelee.hitboxWidth / 2, equippedMelee.hitboxLength, equippedMelee.hitboxWidth);
-
+                            equippedMelee.hitbox = new Rectangle(hitbox.Left - equippedMelee.hitboxWidth, hitbox.Center.Y - equippedMelee.hitboxWidth / 2, equippedMelee.hitboxLength, equippedMelee.hitboxWidth);
+                            equippedMelee.damageHitbox = new Rectangle(hitbox.Left - equippedMelee.hitboxLength, hitbox.Center.Y - equippedMelee.hitboxWidth / 2, equippedMelee.hitboxLength, equippedMelee.hitboxWidth);
 
                             break;
                     }
@@ -312,6 +327,8 @@ namespace RogueLike
                 {
                     if (equippedRange != null)
                     {
+                        equippedRange.Animate(gameTime, 0);
+
                         switch (mouseDirection)
                         {
                             case CardinalDirection.up:
@@ -343,22 +360,30 @@ namespace RogueLike
                     isAttacking = false;
                     timeTillMovable = 0;
 
-
                     speedMultiplier /= weaponSpeedMultiplier;
 
                     Level.UnhitAllEnemies();
 
                     if (equippedMelee != null)
                     {
+                        Console.WriteLine("dum");
+                        equippedMelee.ResetFrame();
                         equippedMelee.hitbox = new Rectangle(0, 0, 0, 0);
-
                     }
                     else if(equippedRange!=null)
                     {
                         equippedRange.hitbox = new Rectangle(0, 0, 0, 0);
+                        equippedRange.ResetFrame();
                     }
                 }
             }
+
+
+            if (health <= 0)
+            {
+                Game1.SetGameOverScreen();
+            }
+
         }
 
         public void GetAttackingDirection()
@@ -374,6 +399,10 @@ namespace RogueLike
                         equippedRange.hitbox = new Rectangle(hitbox.Right, hitbox.Center.Y - equippedRange.hitboxWidth / 2, equippedRange.hitboxLength, equippedRange.hitboxWidth);
                         equippedRange.middlepos = equippedRange.hitbox.Center.ToVector2();
                     }
+                    else if(equippedMelee!=null)
+                    {
+                        equippedMelee.damageHitbox = new Rectangle(hitbox.Right, hitbox.Center.Y - equippedMelee.hitboxWidth / 2, equippedMelee.hitboxLength, equippedMelee.hitboxWidth);
+                    }
                 }
                 else
                 {
@@ -383,6 +412,10 @@ namespace RogueLike
                     {
                         equippedRange.hitbox = new Rectangle(hitbox.Left - equippedRange.hitboxLength, hitbox.Center.Y - equippedRange.hitboxWidth / 2, equippedRange.hitboxLength, equippedRange.hitboxWidth);
                         equippedRange.middlepos = equippedRange.hitbox.Center.ToVector2();
+                    }
+                    else if (equippedMelee != null)
+                    {
+                        equippedMelee.damageHitbox = new Rectangle(hitbox.Left - equippedMelee.hitboxLength, hitbox.Center.Y - equippedMelee.hitboxWidth / 2, equippedMelee.hitboxLength, equippedMelee.hitboxWidth);
                     }
                 }
             }
@@ -397,6 +430,10 @@ namespace RogueLike
                         equippedRange.hitbox = new Rectangle(hitbox.Center.X - equippedRange.hitboxWidth / 2, hitbox.Bottom, equippedRange.hitboxWidth, equippedRange.hitboxLength);
                         equippedRange.middlepos = equippedRange.hitbox.Center.ToVector2();
                     }
+                    else if (equippedMelee != null)
+                    {
+                        equippedMelee.damageHitbox = new Rectangle(hitbox.Center.X - equippedMelee.hitboxWidth / 2, hitbox.Bottom, equippedMelee.hitboxWidth, equippedMelee.hitboxLength);
+                    }
                 }
                 else
                 {
@@ -407,6 +444,11 @@ namespace RogueLike
                         equippedRange.hitbox = new Rectangle(hitbox.Center.X - equippedRange.hitboxWidth / 2, hitbox.Top - equippedRange.hitboxLength, equippedRange.hitboxWidth, equippedRange.hitboxLength);
                         equippedRange.middlepos = equippedRange.hitbox.Center.ToVector2();
                     }
+                    else if (equippedMelee != null)
+                    {
+                        equippedMelee.damageHitbox = new Rectangle(hitbox.Center.X - equippedMelee.hitboxWidth / 2, hitbox.Top - equippedMelee.hitboxLength, equippedMelee.hitboxWidth, equippedMelee.hitboxLength);
+                    }
+                    
                 }
             }
         }
@@ -416,7 +458,7 @@ namespace RogueLike
         {
             if (equippedMelee != null && !m.beenHit)
             {
-                if (m.hitbox.Intersects(equippedMelee.hitbox))
+                if (m.hitbox.Intersects(equippedMelee.damageHitbox))
                 {
                     m.health -= (equippedMelee.baseDamage * equippedMelee.damageMultiplyier*damageMultiplier);
                     m.beenHit = true;
@@ -460,6 +502,7 @@ namespace RogueLike
                 attackTime = 1 / (equippedMelee.baseAttackSpeed * equippedMelee.attackSpeedMultiplyier * attackSpeedMultiplier);
                 equippedRange = null;
                 weaponSpeedMultiplier= equippedMelee.speedMultiplier ;
+                equippedMelee.timeBetweenFrames = attackTime / ((equippedMelee.spriteSheet.sheetSize.X + 1) + equippedMelee.spriteSheet.sheetSize.Y);
             }
             else if(newWeapon is RangeWeapon)
             {
@@ -467,7 +510,6 @@ namespace RogueLike
                 attackTime = 1 / (equippedRange.baseAttackSpeed * equippedRange.attackSpeedMultiplyier * attackSpeedMultiplier);
                 equippedMelee = null;
                 weaponSpeedMultiplier = equippedRange.speedMultiplier;
-
             }
         }
         
@@ -516,6 +558,7 @@ namespace RogueLike
                     if(equippedMelee!=null)
                     {
                         attackTime = 1 / (equippedMelee.baseAttackSpeed * equippedMelee.attackSpeedMultiplyier * attackSpeedMultiplier);
+                        equippedMelee.timeBetweenFrames = attackTime / ((equippedMelee.spriteSheet.sheetSize.X + 1) + equippedMelee.spriteSheet.sheetSize.Y);
                     }
                     else if(equippedRange!=null)
                     {
@@ -586,12 +629,13 @@ namespace RogueLike
 
             if(equippedRange!=null)
             {
-                equippedRange.Draw(sb);
+                equippedRange.Draw(sb, mouseDirection);
             }
             else if (equippedMelee != null && isAttacking)
             {
-                equippedMelee.Draw(sb);
+                equippedMelee.Draw(sb, mouseDirection);
 
+                //sb.Draw(SpriteSheetManager.dummy.texture, equippedMelee.damageHitbox, Color.White);
               
                 //switch (mouseDirection)
                 //{
