@@ -104,7 +104,7 @@ namespace RogueLike
             }
         }
 
-        public static void Update(GraphicsDeviceManager graphics, ContentManager content)
+        public static void Update(GraphicsDeviceManager graphics, ContentManager content, Vector2 playerPos)
         {
             oldMouseState = mouseState;
             mouseState = Mouse.GetState();
