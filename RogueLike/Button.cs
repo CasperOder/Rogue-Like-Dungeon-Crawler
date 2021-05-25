@@ -118,13 +118,14 @@ namespace RogueLike
                     }
                     else if (buttonName == "pausequit")
                     {
-                        
+
                         Menu.stateName = "main";
                         if (Menu.f == 255)
                         {
                             Menu.fadeOut = true;
                             Menu.fadeIn = false;
                         }
+                    }
                     else if (buttonName == "exitGame")
                     {
                         Level.Load_Level(graphics, content);

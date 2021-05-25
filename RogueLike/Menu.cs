@@ -74,7 +74,7 @@ namespace RogueLike
 
             if (debug)
             {
-                menuState = MenuState.PlayScreen;
+                menuState = MenuState.MainMenuPlay;
                 Console.WriteLine("menu in debug mode");
             }
         }
@@ -133,7 +133,7 @@ namespace RogueLike
             }
         }
 
-        public static void Update(GraphicsDeviceManager graphics, ContentManager content)
+        public static void Update(GraphicsDeviceManager graphics, ContentManager content, Vector2 playerPos)
         {
             position = new Vector2(playerPos.X - Constants.windowWidth / 2, playerPos.Y - Constants.windowHeight / 2);
             oldMouseState = mouseState;
