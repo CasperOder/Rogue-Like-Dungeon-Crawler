@@ -11,7 +11,8 @@ namespace RogueLike
         {
             Start,
             Play,
-            GameOver
+            GameOver,
+            Pause
         }
 
         public static bool saveFileExist;
@@ -80,8 +81,7 @@ namespace RogueLike
             switch (gameState)
             {
                 case GameState.Start:
-                    Menu.Update();
-
+                    Menu.Update(Level.player.middlepos);
                     if (Button.isFullScreen == true)
                     {
                         graphics.ToggleFullScreen();
@@ -95,15 +95,15 @@ namespace RogueLike
                     break;
                 case GameState.Play:
                     Level.Update(gameTime);
+                    Menu.Update(Level.player.middlepos);
+                    break;
+                case GameState.Pause:
+                    Menu.Update(Level.player.middlepos);
                     break;
             }
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            //    Exit();
             
-            
-
-            
-
             Window.Title = Level.currency.ToString();   
             
             base.Update(gameTime);
@@ -112,8 +112,6 @@ namespace RogueLike
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-
-            
 
             switch (gameState)
             {
@@ -124,6 +122,11 @@ namespace RogueLike
                 case GameState.Play:
                     spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.Transform);
                     Level.Draw(spriteBatch);
+                    break;
+                case GameState.Pause:
+                    spriteBatch.Begin();
+                    Level.Draw(spriteBatch);
+                    Menu.Draw(spriteBatch);
                     break;
             }
 
