@@ -23,25 +23,11 @@ namespace RogueLike
 
         public static MenuState menuState = MenuState.MainMenuHome;
         //Skippa fade vid debug
-        static bool debug = true;
+        static bool debug = false;
 
         public static List<Button> buttons = new List<Button>();
 
         //tillfälliga
-        public static Texture2D backGroundTex;
-        static Texture2D start;
-        public static Texture2D door;
-        static Texture2D resume;
-        static Texture2D quit;
-        static Texture2D options;
-        public static Texture2D back;
-        public static Texture2D muteMusicOff;
-        public static Texture2D muteMusicOn;
-        public static Texture2D fullScreenOff;
-        public static Texture2D fullScreenOn;
-        public static Texture2D continue_;
-        public static Texture2D newGame;
-        public static Texture2D pause;
 
 
         public static Texture2D swap;
@@ -50,31 +36,16 @@ namespace RogueLike
         public static bool fadeOut;
         public static int f = 255;
         static MouseState mouseState, oldMouseState;
-        static KeyboardState keyboardState, oldKeyboardState;
         public static string stateName;
-        static Vector2 position;
 
-        public static void Load(ContentManager content) //tillfälligt tills jag orkar fixa med animationer
+
+        public static void Load(ContentManager content)
         {
-            backGroundTex = content.Load<Texture2D>("background");
-            start = content.Load<Texture2D>("start");
-            door = content.Load<Texture2D>("Door");
-            resume = content.Load<Texture2D>("ResumeButton");
-            quit = content.Load<Texture2D>("QuitButton");
-            options = content.Load<Texture2D>("OptionsButton");
-            back = content.Load<Texture2D>("BackButton");
-            muteMusicOff = content.Load<Texture2D>("MuteMusicOff");
-            muteMusicOn = content.Load<Texture2D>("MuteMusicOn");
-            fullScreenOff = content.Load<Texture2D>("FullScreenOff");
-            fullScreenOn = content.Load<Texture2D>("FullScreenOn");
-            continue_ = content.Load<Texture2D>("Continue");
-            newGame = content.Load<Texture2D>("NewGame");
-            pause = content.Load<Texture2D>("PauseButton");
-            swap = backGroundTex;
+            swap = SpriteSheetManager.backGroundTex.texture;
 
             if (debug)
             {
-                menuState = MenuState.PlayScreen;
+                menuState = MenuState.MainMenuPlay;
                 Console.WriteLine("menu in debug mode");
             }
         }
@@ -93,19 +64,19 @@ namespace RogueLike
                     switch (menuState)
                     {
                         case MenuState.MainMenuHome:
-                            buttons.Add(new Button(start, new Rectangle(625, 600, 600, 140), "start"));
-                            buttons.Add(new Button(options, new Rectangle(727, 760, 395, 70), "options"));
-                            buttons.Add(new Button(quit, new Rectangle(782, 850, 235, 85), "quit"));
+                            buttons.Add(new Button(SpriteSheetManager.start.texture, new Rectangle(625, 600, 600, 140), "start"));
+                            buttons.Add(new Button(SpriteSheetManager.options.texture, new Rectangle(727, 760, 395, 70), "options"));
+                            buttons.Add(new Button(SpriteSheetManager.quit.texture, new Rectangle(782, 850, 235, 85), "quit"));
                             break;
                         case MenuState.MainMenuPlay:
-                            buttons.Add(new Button(back, new Rectangle(795, 760, 245, 70), "back"));
-                            buttons.Add(new Button(continue_, new Rectangle(540, 300, 720, 105), "continue"));
-                            buttons.Add(new Button(newGame, new Rectangle(540, 500, 720, 105), "newGame"));
+                            buttons.Add(new Button(SpriteSheetManager.back.texture, new Rectangle(795, 760, 245, 70), "back"));
+                            buttons.Add(new Button(SpriteSheetManager.continue_.texture, new Rectangle(540, 300, 720, 105), "continue"));
+                            buttons.Add(new Button(SpriteSheetManager.newGame.texture, new Rectangle(540, 500, 720, 105), "newGame"));
                             break;
                         case MenuState.MainMenuOption:
-                            buttons.Add(new Button(back, new Rectangle(795, 760, 245, 70), "back"));
-                            buttons.Add(new Button(muteMusicOff, new Rectangle(200, 300, 282, 28), "muteMusic"));
-                            buttons.Add(new Button(fullScreenOff, new Rectangle(200, 350, 282, 28), "fullScreen"));
+                            buttons.Add(new Button(SpriteSheetManager.back.texture, new Rectangle(795, 760, 245, 70), "back"));
+                            buttons.Add(new Button(SpriteSheetManager.muteMusicOff.texture, new Rectangle(200, 300, 282, 28), "muteMusic"));
+                            buttons.Add(new Button(SpriteSheetManager.fullScreenOff.texture, new Rectangle(200, 350, 282, 28), "fullScreen"));
                             break;
                     }
                     break;
@@ -114,14 +85,14 @@ namespace RogueLike
                     switch (menuState)
                     {
                         case MenuState.PauseMenuHome:
-                            buttons.Add(new Button(resume, new Rectangle(742, 300, 365, 70), "resume"));
-                            buttons.Add(new Button(options, new Rectangle(727, + 400, 395, 70), "pauseOptions"));
-                            buttons.Add(new Button(quit, new Rectangle(782, 500, 235, 85), "back"));
+                            buttons.Add(new Button(SpriteSheetManager.resume.texture, new Rectangle(742, 300, 365, 70), "resume"));
+                            buttons.Add(new Button(SpriteSheetManager.options.texture, new Rectangle(727, + 400, 395, 70), "pauseOptions"));
+                            buttons.Add(new Button(SpriteSheetManager.quit.texture, new Rectangle(782, 500, 235, 85), "pauseQuit"));
                             break;
                         case MenuState.PauseMenuOption:
-                            buttons.Add(new Button(back, new Rectangle(795, 760, 245, 70), "back"));
-                            buttons.Add(new Button(continue_, new Rectangle(540, 300, 720, 105), "continue"));
-                            buttons.Add(new Button(newGame, new Rectangle(540, 500, 720, 105), "newGame"));
+                            buttons.Add(new Button(SpriteSheetManager.back.texture, new Rectangle(795, 760, 245, 70), "pauseBack"));
+                            buttons.Add(new Button(SpriteSheetManager.muteMusicOff.texture, new Rectangle(200, 300, 282, 28), "muteMusic"));
+                            buttons.Add(new Button(SpriteSheetManager.fullScreenOff.texture, new Rectangle(200, 350, 282, 28), "fullScreen"));
                             break;
                     }
                     
@@ -135,7 +106,6 @@ namespace RogueLike
 
         public static void Update(GraphicsDeviceManager graphics, ContentManager content)
         {
-            position = new Vector2(playerPos.X - Constants.windowWidth / 2, playerPos.Y - Constants.windowHeight / 2);
             oldMouseState = mouseState;
             mouseState = Mouse.GetState();
 
@@ -160,19 +130,29 @@ namespace RogueLike
                 {
                     menuState = MenuState.MainMenuPlay;
                     LoadButtons();
-                    swap = door;
+                    swap = SpriteSheetManager.door.texture;
                 }
                 else if (stateName == "main")
                 {
                     menuState = MenuState.MainMenuHome;
                     LoadButtons();
-                    swap = backGroundTex;
+                    swap = SpriteSheetManager.backGroundTex.texture;
                 }
                 else if (stateName == "options")
                 {
                     menuState = MenuState.MainMenuOption;
                     LoadButtons();
-                    swap = door;
+                    swap = SpriteSheetManager.door.texture;
+                }
+                else if (stateName == "pauseOptions")
+                {
+                    menuState = MenuState.PauseMenuOption;
+                    LoadButtons();
+                }
+                else if (stateName == "pauseMain")
+                {
+                    menuState = MenuState.PauseMenuHome;
+                    LoadButtons();
                 }
             }
 
