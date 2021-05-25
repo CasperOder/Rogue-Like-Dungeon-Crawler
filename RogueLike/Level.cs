@@ -843,6 +843,8 @@ namespace RogueLike
             AmbientEffectManager.Draw(sb);
 
             HUD.Draw(sb);
+
+            
         }
     }
 }

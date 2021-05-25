@@ -42,7 +42,6 @@ namespace RogueLike
                             Menu.fadeOut = true;
                             Menu.fadeIn = false;
                         }
-                        
                     }
                     else if (buttonName == "options" && Menu.fadeOut == false)
                     {
@@ -60,6 +59,7 @@ namespace RogueLike
                     //Options
                     else if (buttonName == "back")
                     {
+                        Game1.gameState = Game1.GameState.Start;
                         Menu.stateName = "main";
                         if (Menu.f == 255)
                         {
@@ -101,7 +101,7 @@ namespace RogueLike
                         Game1.gameState = Game1.GameState.Play;
                     }
                     //Continue on saved file
-                    else if (buttonName=="continue")
+                    else if (buttonName == "continue")
                     {
                         if (Game1.saveFileExist)
                         {
@@ -109,6 +109,22 @@ namespace RogueLike
                             Game1.gameState = Game1.GameState.Play;
                         }
                     }
+                    else if (buttonName == "resume")
+                    {
+                        Game1.gameState = Game1.GameState.Play;
+                    }
+                    else if (buttonName == "pauseOptions")
+                    {
+                    }
+                    else if (buttonName == "pausequit")
+                    {
+                        
+                        Menu.stateName = "main";
+                        if (Menu.f == 255)
+                        {
+                            Menu.fadeOut = true;
+                            Menu.fadeIn = false;
+                        }
                     else if (buttonName == "exitGame")
                     {
                         Level.Load_Level(graphics, content);
