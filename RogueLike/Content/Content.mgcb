@@ -97,6 +97,18 @@
 /processorParam:TextureFormat=Color
 /build:ball.png
 
+#begin booksheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:booksheet.png
+
 #begin bow.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -157,6 +169,18 @@
 /processorParam:TextureFormat=Color
 /build:Continue.png
 
+#begin Corpse.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Corpse.png
+
 #begin damageboost.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -204,6 +228,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:dummy.bmp
+
+#begin enemy-hit.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:enemy-hit.png
 
 #begin Fire.png
 /importer:TextureImporter
@@ -620,18 +656,6 @@
 /processorParam:TextureFormat=Color
 /build:rock.png
 
-#begin shattervase.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:shattervase.png
-
 #begin Run-Sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -644,6 +668,17 @@
 /processorParam:TextureFormat=Color
 /build:Run-Sheet.png
 
+#begin shattervase.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:shattervase.png
 
 #begin shopkeeper.png
 /importer:TextureImporter

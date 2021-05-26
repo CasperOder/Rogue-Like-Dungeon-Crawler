@@ -21,6 +21,15 @@ namespace RogueLike
         public double attackSpeed { get; private set; }
         //public bool beenHit;
 
+        int damage;
+
+        Moveable_Object projectile;
+
+        Vector2 projectileDirection;
+        Vector2 projectilePosition;
+        int projectileSpeed;
+        bool projectileFired = false;
+
         bool isColliding = false;
 
         double timeSinceAttack;
@@ -29,7 +38,15 @@ namespace RogueLike
         bool remembersPlayer = false;
         Vector2 lastSeen;
 
+        int sideOfCollision;
+
         public Vector2 position;
+
+        bool isRanged;
+
+        bool isAttacking = false;
+
+        AnimatedObject hitMarker = new AnimatedObject(SpriteSheetManager.enemyHit, 0.1);
 
         Vector2 directionOfPlayer
         {
@@ -39,7 +56,7 @@ namespace RogueLike
             }
         }
 
-        public Enemy(SpriteSheet spriteSheet, double timeBetweenFrames, int speed, int spottingRange, int attackRange, int attackRangeOverlap, double attackSpeed, float health, float maxHealth, int spawnWeight) : base(spriteSheet, timeBetweenFrames, health, maxHealth)
+        public Enemy(SpriteSheet spriteSheet, double timeBetweenFrames, int speed, int spottingRange, int attackRange, int attackRangeOverlap, double attackSpeed, float health, float maxHealth, int spawnWeight, int damage) : base(spriteSheet, timeBetweenFrames, health, maxHealth)
         {
             hitbox.Size = spriteSheet.frameSize;
             
@@ -49,14 +66,35 @@ namespace RogueLike
             this.attackRangeOverlap = attackRangeOverlap;
             this.attackSpeed = attackSpeed;
             this.spawnWeight = spawnWeight;
-            
+            this.damage = damage;            
+
+            isRanged = false;
+        }
+        public Enemy(SpriteSheet spriteSheet, double timeBetweenFrames, int speed, int spottingRange, int attackRange, int attackRangeOverlap, double attackSpeed, float health, float maxHealth, int spawnWeight, int damage, Moveable_Object projectile, int projectileSpeed) : base(spriteSheet, timeBetweenFrames, health, maxHealth)
+        {
+            hitbox.Size = spriteSheet.frameSize;
+
+            base.speed = speed;
+            this.spottingRange = spottingRange;
+            this.attackRange = attackRange;
+            this.attackRangeOverlap = attackRangeOverlap;
+            this.attackSpeed = attackSpeed;
+            this.spawnWeight = spawnWeight;
+            this.damage = damage;
+            this.projectile = projectile;
+            this.projectileSpeed = projectileSpeed;
+
+            isRanged = true;
         }
 
         public Enemy copyEnemy()
         {
-            return new Enemy(spriteSheet,timeBetweenFrames, speed, spottingRange, attackRange, attackRangeOverlap, attackSpeed, health, maxHealth, spawnWeight);
+            if (isRanged)
+                return new Enemy(spriteSheet,timeBetweenFrames, speed, spottingRange, attackRange, attackRangeOverlap, attackSpeed, health, maxHealth, spawnWeight, damage, projectile, projectileSpeed);
+            else
+                return new Enemy(spriteSheet, timeBetweenFrames, speed, spottingRange, attackRange, attackRangeOverlap, attackSpeed, health, maxHealth, spawnWeight, damage);
         }
-        
+
         public void SetSpawn(Vector2 startPos)
         {
             hitbox.X = (int)startPos.X - hitbox.Width / 2;
@@ -75,6 +113,11 @@ namespace RogueLike
             Follow(gameTime);
 
             middlepos = hitbox.Center.ToVector2();
+
+            hitMarkerCounter(gameTime);
+
+            if (isRanged)
+                ProjectileUpdate(gameTime);
         }
 
         void Follow(GameTime gameTime)
@@ -93,7 +136,14 @@ namespace RogueLike
                     }
 
                     if (Distance(position, Level.player.hitbox.Center.ToVector2()) <= attackRange + attackRangeOverlap)
-                        Attacking(gameTime);                   
+                    {
+                        Attacking(gameTime);
+                    }
+                    else
+                    {
+                        isAttacking = false;
+                        hitMarker.ResetFrame();
+                    }
                 }
                 else if (remembersPlayer)
                 {
@@ -106,15 +156,74 @@ namespace RogueLike
             }         
         }
 
+        void hitMarkerCounter(GameTime gameTime)
+        {
+            if (isAttacking)
+            {
+                hitMarker.Animate(gameTime, 0);
+
+                if (hitMarker.currentFrame == hitMarker.spriteSheet.animationSequence[0].Last())
+                {
+                    hitMarker.ResetFrame();
+                    isAttacking = false;
+                }
+            }
+        }
+
+        void ProjectileUpdate(GameTime gameTime)
+        {
+            projectile.Animate(gameTime, 0);
+
+            projectilePosition += projectileDirection * projectileSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            projectile.hitbox.Location = projectilePosition.ToPoint();
+
+            foreach (Room r in Level.generatedRoomList)
+            {
+                foreach (Tile t in r.tileArray)
+                {
+                    if (t.solid)
+                    {
+                        if (t.hitbox.Contains(projectile.hitbox))
+                        {
+                            projectileFired = false;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (projectile.hitbox.Intersects(Level.player.hitbox) && projectileFired)
+            {
+                HUD.UpdateCurrentHealthHUD((int)Level.player.health - damage);
+                Level.player.health -= damage;
+
+                projectileFired = false;
+            }
+        }
+
         void Attacking(GameTime gameTime)
         {
             if (timeSinceAttack >= attackSpeed)
             {
-                //Attack sker här
                 timeSinceAttack = 0;
+
+                isAttacking = true;
+
+                if (isRanged)
+                {
+                    projectilePosition = hitbox.Center.ToVector2();
+                    projectileDirection = directionOfPlayer;
+                    projectileFired = true;
+                }
+                else
+                {
+                    hitMarker.hitbox.Location = Level.player.hitbox.Location;
+
+                    HUD.UpdateCurrentHealthHUD((int)Level.player.health - damage);
+                    Level.player.health -= damage;
+                }
             }
-            else
-                color = Color.White;
 
             timeSinceAttack += gameTime.ElapsedGameTime.TotalSeconds;
         }
@@ -142,7 +251,30 @@ namespace RogueLike
 
 
             //Movement
-            TileCollision(new Rectangle((int)(position.X + speed * direction.X * (float)gameTime.ElapsedGameTime.TotalSeconds),(int)(position.Y + speed * direction.Y * (float)gameTime.ElapsedGameTime.TotalSeconds),hitbox.Width,hitbox.Height));
+
+            TileCollision(new Rectangle((int)(position.X + speed * direction.X * (float)gameTime.ElapsedGameTime.TotalSeconds), (int)(position.Y + speed * direction.Y * (float)gameTime.ElapsedGameTime.TotalSeconds), hitbox.Width, hitbox.Height));
+
+            if (isColliding)
+            {
+                Vector2 dir = DirectionOfObject(position, lastSeen);
+
+                if (sideOfCollision == 0 || sideOfCollision == 1)
+                {
+                    if (dir.X > 0)
+                        direction.X = 1;
+                    if (dir.X < 0)
+                        direction.X = -1;
+                }
+
+                if (sideOfCollision == 2 || sideOfCollision == 3)
+                {
+                    if (dir.Y > 0)
+                        direction.Y = 1;
+                    if (dir.Y < 0)
+                        direction.Y = -1;
+                }
+            }
+
             if (!isColliding)
             {
                 position += speed * direction * (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -160,8 +292,7 @@ namespace RogueLike
                 {
                     position.X += speed * direction.X * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
-            }
-            
+            }           
         }
         void TileCollision(Rectangle rect)
         {
@@ -170,6 +301,8 @@ namespace RogueLike
                 if (Room.wallTiles[i].hitbox.Intersects(rect))
                 {
                     isColliding = true;
+
+                    sideOfCollision = CollisionSide(hitbox, Room.wallTiles[i].hitbox.Location.ToVector2(), Room.wallTiles[i].hitbox.Size);
                     break;
                 }
                 else if (i == Room.wallTiles.Count - 1)
@@ -277,6 +410,12 @@ namespace RogueLike
 
         public override void Draw(SpriteBatch sb)
         {
+            if (isAttacking)
+                hitMarker.Draw(sb);
+
+            if (projectileFired)
+                sb.Draw(projectile.spriteSheet.texture, projectilePosition, null, new Rectangle(projectile.spriteSheet.frameSize.X * projectile.currentFrame.X, projectile.spriteSheet.frameSize.Y * projectile.currentFrame.Y, projectile.spriteSheet.frameSize.X, projectile.spriteSheet.frameSize.Y), Vector2.Zero, 0, Vector2.One, color * colorOpacity, SpriteEffects.None, 1f);
+
             sb.Draw(spriteSheet.texture, position, null, new Rectangle(spriteSheet.frameSize.X * currentFrame.X, spriteSheet.frameSize.Y * currentFrame.Y, spriteSheet.frameSize.X, spriteSheet.frameSize.Y), Vector2.Zero, 0, Vector2.One, color, SpriteEffects.None, 1f);
         }
     }
