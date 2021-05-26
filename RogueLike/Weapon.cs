@@ -22,6 +22,7 @@ namespace RogueLike
         public SpriteSheet itemSpriteSheet;
         public string itemName;
 
+        public Vector2 position;
         public int hitboxLength, hitboxWidth; //Length is how far FROM the player the weapon points.
 
         public Weapon(int hitboxLength,int hitboxWidth, int baseDamage, float baseAttackSpeed, SpriteSheet spriteSheet, SpriteSheet itemSpriteSheet, float speedMultiplier, int weight, string itemName, double timeBetweenFrames) :base(spriteSheet, timeBetweenFrames)
@@ -43,18 +44,18 @@ namespace RogueLike
             switch (direction)
             {
                 case Moveable_Object.CardinalDirection.up:
-                    sb.Draw(spriteSheet.texture, hitbox.Location.ToVector2(), null, new Rectangle(spriteSheet.frameSize.X * currentFrame.X, spriteSheet.frameSize.Y * currentFrame.Y, spriteSheet.frameSize.X, spriteSheet.frameSize.Y), new Vector2(spriteSheet.frameSize.X / 2, spriteSheet.frameSize.Y / 2), 0, Vector2.One, color, SpriteEffects.None, 1f);
+                    sb.Draw(spriteSheet.texture, position, null, new Rectangle(spriteSheet.frameSize.X * currentFrame.X, spriteSheet.frameSize.Y * currentFrame.Y, spriteSheet.frameSize.X, spriteSheet.frameSize.Y), new Vector2(spriteSheet.frameSize.X / 2, spriteSheet.frameSize.Y / 2), 0, Vector2.One, color, SpriteEffects.None, 1f);
                     break;
                 case Moveable_Object.CardinalDirection.down:
-                    sb.Draw(spriteSheet.texture, hitbox.Location.ToVector2(), null, new Rectangle(spriteSheet.frameSize.X * currentFrame.X, spriteSheet.frameSize.Y * currentFrame.Y, spriteSheet.frameSize.X, spriteSheet.frameSize.Y), new Vector2(spriteSheet.frameSize.X / 2, spriteSheet. frameSize.Y / 2), (float)Math.PI / 2f * 2, Vector2.One, color, SpriteEffects.None, 1f);
+                    sb.Draw(spriteSheet.texture, position, null, new Rectangle(spriteSheet.frameSize.X * currentFrame.X, spriteSheet.frameSize.Y * currentFrame.Y, spriteSheet.frameSize.X, spriteSheet.frameSize.Y), new Vector2(spriteSheet.frameSize.X / 2, spriteSheet. frameSize.Y / 2), (float)Math.PI / 2f * 2, Vector2.One, color, SpriteEffects.None, 1f);
 
                     break;
                 case Moveable_Object.CardinalDirection.right:
-                    sb.Draw(spriteSheet.texture, hitbox.Location.ToVector2(), null, new Rectangle(spriteSheet.frameSize.X * currentFrame.X, spriteSheet.frameSize.Y * currentFrame.Y, spriteSheet.frameSize.X, spriteSheet.frameSize.Y), new Vector2(spriteSheet.frameSize.X / 2, spriteSheet.frameSize.Y / 2), (float)Math.PI / 2f, Vector2.One, color, SpriteEffects.None, 1f);
+                    sb.Draw(spriteSheet.texture, position, null, new Rectangle(spriteSheet.frameSize.X * currentFrame.X, spriteSheet.frameSize.Y * currentFrame.Y, spriteSheet.frameSize.X, spriteSheet.frameSize.Y), new Vector2(spriteSheet.frameSize.X / 2, spriteSheet.frameSize.Y / 2), (float)Math.PI / 2f, Vector2.One, color, SpriteEffects.None, 1f);
 
                     break;
                 case Moveable_Object.CardinalDirection.left:
-                    sb.Draw(spriteSheet.texture, hitbox.Location.ToVector2(), null, new Rectangle(spriteSheet.frameSize.X * currentFrame.X, spriteSheet.frameSize.Y * currentFrame.Y, spriteSheet.frameSize.X, spriteSheet.frameSize.Y), new Vector2(spriteSheet.frameSize.X / 2, spriteSheet.frameSize.Y / 2), (float)Math.PI / 2f * 3, Vector2.One, color, SpriteEffects.None, 1f);
+                    sb.Draw(spriteSheet.texture, position, null, new Rectangle(spriteSheet.frameSize.X * currentFrame.X, spriteSheet.frameSize.Y * currentFrame.Y, spriteSheet.frameSize.X, spriteSheet.frameSize.Y), new Vector2(spriteSheet.frameSize.X / 2, spriteSheet.frameSize.Y / 2), (float)Math.PI / 2f * 3, Vector2.One, color, SpriteEffects.None, 1f);
 
 
                     break;

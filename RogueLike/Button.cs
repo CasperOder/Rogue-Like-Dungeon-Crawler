@@ -59,7 +59,6 @@ namespace RogueLike
                     //Options
                     else if (buttonName == "back")
                     {
-                        Game1.gameState = Game1.GameState.Start;
                         Menu.stateName = "main";
                         if (Menu.f == 255)
                         {
@@ -71,12 +70,12 @@ namespace RogueLike
                     {
                         if (MediaPlayer.IsMuted == true)
                         {
-                            Menu.buttons[1].tex = Menu.muteMusicOff;
+                            Menu.buttons[1].tex = SpriteSheetManager.muteMusicOff.texture;
                             MediaPlayer.IsMuted = false;
                         }
                         else if (MediaPlayer.IsMuted == false)
                         {
-                            Menu.buttons[1].tex = Menu.muteMusicOn;
+                            Menu.buttons[1].tex = SpriteSheetManager.muteMusicOn.texture;
                             MediaPlayer.IsMuted = true;
                         }
                     }
@@ -84,12 +83,12 @@ namespace RogueLike
                     {
                         if (isFullScreen == true)
                         {
-                            Menu.buttons[2].tex = Menu.fullScreenOff;
+                            Menu.buttons[2].tex = SpriteSheetManager.fullScreenOff.texture;
                             isFullScreen = false;
                         }
                         else if (isFullScreen == false)
                         {
-                            Menu.buttons[2].tex = Menu.fullScreenOn;
+                            Menu.buttons[2].tex = SpriteSheetManager.fullScreenOn.texture;
                             isFullScreen = true;
                         }
                     }
@@ -115,22 +114,48 @@ namespace RogueLike
                     }
                     else if (buttonName == "pauseOptions")
                     {
-                    }
-                    else if (buttonName == "pausequit")
-                    {
-
-                        Menu.stateName = "main";
+                        Menu.stateName = "pauseOptions";
                         if (Menu.f == 255)
                         {
                             Menu.fadeOut = true;
                             Menu.fadeIn = false;
                         }
                     }
+                    else if (buttonName == "pauseBack")
+                    {
+                        Menu.stateName = "pauseMain";
+                        if (Menu.f == 255)
+                        {
+                            Menu.fadeOut = true;
+                            Menu.fadeIn = false;
+                        }
+                    }
+                    else if (buttonName == "pauseQuit")
+                    {
+                        Menu.stateName = "main";
+                        if (Menu.f == 255)
+                        {
+                            Menu.fadeOut = true;
+                            Menu.fadeIn = false;
+                        }
+                        try
+                        {
+                            SavefileHandler.ReadFile("savefile.txt");
+                            Game1.saveFileExist = true;
+                        }
+                        catch
+                        {
+                            Game1.saveFileExist = false;
+                        }
+                        Level.Load_Level(graphics, content);
+                        Game1.gameState = Game1.GameState.Start;
+                    }
                     else if (buttonName == "exitGame")
                     {
                         Level.enemyList.Clear();
-                        Level.Load_Level(graphics, content);
                         Game1.gameState = Game1.GameState.Start;
+                        Level.Load_Level(graphics, content);
+                       
                     }
                 }
             }
