@@ -14,8 +14,13 @@ namespace RogueLike
     {
         public static SpriteSheet ball { get; private set; }
         public static SpriteSheet playerPlaceHolder { get; private set; }
-        public static SpriteSheet fire { get; private set; }
         public static SpriteSheet tempTile { get; private set; }
+
+        public static SpriteSheet fire { get; private set; }
+        public static SpriteSheet book;
+        public static SpriteSheet corpse;
+
+        public static SpriteSheet enemyHit;
 
         public static SpriteSheet player;
 
@@ -61,9 +66,14 @@ namespace RogueLike
         public static SpriteSheet vase, shatteredVase;
 
         private static List<Point[]> playerPlaceHolderAnimations = new List<Point[]>();
-        private static List<Point[]> fireAnimations = new List<Point[]>();
         private static List<Point[]> minosAnimations = new List<Point[]>();
         private static List<Point[]> minosGroundAnimation = new List<Point[]>();
+
+        private static List<Point[]> fireAnimations = new List<Point[]>();
+        private static List<Point[]> bookAnimations = new List<Point[]>();
+        private static List<Point[]> corpseAnimations = new List<Point[]>();
+
+        private static List<Point[]> enemyHitAnimation = new List<Point[]>();
 
         private static List<Point[]> windBreezeAnimation = new List<Point[]>();
         private static List<Point[]> rainAnimation = new List<Point[]>();
@@ -232,6 +242,48 @@ namespace RogueLike
             });
 
             fire = new SpriteSheet(texture, sheetSize, fireAnimations);
+
+            //Corpse
+            sheetSize = new Point(3, 0);
+            texture = c.Load<Texture2D>("Corpse");
+
+            corpseAnimations.Add(new Point[]
+            {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(2, 0),
+                new Point(3, 0),
+            });
+
+            corpse = new SpriteSheet(texture, sheetSize, corpseAnimations);
+
+            //Book
+            sheetSize = new Point(3, 0);
+            texture = c.Load<Texture2D>("booksheet");
+
+            bookAnimations.Add(new Point[]
+            {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(2, 0),
+                new Point(3, 0),
+            });
+
+            book = new SpriteSheet(texture, sheetSize, bookAnimations);
+
+            //Enemy hit
+            sheetSize = new Point(3, 0);
+            texture = c.Load<Texture2D>("enemy-hit");
+
+            enemyHitAnimation.Add(new Point[]
+            {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(2, 0),
+                new Point(3, 0),
+            });
+
+            enemyHit = new SpriteSheet(texture, sheetSize, enemyHitAnimation);
 
             shatterAnimation.Add(new Point[]
             {

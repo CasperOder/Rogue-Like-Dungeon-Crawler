@@ -303,21 +303,26 @@ namespace RogueLike
                     {
                         case CardinalDirection.up:
                             equippedMelee.hitbox = new Rectangle(hitbox.Center.X - equippedMelee.hitboxWidth / 2, hitbox.Top - equippedMelee.hitboxLength / 2, equippedMelee.hitboxWidth, equippedMelee.hitboxLength);
+                            equippedMelee.position = new Vector2(hitbox.Center.X - equippedMelee.hitboxWidth / 4, hitbox.Top - equippedMelee.hitboxLength / 4);
                             equippedMelee.damageHitbox = new Rectangle(hitbox.Center.X - equippedMelee.hitboxWidth / 2, hitbox.Top - equippedMelee.hitboxLength, equippedMelee.hitboxWidth, equippedMelee.hitboxLength);
 
                             break;
                         case CardinalDirection.down:
                             equippedMelee.hitbox = new Rectangle(hitbox.Center.X - equippedMelee.hitboxWidth / 2, hitbox.Bottom + equippedMelee.hitboxLength / 2, equippedMelee.hitboxWidth, equippedMelee.hitboxLength);
+                            equippedMelee.position = new Vector2(hitbox.Center.X - equippedMelee.hitboxWidth / 4, hitbox.Bottom + equippedMelee.hitboxLength / 4);
                             equippedMelee.damageHitbox = new Rectangle(hitbox.Center.X - equippedMelee.hitboxWidth / 2, hitbox.Bottom, equippedMelee.hitboxWidth, equippedMelee.hitboxLength);
 
                             break;
                         case CardinalDirection.right:
                             equippedMelee.hitbox = new Rectangle(hitbox.Right + equippedMelee.hitboxWidth, hitbox.Center.Y - equippedMelee.hitboxWidth / 2, equippedMelee.hitboxLength, equippedMelee.hitboxWidth);
+                            equippedMelee.position = new Vector2(hitbox.Right + equippedMelee.hitboxWidth, hitbox.Center.Y);
+
                             equippedMelee.damageHitbox = new Rectangle(hitbox.Right, hitbox.Center.Y - equippedMelee.hitboxWidth / 2, equippedMelee.hitboxLength, equippedMelee.hitboxWidth);
 
                             break;
                         case CardinalDirection.left:
                             equippedMelee.hitbox = new Rectangle(hitbox.Left - equippedMelee.hitboxWidth, hitbox.Center.Y - equippedMelee.hitboxWidth / 2, equippedMelee.hitboxLength, equippedMelee.hitboxWidth);
+                            equippedMelee.position = new Vector2(hitbox.Left - equippedMelee.hitboxWidth, hitbox.Center.Y);
                             equippedMelee.damageHitbox = new Rectangle(hitbox.Left - equippedMelee.hitboxLength, hitbox.Center.Y - equippedMelee.hitboxWidth / 2, equippedMelee.hitboxLength, equippedMelee.hitboxWidth);
 
                             break;
@@ -325,6 +330,9 @@ namespace RogueLike
                 }
                 else
                 {
+
+                   equippedRange.Animate(gameTime, 0);
+
                     if (equippedRange != null)
                     {
                         equippedRange.Animate(gameTime, 0);
@@ -333,21 +341,22 @@ namespace RogueLike
                         {
                             case CardinalDirection.up:
                                 equippedRange.hitbox = new Rectangle(hitbox.Center.X - equippedRange.hitboxWidth / 2, hitbox.Top - equippedRange.hitboxLength, equippedRange.hitboxWidth, equippedRange.hitboxLength);
-                                
+                                equippedRange.position = new Vector2(hitbox.Center.X - equippedRange.hitboxWidth / 4, hitbox.Top - equippedRange.hitboxLength / 4);
+
                                 break;
                             case CardinalDirection.down:
                                 equippedRange.hitbox = new Rectangle(hitbox.Center.X - equippedRange.hitboxWidth / 2, hitbox.Bottom, equippedRange.hitboxWidth, equippedRange.hitboxLength);
-
+                                equippedRange.position = new Vector2(hitbox.Center.X - equippedRange.hitboxWidth / 4, hitbox.Bottom + equippedRange.hitboxLength / 4);
 
                                 break;
                             case CardinalDirection.right:
                                 equippedRange.hitbox = new Rectangle(hitbox.Right, hitbox.Center.Y - equippedRange.hitboxWidth / 2, equippedRange.hitboxLength, equippedRange.hitboxWidth);
-
+                                equippedRange.position = new Vector2(hitbox.Right + equippedRange.hitboxWidth, hitbox.Center.Y);
 
                                 break;
                             case CardinalDirection.left:
                                 equippedRange.hitbox = new Rectangle(hitbox.Left - equippedRange.hitboxLength, hitbox.Center.Y - equippedRange.hitboxWidth / 2, equippedRange.hitboxLength, equippedRange.hitboxWidth);
-
+                                equippedRange.position = new Vector2(hitbox.Left - equippedRange.hitboxWidth, hitbox.Center.Y);
 
                                 break;
                         }
@@ -366,7 +375,6 @@ namespace RogueLike
 
                     if (equippedMelee != null)
                     {
-                        Console.WriteLine("dum");
                         equippedMelee.ResetFrame();
                         equippedMelee.hitbox = new Rectangle(0, 0, 0, 0);
                     }
@@ -510,6 +518,7 @@ namespace RogueLike
                 attackTime = 1 / (equippedRange.baseAttackSpeed * equippedRange.attackSpeedMultiplyier * attackSpeedMultiplier);
                 equippedMelee = null;
                 weaponSpeedMultiplier = equippedRange.speedMultiplier;
+                equippedRange.timeBetweenFrames = attackTime / ((equippedRange.spriteSheet.sheetSize.X + 1) + equippedRange.spriteSheet.sheetSize.Y);
             }
         }
         
@@ -563,6 +572,7 @@ namespace RogueLike
                     else if(equippedRange!=null)
                     {
                         attackTime = 1 / (equippedRange.baseAttackSpeed * equippedRange.attackSpeedMultiplyier * attackSpeedMultiplier);
+                        equippedRange.timeBetweenFrames = attackTime / ((equippedRange.spriteSheet.sheetSize.X + 1) + equippedRange.spriteSheet.sheetSize.Y);
                     }
 
                     break;
@@ -627,7 +637,7 @@ namespace RogueLike
             sb.Draw(spriteSheet.texture, hitbox.Location.ToVector2(), null, new Rectangle(spriteSheet.frameSize.X * currentFrame.X, spriteSheet.frameSize.Y * currentFrame.Y, spriteSheet.frameSize.X, spriteSheet.frameSize.Y), Vector2.Zero, 0, Vector2.One, playerColor, SpriteEffects.None, 1f);
 
 
-            if(equippedRange!=null)
+            if(equippedRange!=null && isAttacking)
             {
                 equippedRange.Draw(sb, mouseDirection);
             }

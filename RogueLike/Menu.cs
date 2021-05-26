@@ -25,6 +25,8 @@ namespace RogueLike
         //Skippa fade vid debug
         static bool debug = false;
 
+        //public static MenuState menuState = MenuState.MainMenuScreen;
+
         public static List<Button> buttons = new List<Button>();
 
         //tillfälliga
