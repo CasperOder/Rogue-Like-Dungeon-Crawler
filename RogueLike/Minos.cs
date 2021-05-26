@@ -55,7 +55,7 @@ namespace RogueLike
         float meleeRange = 230f;
         float meleeZone = 2;
 
-        int meleeDamage = 5;
+        int meleeDamage = 10;
 
         Rectangle meleeHitbox;
         Point meleeHitboxSize = new Point(200, 200);
@@ -86,7 +86,7 @@ namespace RogueLike
         {
             state = AttackState.Aiming;
 
-            speed = 300;
+            speed = 400;
 
             hitbox.Size = spriteSheet.frameSize;
 
