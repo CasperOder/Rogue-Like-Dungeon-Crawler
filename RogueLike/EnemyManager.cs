@@ -32,8 +32,8 @@ namespace RogueLike
             book = new Enemy(SpriteSheetManager.book, 0.1, 300, 1000, 150, 60, 1.2d, 100, 100, 1, 5);
             corpse = new Enemy(SpriteSheetManager.corpse, 0.1, 400, 1000, 150, 60, 1d, 100, 100, 1, 10);
             circleOneEnemyRoster.Add(book);
-            circleTwoEnemyRoster.Add(corpse);
-            circleThreeEnemyRoster.Add(fire);
+            circleSevenEnemyRoster.Add(corpse);
+            circleNineEnemyRoster.Add(fire);
         }
 
         /// <summary>
@@ -56,12 +56,12 @@ namespace RogueLike
                     enemyRoster = circleOneEnemyRoster;
                     break;
                 case 2:
-                    weightLimit = 7;
-                    enemyRoster = circleTwoEnemyRoster;
+                    //weightLimit = 7;
+                    //enemyRoster = circleTwoEnemyRoster;
                     break;
                 case 3:
-                    weightLimit = 10;
-                    enemyRoster = circleThreeEnemyRoster;
+                    //weightLimit = 10;
+                    //enemyRoster = circleThreeEnemyRoster;
                     break;
                 case 4:
                     //weightLimit = 15;
@@ -76,16 +76,16 @@ namespace RogueLike
                     //enemyRoster = circleSixEnemyRoster;
                     break;
                 case 7:
-                    //weightLimit = 30;
-                    //enemyRoster = circleSevenEnemyRoster;
+                    weightLimit = 30;
+                    enemyRoster = circleSevenEnemyRoster;
                     break;
                 case 8:
                     //weightLimit = 40;
                     //enemyRoster = circleEightEnemyRoster;
                     break;
                 case 9:
-                    //weightLimit = 50;
-                    //enemyRoster = circleNineEnemyRoster;
+                    weightLimit = 50;
+                    enemyRoster = circleNineEnemyRoster;
                     break;
             }
 

@@ -22,20 +22,20 @@ namespace RogueLike
         /// </summary>
         public static void LoadAllWeaponsAndItems()
         {
-            testMelee = new MeleeWeapon(120, 40, 20, 2, SpriteSheetManager.swordSwing, SpriteSheetManager.arrowItem, 0.9f, 2, "testweapon", 1);
+            testMelee = new MeleeWeapon(110, 40, 20, 2, SpriteSheetManager.swordSwing, SpriteSheetManager.arrowItem, 0.9f, 2, "testweapon", 1);
             sweepMelee = new MeleeWeapon(60, 180, 75, 1, SpriteSheetManager.sweep, SpriteSheetManager.sweepItem, 0.69f, 2, "battleaxe", 1);
-            knifeMelee = new MeleeWeapon(30, 25, 5, 10, SpriteSheetManager.knife, SpriteSheetManager.knifeItem, 1.5f, 2, "knife", 1);
+            knifeMelee = new MeleeWeapon(30, 25, 5, 10, SpriteSheetManager.knife, SpriteSheetManager.knifeItem, 1.5f, 7, "knife", 1);
             AllWeaponList.Add(testMelee);
             AllWeaponList.Add(sweepMelee);
             AllWeaponList.Add(knifeMelee);
 
-            spear = new MeleeWeapon(200, 16, 30, 1.5f, SpriteSheetManager.spear, SpriteSheetManager.spearItem, 0.75f, 3, "spear", 1);
+            spear = new MeleeWeapon(200, 16, 30, 1.5f, SpriteSheetManager.spear, SpriteSheetManager.spearItem, 0.75f, 8, "spear", 1);
             AllWeaponList.Add(spear);
 
-            smashRings = new MeleeWeapon(320, 320, 150, 0.8f, SpriteSheetManager.smash, SpriteSheetManager.smashItem, 0.01f, 5, "Smash Rings", 1);
+            smashRings = new MeleeWeapon(320, 320, 150, 0.8f, SpriteSheetManager.smash, SpriteSheetManager.smashItem, 0.01f, 9, "Smash Rings", 1);
             AllWeaponList.Add(smashRings);
 
-            boxingGlove = new MeleeWeapon(100, 40, 14, 5, SpriteSheetManager.punch, SpriteSheetManager.punchItem, 0.6f, 4, "Speedy Punch Glove", 1);
+            boxingGlove = new MeleeWeapon(100, 40, 14, 5, SpriteSheetManager.punch, SpriteSheetManager.punchItem, 0.6f, 8, "Speedy Punch Glove", 1);
             AllWeaponList.Add(boxingGlove);
 
             arrow = new Projectile(32, 8, SpriteSheetManager.arrowBow, 1, 10);
@@ -43,7 +43,7 @@ namespace RogueLike
             AllWeaponList.Add(bow);
 
             shuriken = new Projectile(25, 25, SpriteSheetManager.shuriken, 1, 20);
-            throwing = new RangeWeapon(60, 40, 15, 500, 5, SpriteSheetManager.throwing, SpriteSheetManager.throwItem, 0.90f, 6, "Shurikens", shuriken, 1);
+            throwing = new RangeWeapon(60, 40, 15, 500, 5, SpriteSheetManager.throwing, SpriteSheetManager.throwItem, 0.90f, 10, "Shurikens", shuriken, 1);
             AllWeaponList.Add(throwing);
 
             fireBall = new Projectile(42, 34, SpriteSheetManager.fireBall, 0.2, 12);

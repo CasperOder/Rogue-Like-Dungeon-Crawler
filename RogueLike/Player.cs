@@ -335,6 +335,7 @@ namespace RogueLike
                     {
                         equippedMelee.ResetFrame();
                         equippedMelee.hitbox = new Rectangle(0, 0, 0, 0);
+                        equippedMelee.damageHitbox = new Rectangle(0, 0, 0, 0);
                     }
                     else if(equippedRange!=null)
                     {
@@ -579,6 +580,8 @@ namespace RogueLike
         {
             sb.Draw(spriteSheet.texture, hitbox.Location.ToVector2(), null, new Rectangle(spriteSheet.frameSize.X * currentFrame.X, spriteSheet.frameSize.Y * currentFrame.Y, spriteSheet.frameSize.X, spriteSheet.frameSize.Y), Vector2.Zero, 0, Vector2.One, playerColor, SpriteEffects.None, 1f);
 
+
+            //sb.Draw(SpriteSheetManager.dummy.texture, equippedMelee.damageHitbox, Color.White);
 
             if(equippedRange!=null && isAttacking)
             {
