@@ -106,6 +106,7 @@ namespace RogueLike
                         {
                             Level.LoadFromSave();
                             Game1.gameState = Game1.GameState.Play;
+                            Menu.LoadButtons();
                         }
                     }
                     else if (buttonName == "resume")
@@ -149,6 +150,7 @@ namespace RogueLike
                         }
                         Level.Load_Level(graphics, content);
                         Game1.gameState = Game1.GameState.Start;
+
                     }
                     else if (buttonName == "exitGame")
                     {
