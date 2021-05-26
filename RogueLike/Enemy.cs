@@ -21,7 +21,6 @@ namespace RogueLike
         public double attackSpeed { get; private set; }
         //public bool beenHit;
 
-        bool isColliding = false;
 
         double timeSinceAttack;
         public int spawnWeight; //ju högre desto svårare enemy i förhållande till resten av kretsen.
@@ -142,20 +141,20 @@ namespace RogueLike
 
 
             //Movement
-            TileCollision(new Rectangle((int)(position.X + speed * direction.X * (float)gameTime.ElapsedGameTime.TotalSeconds),(int)(position.Y + speed * direction.Y * (float)gameTime.ElapsedGameTime.TotalSeconds),hitbox.Width,hitbox.Height));
+            TileCollisionHandler(new Rectangle((int)(position.X + speed * direction.X * (float)gameTime.ElapsedGameTime.TotalSeconds),(int)(position.Y + speed * direction.Y * (float)gameTime.ElapsedGameTime.TotalSeconds),hitbox.Width,hitbox.Height));
             if (!isColliding)
             {
                 position += speed * direction * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
             else
             {
-                TileCollision(new Rectangle((int)(position.X), (int)(position.Y + speed * direction.Y * (float)gameTime.ElapsedGameTime.TotalSeconds), hitbox.Width, hitbox.Height));
+                TileCollisionHandler(new Rectangle((int)(position.X), (int)(position.Y + speed * direction.Y * (float)gameTime.ElapsedGameTime.TotalSeconds), hitbox.Width, hitbox.Height));
                 if (!isColliding)
                 {
                    
                     position.Y += speed * direction.Y * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
-                TileCollision(new Rectangle((int)(position.X + speed * direction.X * (float)gameTime.ElapsedGameTime.TotalSeconds), (int)(position.Y), hitbox.Width, hitbox.Height));
+                TileCollisionHandler(new Rectangle((int)(position.X + speed * direction.X * (float)gameTime.ElapsedGameTime.TotalSeconds), (int)(position.Y), hitbox.Width, hitbox.Height));
                 if (!isColliding)
                 {
                     position.X += speed * direction.X * (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -163,21 +162,8 @@ namespace RogueLike
             }
             
         }
-        void TileCollision(Rectangle rect)
-        {
-            for (int i = 0; i < Room.wallTiles.Count; i++)
-            {
-                if (Room.wallTiles[i].hitbox.Intersects(rect))
-                {
-                    isColliding = true;
-                    break;
-                }
-                else if (i == Room.wallTiles.Count - 1)
-                {
-                    isColliding = false;
-                }
-            }
-        }
+        
+
         public static int CollisionSide(Rectangle rect, Vector2 objectPos, Point objectSize)
         {
             float[] distances = new float[4];

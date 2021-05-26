@@ -25,41 +25,55 @@ namespace RogueLike
 
         static Texture2D digitTex;
 
-        public static void Load(ContentManager c)
+        /// <summary>
+        /// Loads the HUD.
+        /// </summary>
+        /// <param name="content"></param>
+        public static void Load(ContentManager content)
         {
-            digitTex = c.Load<Texture2D>("digits");
+            digitTex = content.Load<Texture2D>("digits");
         }
        
         public static void Update(Vector2 playerPos)
         {
             position = new Vector2(playerPos.X - Constants.windowWidth / 2, playerPos.Y - Constants.windowHeight / 2);
-
-
         }
 
-        public static void UpdateCurrencyHUD(int c) //kallas när valutan ändras
+        /// <summary>
+        /// Updates the currency on the HUD.
+        /// </summary>
+        /// <param name="currency">New currency.</param>
+        public static void UpdateCurrencyHUD(int currency) //kallas när valutan ändras
         {
-            digitArray[0] = c / 1000;
-            digitArray[1] = c / 100 - (c / 1000) * 10;
-            digitArray[2] = c / 10 - (c / 100) * 10;
-            digitArray[3] = c - (c / 10) * 10;
+            digitArray[0] = currency / 1000;
+            digitArray[1] = currency / 100 - (currency / 1000) * 10;
+            digitArray[2] = currency / 10 - (currency / 100) * 10;
+            digitArray[3] = currency - (currency / 10) * 10;
         }
 
-        public static void UpdateCurrentHealthHUD(int h) //kallas när spelaren tar skada eller nuvarande hälsa ändras generellt
+        /// <summary>
+        /// Updates the health on the HUD.
+        /// </summary>
+        /// <param name="health">New health.</param>
+        public static void UpdateCurrentHealthHUD(int health) //kallas när spelaren tar skada eller nuvarande hälsa ändras generellt
         {
-            currentHealthArray[0] = h / 100;
-            currentHealthArray[1] = h / 10 - (h / 100) * 10;
-            currentHealthArray[2] = h - (h / 10) * 10;
+            currentHealthArray[0] = health / 100;
+            currentHealthArray[1] = health / 10 - (health / 100) * 10;
+            currentHealthArray[2] = health - (health / 10) * 10;
         }
 
-        public static void UpdateMaxHealthHUD(int h) //kallas när spelarens maximala hälsa ändras
+        /// <summary>
+        /// Updates the maxHealth on the HUD.
+        /// </summary>
+        /// <param name="maxHealth">New maxHealth.</param>
+        public static void UpdateMaxHealthHUD(int maxHealth)
         {
-            maxHealthArray[0] = h / 100;
-            maxHealthArray[1] = h / 10 - (h / 100) * 10;
-            maxHealthArray[2] = h - (h / 10) * 10;
+            maxHealthArray[0] = maxHealth / 100;
+            maxHealthArray[1] = maxHealth / 10 - (maxHealth / 100) * 10;
+            maxHealthArray[2] = maxHealth - (maxHealth / 10) * 10;
         }
 
-        public static void Draw(SpriteBatch sb) //rendertarget blir nog optimalt här. Får jobba på det en annan dag. /D
+        public static void Draw(SpriteBatch sb) 
         {
             for (int i = 0; i < digitArray.Length; i++)
             {
@@ -89,9 +103,6 @@ namespace RogueLike
             healthBox = new Rectangle((int)position.X + 3 * healthBox.Width, (int)position.Y + Constants.windowHeight - healthBox.Height, healthBox.Width, healthBox.Height);
 
             sb.Draw(digitTex, healthBox, healthSrc, Color.White);
-        }
-            
-
-
+        }           
     }
 }

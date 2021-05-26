@@ -3,21 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace RogueLike
-{
-    public enum WeaponDirection
-    {
-        up,
-        down,
-        right,
-        left,
-    }
-
+{    
     class Weapon:AnimatedObject
     {
         public int baseDamage;
@@ -30,10 +21,6 @@ namespace RogueLike
         public float speedMultiplier; //ändrar spelarens hastighet under attacken
         public SpriteSheet itemSpriteSheet;
         public string itemName;
-
-        //public Rectangle hitbox;
-
-        //public SpriteSheet spriteSheet;
 
         public int hitboxLength, hitboxWidth; //Length is how far FROM the player the weapon points.
 

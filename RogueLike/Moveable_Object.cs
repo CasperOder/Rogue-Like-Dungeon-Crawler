@@ -16,10 +16,10 @@ namespace RogueLike
         protected Vector2 direction;
         protected bool moving;
         public bool beenHit;
-
+        public bool isColliding = false;
 
         public float maxHealth, health;
-
+       
         public enum CardinalDirection
         {
             up,
@@ -32,6 +32,7 @@ namespace RogueLike
         {
             speedMultiplier = 1;
         }
+
         public Moveable_Object(SpriteSheet spriteSheet, double timeBetweenFrames, float health, float maxHealth) : base(spriteSheet, timeBetweenFrames)
         {
             speedMultiplier = 1;
@@ -49,5 +50,25 @@ namespace RogueLike
             hitbox.Location = new Point((int)middlepos.X - hitbox.Size.X / 2, (int)middlepos.Y - hitbox.Size.Y / 2);
         }
 
+
+        /// <summary>
+        /// Checks collsion with the wall tiles
+        /// </summary>
+        /// <param name="rect">The rectangle to check the wall tiles</param>
+        protected void TileCollisionHandler(Rectangle rect)
+        {
+            for (int i = 0; i < Room.wallTiles.Count; i++)
+            {
+                if (Room.wallTiles[i].hitbox.Intersects(rect))
+                {
+                    isColliding = true;
+                    break;
+                }
+                else if (i == Room.wallTiles.Count - 1)
+                {
+                    isColliding = false;
+                }
+            }
+        }
     }
 }

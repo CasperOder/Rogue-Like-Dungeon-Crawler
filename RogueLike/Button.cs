@@ -128,6 +128,7 @@ namespace RogueLike
                     }
                     else if (buttonName == "exitGame")
                     {
+                        Level.enemyList.Clear();
                         Level.Load_Level(graphics, content);
                         Game1.gameState = Game1.GameState.Start;
                     }
