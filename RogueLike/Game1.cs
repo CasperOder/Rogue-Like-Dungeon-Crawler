@@ -75,8 +75,10 @@ namespace RogueLike
         protected override void UnloadContent()
         {
         }
-        
 
+        /// <summary>
+        /// Sets the gamestate to Game Over 
+        /// </summary>
         public static void SetGameOverScreen()
         {
             GameOver.LoadScreen();

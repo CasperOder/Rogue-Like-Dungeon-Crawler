@@ -17,7 +17,9 @@ namespace RogueLike
 
         public static List<Weapon> AllWeaponList = new List<Weapon>();
 
-
+        /// <summary>
+        /// Loads all the weapons and items.
+        /// </summary>
         public static void LoadAllWeaponsAndItems()
         {
             testMelee = new MeleeWeapon(120, 40, 20, 2, SpriteSheetManager.swordSwing, SpriteSheetManager.arrowItem, 0.9f, 2, "testweapon", 1);
@@ -53,18 +55,30 @@ namespace RogueLike
             AllWeaponList.Add(iceRod);
         }
 
+        /// <summary>
+        /// Creates a new instance of a coin.
+        /// </summary>
+        /// <param name="pos">Position of the coin.</param>
+        /// <returns></returns>
         public static Item Coin (Vector2 pos)
         {
             return new Item(10, true, SpriteSheetManager.coin, pos, Item.ItemType.coin, "+10 coins");
         }
 
+        /// <summary>
+        /// Returns a random stat upgrade.
+        /// </summary>
+        /// <param name="pos">Position of the upgrade.</param>
+        /// <param name="stronger">Decides if it is a stronger upgrade or not.</param>
+        /// <param name="rnd"></param>
+        /// <returns></returns>
         public static Item NewStatUpgrade(Vector2 pos, bool stronger, Random rnd)
         {
             int whichBoost= rnd.Next(0,4);
             int coinGain=0;
             float itemMultiplier=1;
             string itemTypeName=null; //får värde längre ner.
-            Item.ItemType itemType= Item.ItemType.coin;
+            Item.ItemType itemType= Item.ItemType.coin; //Måste ha ett värde. Ändras senare.
             SpriteSheet spriteSheet = SpriteSheetManager.fire;
 
             switch(whichBoost)
@@ -155,11 +169,25 @@ namespace RogueLike
 
         }
 
+        /// <summary>
+        /// Returns a healing potion.
+        /// </summary>
+        /// <param name="pos">Position of the healing potion.</param>
+        /// <param name="healAmount">Amount healed by the potion.</param>
+        /// <returns></returns>
         public static Item HealPotion(Vector2 pos, int healAmount)
         {
             return new Item(0, false, SpriteSheetManager.healPotion, pos, Item.ItemType.healAndSave, "Heal and Save!",32, 64) { multiplier = healAmount };
         }
 
+        /// <summary>
+        /// Returns a random weapon item.
+        /// </summary>
+        /// <param name="pos">Position of the Item.</param>
+        /// <param name="currCircle">Current circle of the level.</param>
+        /// <param name="betterWeapon">Decides if it is a better weapon or not.</param>
+        /// <param name="rnd"></param>
+        /// <returns></returns>
         public static WeaponItem NewWeaponItem(Vector2 pos, int currCircle, bool betterWeapon, Random rnd)
         {
             //bool weaponChosen = false;
@@ -211,10 +239,13 @@ namespace RogueLike
             while (AllWeaponList[weaponNum].weight != weightChoser);
 
             return new WeaponItem(AllWeaponList[weaponNum], coinGain, false, AllWeaponList[weaponNum].itemSpriteSheet, pos, Item.ItemType.weaponType, AllWeaponList[weaponNum].itemName);
-
         }
 
-
+        /// <summary>
+        /// Returns the saved weapon.
+        /// </summary>
+        /// <param name="weaponName">Name of the saved weapon.</param>
+        /// <returns></returns>
         public static Weapon SavedWeaponFromList(string weaponName)
         {
             Weapon returnWeapon=testMelee; //måste anges ett värde för att kunna returna. Värdet ändras i loopen nedan

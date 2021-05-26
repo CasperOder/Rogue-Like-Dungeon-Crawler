@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace RogueLike
 {
-    class Item: GameObject
+    class Item : GameObject
     {
         public int coinGain;
         public bool autoPickUp;
@@ -30,7 +30,16 @@ namespace RogueLike
         }
         public ItemType itemType;
 
-        public Item(int coinGain, bool autoPickUp, SpriteSheet spriteSheet, Vector2 spawnPos, ItemType itemType, string itemName):base(spriteSheet)
+        /// <summary>
+        /// Creates an instance of an item.
+        /// </summary>
+        /// <param name="coinGain">How much currency the player gain through pickup.</param>
+        /// <param name="autoPickUp">If the Item shoould be automatically pickedup or not.</param>
+        /// <param name="spriteSheet">Which spritesheet the Item utilize.</param>
+        /// <param name="spawnPos">Position of the Item.</param>
+        /// <param name="itemType">Which type of Item it is.</param>
+        /// <param name="itemName">Name of the Item.</param>
+        public Item(int coinGain, bool autoPickUp, SpriteSheet spriteSheet, Vector2 spawnPos, ItemType itemType, string itemName) : base(spriteSheet)
         {
             this.itemType = itemType;
             this.coinGain = coinGain;
@@ -40,7 +49,15 @@ namespace RogueLike
 
             hitbox = new Rectangle((int)middlepos.X - Constants.itemSize / 2, (int)middlepos.Y - Constants.itemSize / 2, Constants.itemSize, Constants.itemSize);
         }
-
+        /// <summary>
+        /// Creates an instance of an item eith specific hitbox size.
+        /// </summary>
+        /// <param name="coinGain">How much currency the player gain through pickup.</param>
+        /// <param name="autoPickUp">If the Item shoould be automatically pickedup or not.</param>
+        /// <param name="spriteSheet">Which spritesheet the Item utilize.</param>
+        /// <param name="spawnPos">Position of the Item.</param>
+        /// <param name="itemType">Which type of Item it is.</param>
+        /// <param name="itemName">Name of the Item.</param>
         public Item(int coinGain, bool autoPickUp, SpriteSheet spriteSheet, Vector2 spawnPos, ItemType itemType, string itemName, int hitboxX, int hitboxY) : base(spriteSheet)
         {
             this.itemType = itemType;
@@ -57,11 +74,10 @@ namespace RogueLike
         {
             sb.Draw(spriteSheet.texture, hitbox, Color.White);
             sb.DrawString(Level.itemFont, itemName, new Vector2(hitbox.Left, hitbox.Top - 20), Color.White);
-            if (coinGain<0)
+            if (coinGain < 0)
             {
-                sb.DrawString(Level.itemFont, Math.Abs(coinGain).ToString(), new Vector2(hitbox.X, hitbox.Bottom),Color.White);
+                sb.DrawString(Level.itemFont, Math.Abs(coinGain).ToString(), new Vector2(hitbox.X, hitbox.Bottom), Color.White);
             }
         }
-
     }
 }

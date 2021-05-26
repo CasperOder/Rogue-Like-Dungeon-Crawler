@@ -251,6 +251,7 @@ namespace RogueLike
 
 
             //Movement
+            //TileCollisionHandler(new Rectangle((int)(position.X + speed * direction.X * (float)gameTime.ElapsedGameTime.TotalSeconds),(int)(position.Y + speed * direction.Y * (float)gameTime.ElapsedGameTime.TotalSeconds),hitbox.Width,hitbox.Height));
 
             TileCollision(new Rectangle((int)(position.X + speed * direction.X * (float)gameTime.ElapsedGameTime.TotalSeconds), (int)(position.Y + speed * direction.Y * (float)gameTime.ElapsedGameTime.TotalSeconds), hitbox.Width, hitbox.Height));
 
@@ -281,19 +282,21 @@ namespace RogueLike
             }
             else
             {
-                TileCollision(new Rectangle((int)(position.X), (int)(position.Y + speed * direction.Y * (float)gameTime.ElapsedGameTime.TotalSeconds), hitbox.Width, hitbox.Height));
+                TileCollisionHandler(new Rectangle((int)(position.X), (int)(position.Y + speed * direction.Y * (float)gameTime.ElapsedGameTime.TotalSeconds), hitbox.Width, hitbox.Height));
                 if (!isColliding)
                 {
                    
                     position.Y += speed * direction.Y * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
-                TileCollision(new Rectangle((int)(position.X + speed * direction.X * (float)gameTime.ElapsedGameTime.TotalSeconds), (int)(position.Y), hitbox.Width, hitbox.Height));
+                TileCollisionHandler(new Rectangle((int)(position.X + speed * direction.X * (float)gameTime.ElapsedGameTime.TotalSeconds), (int)(position.Y), hitbox.Width, hitbox.Height));
                 if (!isColliding)
                 {
                     position.X += speed * direction.X * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
             }           
         }
+        
+
         void TileCollision(Rectangle rect)
         {
             for (int i = 0; i < Room.wallTiles.Count; i++)
@@ -311,6 +314,7 @@ namespace RogueLike
                 }
             }
         }
+
         public static int CollisionSide(Rectangle rect, Vector2 objectPos, Point objectSize)
         {
             float[] distances = new float[4];

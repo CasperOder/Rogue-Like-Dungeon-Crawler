@@ -23,7 +23,9 @@ namespace RogueLike
         static List<Enemy> circleEightEnemyRoster = new List<Enemy>();
         static List<Enemy> circleNineEnemyRoster = new List<Enemy>();
 
-
+        /// <summary>
+        /// Load all the enemies and assign them to specific circles.
+        /// </summary>
         public static void LoadEnemies()
         {
             fire = new Enemy(SpriteSheetManager.fire, 0.1, 400, 1000, 250, 60, 2.2d, 100, 100, 1, 10, new Moveable_Object(SpriteSheetManager.iceBall, 0.1d), 400);
@@ -34,13 +36,20 @@ namespace RogueLike
             circleThreeEnemyRoster.Add(fire);
         }
 
-        static public List<Enemy> spawnEnemies (List<Tile> tileList, int currentFloor, Random rnd)
+        /// <summary>
+        /// Returns a list of all the enemies in the circle.
+        /// </summary>
+        /// <param name="tileList">List of tiles the enemies can spawn on.</param>
+        /// <param name="currentCircle">The current level circle.</param>
+        /// <param name="rnd"></param>
+        /// <returns></returns>
+        static public List<Enemy> spawnEnemies (List<Tile> tileList, int currentCircle, Random rnd)
         {
             List<Enemy> enemyList = new List<Enemy>();
             List<Enemy> enemyRoster = new List<Enemy>();
             int totalWeight =0 , weightLimit = 0;
 
-            switch(currentFloor)
+            switch(currentCircle)
             {
                 case 1:
                     weightLimit = 4;
@@ -94,12 +103,7 @@ namespace RogueLike
                 
             }
             
-            //Copy enemyRoster, itsället för "="
-
-
             return enemyList;
-        }
-
-
+        }        
     }
 }

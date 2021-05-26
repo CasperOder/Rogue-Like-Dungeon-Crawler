@@ -3,21 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace RogueLike
-{
-    public enum WeaponDirection
-    {
-        up,
-        down,
-        right,
-        left,
-    }
-
+{    
     class Weapon:AnimatedObject
     {
         public int baseDamage;
@@ -32,11 +23,6 @@ namespace RogueLike
         public string itemName;
 
         public Vector2 position;
-
-        //public Rectangle hitbox;
-
-        //public SpriteSheet spriteSheet;
-
         public int hitboxLength, hitboxWidth; //Length is how far FROM the player the weapon points.
 
         public Weapon(int hitboxLength,int hitboxWidth, int baseDamage, float baseAttackSpeed, SpriteSheet spriteSheet, SpriteSheet itemSpriteSheet, float speedMultiplier, int weight, string itemName, double timeBetweenFrames) :base(spriteSheet, timeBetweenFrames)

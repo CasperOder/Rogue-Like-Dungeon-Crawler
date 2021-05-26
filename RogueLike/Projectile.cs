@@ -15,14 +15,20 @@ namespace RogueLike
         public Vector2 startPos;
         public int damage;
         public float damageMultiplyier;
-        public bool destroy = false;
-
+        
         float rangeMultiplyier;
         int range;
 
         public int hitboxLength, hitboxWidth;
 
-        //När en projectile template skapas i LoadWeaponsAndItems
+        /// <summary>
+        /// Template of a Projectile
+        /// </summary>
+        /// <param name="hitboxLength">Length of the hitbox</param>
+        /// <param name="hitboxWidth">Width of the hitbox</param>
+        /// <param name="spriteSheet">Spritesheet the Projectile uses</param>
+        /// <param name="timeBetweenFrames">Time between frames, measured in seconds</param>
+        /// <param name="speed">Traveling speed of the Projectile</param>
         public Projectile(int hitboxLength, int hitboxWidth ,SpriteSheet spriteSheet, double timeBetweenFrames, int speed) :base(spriteSheet, timeBetweenFrames)
         {
             this.speed = speed;
@@ -30,7 +36,20 @@ namespace RogueLike
             this.hitboxWidth = hitboxWidth;
         }
 
-        //När en ny projectile skapas för bruk
+        /// <summary>
+        /// Creates an instance of a Projectile
+        /// </summary>
+        /// <param name="hitboxLength">Length of the hitbox</param>
+        /// <param name="hitboxWidth">Width of the hitbox</param>
+        /// <param name="spriteSheet">Spritesheet the Projectile uses</param>
+        /// <param name="timeBetweenFrames">Time between frames, measured in seconds</param>
+        /// <param name="speed">Traveling speed of the Projectile</param>
+        /// <param name="startPos">Location the Projectile origins from</param>
+        /// <param name="cardinalDirection">Direction of the Projectile</param>
+        /// <param name="damage">Amount of damage the Projectile will deal upon impact</param>
+        /// <param name="range">The maximal range the Projectile will reach before being destroyed.</param>
+        /// <param name="rangeMultiplyier">Multiplies the maximal range.</param>
+        /// <param name="damageMultiplyier">Multiplies the damage dealt.</param>
         public Projectile(int hitboxLength, int hitboxWidth, SpriteSheet spriteSheet, double timeBetweenFrames, int speed, Vector2 startPos, CardinalDirection cardinalDirection, int damage, int range, float rangeMultiplyier, float damageMultiplyier) : base(spriteSheet, timeBetweenFrames)
         {
             switch(cardinalDirection)
@@ -64,6 +83,10 @@ namespace RogueLike
             this.damageMultiplyier = damageMultiplyier;
         }
         
+        /// <summary>
+        /// Updates the position of the Projectile
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
             middlepos += speed * direction;
@@ -71,7 +94,7 @@ namespace RogueLike
 
             if (Vector2.Distance(startPos, middlepos) > range * rangeMultiplyier)
             {
-                destroy = true;
+                isColliding = true;
             }
 
             gameticksTillWallCheck++;
@@ -79,32 +102,26 @@ namespace RogueLike
             {
                 gameticksTillWallCheck = 0;
 
-                foreach (Tile t in Room.wallTiles)
+                TileCollisionHandler(hitbox);
+                if(isColliding)
                 {
-                    if (t.hitbox.Intersects(hitbox))
-                    {
-                        destroy = true;
-                        break;
-                    }
+                    isColliding = true;
                 }
             }
-
             Animate(gameTime, 0);
         }
 
+        /// <summary>
+        /// Checks if the Projectile can inflict damage to the assigned target.
+        /// </summary>
+        /// <param name="target">Specific target to damage check.</param>
         public void CheckTargetCollision(Moveable_Object target)
         {
             if (target.hitbox.Intersects(hitbox))
             {
-                destroy = true;
+                isColliding = true;
                 target.health -= (damage*damageMultiplyier);
             }
-        }
-
-        //public void Draw(SpriteBatch sb)
-        //{
-        //    sb.Draw(spriteSheet.texture, hitbox, Color.White);
-        //}
-
+        }        
     }
 }

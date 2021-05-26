@@ -10,15 +10,10 @@ using System.Threading.Tasks;
 namespace RogueLike
 {
     class Player : Moveable_Object
-
     {        
         Color playerColor=Color.White;
-        public static bool isColliding = false;
-
-
-
+        
         public static MouseState mouseState;
-
         
         public static CardinalDirection mouseDirection;
 
@@ -37,11 +32,15 @@ namespace RogueLike
 
         float attackTime, timeTillMovable;
 
+        /// <summary>
+        /// Creates a new instance of a player character
+        /// </summary>
+        /// <param name="spriteSheet">Sets the spritesheet of the player</param>
+        /// <param name="timeBetweenFrames">Time between frames, measured in seconds</param>
         public Player(SpriteSheet spriteSheet, /*Vector2 startPos,*/ double timeBetweenFrames) : base(spriteSheet, timeBetweenFrames)
         {
             hitbox.Size = spriteSheet.frameSize;
-            //hitbox.X = (int)startPos.X - hitbox.Width / 2;
-            //hitbox.Y = (int)startPos.Y - hitbox.Height / 2;
+
             middlepos = new Vector2(hitbox.Center.X, hitbox.Center.Y);
             maxHealth = 100;
             health = maxHealth;
@@ -50,6 +49,10 @@ namespace RogueLike
 
         }
 
+        /// <summary>
+        /// Handles the movements and attacks of the player
+        /// </summary>
+        /// <param name="gameTime">Inherit the GameTime class</param>
         public void Movement(GameTime gameTime)
         {
             mouseState = Mouse.GetState();
@@ -67,7 +70,7 @@ namespace RogueLike
                     GetAttackingDirection();
                     if(equippedRange!=null)
                     {
-                        equippedRange.CreateNewProjectile(equippedRange.middlepos, damageMultiplier, mouseDirection);
+                        equippedRange.CreateNewProjectile(damageMultiplier, mouseDirection);
                     }
                 }
             }
@@ -102,15 +105,6 @@ namespace RogueLike
                     }
                 }
             }
-            //direction = new Vector2(-(float)Math.Sqrt(0.5),-(float)Math.Sqrt(0.5));
-            //moving = true;
-
-
-
-
-
-
-
             else if (Keyboard.GetState().IsKeyDown(Keys.Right) && Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.D) && Keyboard.GetState().IsKeyDown(Keys.W))
             {
                 Animate(gameTime, 3);
@@ -140,8 +134,6 @@ namespace RogueLike
                         isColliding = false;
                     }
                 }
-                //direction = new Vector2((float)Math.Sqrt(0.5), -(float)Math.Sqrt(0.5));
-                //moving = true;
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Right) && Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.D) && Keyboard.GetState().IsKeyDown(Keys.S))
             {
@@ -172,8 +164,6 @@ namespace RogueLike
                         isColliding = false;
                     }
                 }
-                //direction = new Vector2((float)Math.Sqrt(0.5), (float)Math.Sqrt(0.5));
-                //moving = true;
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Left) && Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.A) && Keyboard.GetState().IsKeyDown(Keys.S))
             {
@@ -204,8 +194,6 @@ namespace RogueLike
                         isColliding = false;
                     }
                 }
-                //direction = new Vector2(-(float)Math.Sqrt(0.5), (float)Math.Sqrt(0.5));
-                //moving = true;
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A)) //left
             {
@@ -219,10 +207,7 @@ namespace RogueLike
                     moving = true;
                     isColliding = false;
                 }
-                //direction = new Vector2(-1,0);
-                //moving = true;                
             }
-
             else if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D)) //right
             {
                 Animate(gameTime, 2);
@@ -234,9 +219,6 @@ namespace RogueLike
                     moving = true;
                     isColliding = false;
                 }
-                //direction = new Vector2(1,0);
-                //moving = true;
-
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S)) //down
             {
@@ -249,10 +231,6 @@ namespace RogueLike
                     moving = true;
                     isColliding = false;
                 }
-                //direction = new Vector2(0,1);
-                //moving = true;
-
-
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))//up
             {
@@ -265,8 +243,6 @@ namespace RogueLike
                     moving = true;
                     isColliding = false;
                 }
-                //direction = new Vector2(0,-1);
-                //moving = true;
             }
             else
             {
@@ -276,25 +252,12 @@ namespace RogueLike
                         
             middlepos = new Vector2(hitbox.Center.X, hitbox.Center.Y);
 
-
-            if (moving)
-            {
-                //if (!isColliding)
-                //{
-                //    middlepos += speed * direction;
-                //    hitbox.Location = new Point((int)middlepos.X, (int)middlepos.Y) - new Point(hitbox.Width / 2, hitbox.Height / 2);
-                //}
-            }
-            else
-            {                
-            }
-
+            
             if (!isAttacking)
             {
             }
             else
             {
-
                 if (equippedMelee != null)
                 {
                     equippedMelee.Animate(gameTime, 0);
@@ -305,26 +268,22 @@ namespace RogueLike
                             equippedMelee.hitbox = new Rectangle(hitbox.Center.X - equippedMelee.hitboxWidth / 2, hitbox.Top - equippedMelee.hitboxLength / 2, equippedMelee.hitboxWidth, equippedMelee.hitboxLength);
                             equippedMelee.position = new Vector2(hitbox.Center.X - equippedMelee.hitboxWidth / 4, hitbox.Top - equippedMelee.hitboxLength / 4);
                             equippedMelee.damageHitbox = new Rectangle(hitbox.Center.X - equippedMelee.hitboxWidth / 2, hitbox.Top - equippedMelee.hitboxLength, equippedMelee.hitboxWidth, equippedMelee.hitboxLength);
-
                             break;
                         case CardinalDirection.down:
                             equippedMelee.hitbox = new Rectangle(hitbox.Center.X - equippedMelee.hitboxWidth / 2, hitbox.Bottom + equippedMelee.hitboxLength / 2, equippedMelee.hitboxWidth, equippedMelee.hitboxLength);
                             equippedMelee.position = new Vector2(hitbox.Center.X - equippedMelee.hitboxWidth / 4, hitbox.Bottom + equippedMelee.hitboxLength / 4);
                             equippedMelee.damageHitbox = new Rectangle(hitbox.Center.X - equippedMelee.hitboxWidth / 2, hitbox.Bottom, equippedMelee.hitboxWidth, equippedMelee.hitboxLength);
-
                             break;
                         case CardinalDirection.right:
                             equippedMelee.hitbox = new Rectangle(hitbox.Right + equippedMelee.hitboxWidth, hitbox.Center.Y - equippedMelee.hitboxWidth / 2, equippedMelee.hitboxLength, equippedMelee.hitboxWidth);
                             equippedMelee.position = new Vector2(hitbox.Right + equippedMelee.hitboxWidth, hitbox.Center.Y);
 
                             equippedMelee.damageHitbox = new Rectangle(hitbox.Right, hitbox.Center.Y - equippedMelee.hitboxWidth / 2, equippedMelee.hitboxLength, equippedMelee.hitboxWidth);
-
                             break;
                         case CardinalDirection.left:
                             equippedMelee.hitbox = new Rectangle(hitbox.Left - equippedMelee.hitboxWidth, hitbox.Center.Y - equippedMelee.hitboxWidth / 2, equippedMelee.hitboxLength, equippedMelee.hitboxWidth);
                             equippedMelee.position = new Vector2(hitbox.Left - equippedMelee.hitboxWidth, hitbox.Center.Y);
                             equippedMelee.damageHitbox = new Rectangle(hitbox.Left - equippedMelee.hitboxLength, hitbox.Center.Y - equippedMelee.hitboxWidth / 2, equippedMelee.hitboxLength, equippedMelee.hitboxWidth);
-
                             break;
                     }
                 }
@@ -357,7 +316,6 @@ namespace RogueLike
                             case CardinalDirection.left:
                                 equippedRange.hitbox = new Rectangle(hitbox.Left - equippedRange.hitboxLength, hitbox.Center.Y - equippedRange.hitboxWidth / 2, equippedRange.hitboxLength, equippedRange.hitboxWidth);
                                 equippedRange.position = new Vector2(hitbox.Left - equippedRange.hitboxWidth, hitbox.Center.Y);
-
                                 break;
                         }
                     }
@@ -386,14 +344,15 @@ namespace RogueLike
                 }
             }
 
-
             if (health <= 0)
             {
                 Game1.SetGameOverScreen();
             }
-
         }
 
+        /// <summary>
+        /// Sets the attacking direction of the player
+        /// </summary>
         public void GetAttackingDirection()
         {
             if (Math.Abs(mouseDistanceX) > Math.Abs(mouseDistanceY))
@@ -461,36 +420,27 @@ namespace RogueLike
             }
         }
 
-
-        public void InflictMeleeDamage(Moveable_Object m)
+        /// <summary>
+        /// Checks if the player can inflict melee damage on a target
+        /// </summary>
+        /// <param name="target">Specific target to damage check</param>
+        public void InflictMeleeDamage(Moveable_Object target)
         {
-            if (equippedMelee != null && !m.beenHit)
+            if (equippedMelee != null && !target.beenHit)
             {
-                if (m.hitbox.Intersects(equippedMelee.damageHitbox))
+                if (target.hitbox.Intersects(equippedMelee.damageHitbox))
                 {
-                    m.health -= (equippedMelee.baseDamage * equippedMelee.damageMultiplyier*damageMultiplier);
-                    m.beenHit = true;
+                    target.health -= (equippedMelee.baseDamage * equippedMelee.damageMultiplyier*damageMultiplier);
+                    target.beenHit = true;
                 }
             }            
         }
+        
 
-
-
-        //public void InflictDamage(Boss b)
-        //{
-        //    if (equippedMelee != null && !b.beenHit)
-        //    {
-        //        if (b.hitbox.Intersects(equippedMelee.hitbox))
-        //        {
-        //            b.health -= (equippedMelee.baseDamage * equippedMelee.damageMultiplyier);
-        //            b.beenHit = true;
-        //        }
-        //    }
-        //}
-
-
-
-
+        /// <summary>
+        /// Change the weapon of the player and drops the old weapon on the ground
+        /// </summary>
+        /// <param name="newWeapon">The new weapon assigned to the player</param>
         public void ChangeWeapon(Weapon newWeapon)
         {
             if (equippedMelee != null)
@@ -523,39 +473,21 @@ namespace RogueLike
         }
         
 
-
-        public void TileCollisionHandler (Rectangle rect)
-        {
-            
-            
-            for (int i = 0; i < Room.wallTiles.Count; i++)
-            {
-                if (Room.wallTiles[i].hitbox.Intersects(rect))
-                {
-                    isColliding = true;
-                    break;
-                }
-                else if (i == Room.wallTiles.Count - 1)
-                {
-                    isColliding = false;
-                        
-                }
-            }
-            
-        //    Vector2 diff = (middlepos - t.middlepos) / Vector2.Distance(middlepos, t.middlepos);
-        //    middlepos += diff * speed;
-        //    hitbox.Location = new Point((int)middlepos.X, (int)middlepos.Y) - new Point(hitbox.Width / 2, hitbox.Height / 2);
-        //    moving = false;
-        }
-
+        /// <summary>
+        /// Positions the player to a new location
+        /// </summary>
+        /// <param name="newPos">The new location</param>
         public void SetPlayerPosition(Vector2 newPos)
         {
             middlepos = newPos;
             hitbox.Location = new Point((int)middlepos.X, (int)middlepos.Y) - new Point(hitbox.Width / 2, hitbox.Height / 2);
-
         }
 
-
+        /// <summary>
+        /// Changes a stat of the player
+        /// </summary>
+        /// <param name="itemType">Changes stat depending on what ItemType the picked up Item had.</param>
+        /// <param name="multiplier">The change amount. Additively health, multiplicity otherwise.</param>
         public void UpdatePlayerStats(Item.ItemType itemType, float multiplier)
         {
             switch(itemType)
@@ -604,6 +536,15 @@ namespace RogueLike
             }
         }
 
+        /// <summary>
+        /// Sets the player stats from an old savefile.
+        /// </summary>
+        /// <param name="savedWeapon">Old Weapon from savefile.</param>
+        /// <param name="savedHealth">Old Health from savefile.</param>
+        /// <param name="savedMaxHealth">Old Max Health from savefile.</param>
+        /// <param name="savedAttackSpeedMultiplier">Old Attack Speed Multiplier from savefile.</param>
+        /// <param name="savedDamageMultiplier">Old Damage Multiplier from savefile.</param>
+        /// <param name="savedSpeedMultiplier">Old Speed Multiplier from savefile.</param>
         public void SetStatsFromSaveFile(Weapon savedWeapon, float savedHealth, float savedMaxHealth, float savedAttackSpeedMultiplier, float savedDamageMultiplier, float savedSpeedMultiplier)
         {
             health = savedHealth;
@@ -617,6 +558,9 @@ namespace RogueLike
             HUD.UpdateMaxHealthHUD((int)maxHealth);
         }
 
+        /// <summary>
+        /// Saves the player stats to the savefile
+        /// </summary>
         public void SetSaveFile()
         {
             Weapon weaponToSave;
@@ -633,7 +577,6 @@ namespace RogueLike
 
         public void Draw(SpriteBatch sb)
         {
-
             sb.Draw(spriteSheet.texture, hitbox.Location.ToVector2(), null, new Rectangle(spriteSheet.frameSize.X * currentFrame.X, spriteSheet.frameSize.Y * currentFrame.Y, spriteSheet.frameSize.X, spriteSheet.frameSize.Y), Vector2.Zero, 0, Vector2.One, playerColor, SpriteEffects.None, 1f);
 
 
@@ -644,36 +587,7 @@ namespace RogueLike
             else if (equippedMelee != null && isAttacking)
             {
                 equippedMelee.Draw(sb, mouseDirection);
-
-                //sb.Draw(SpriteSheetManager.dummy.texture, equippedMelee.damageHitbox, Color.White);
-              
-                //switch (mouseDirection)
-                //{
-                //    case Direction.up:
-
-                //        break;
-                //    case Direction.down:
-                //        sb.Draw(equippedMelee.spriteSheet.texture, equippedMelee.hitbox, new Rectangle(0, 0, equippedMelee.spriteSheet.texture.Width, equippedMelee.spriteSheet.texture.Height), Color.White, weaponRotation, new Vector2(equippedMelee.spriteSheet.texture.Height/2 - equippedMelee.hitboxWidth, equippedMelee.spriteSheet.texture.Width / 2), SpriteEffects.None, 1);
-                    
-                //        sb.Draw(equippedMelee.spriteSheet.texture, equippedMelee.hitbox, Color.White);
-
-                //        break;
-                //    case Direction.right:
-                //        sb.Draw(equippedMelee.spriteSheet.texture, equippedMelee.hitbox, new Rectangle(0, 0, equippedMelee.spriteSheet.texture.Width, equippedMelee.spriteSheet.texture.Height), Color.White, weaponRotation, new Vector2(equippedMelee.spriteSheet.texture.Width / 2 - equippedMelee.hitbox.Width / 2, equippedMelee.spriteSheet.texture.Height / 2 - equippedMelee.hitbox.Height / 2), SpriteEffects.None, 1);
-
-                //        break;
-                //    case Direction.left:
-                //        sb.Draw(equippedMelee.spriteSheet.texture, equippedMelee.hitbox, new Rectangle(0, 0, equippedMelee.spriteSheet.texture.Width, equippedMelee.spriteSheet.texture.Height), Color.White, weaponRotation, new Vector2(equippedMelee.spriteSheet.texture.Width / 2 - equippedMelee.hitbox.Width / 2, equippedMelee.spriteSheet.texture.Height / 2 - equippedMelee.hitbox.Height / 2), SpriteEffects.None, 1);
-
-
-                //        break;
-                //}
-
-
-
             }
-
         }
-
     }
 }
