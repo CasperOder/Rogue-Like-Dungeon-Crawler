@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace RogueLike
             this.buttonName = buttonName;
         }
 
-        public void ButtonClicked(MouseState mouseState, MouseState oldMouseState)
+        public void ButtonClicked(MouseState mouseState, MouseState oldMouseState, GraphicsDeviceManager graphics, ContentManager content)
         {
             if (mouseState.LeftButton == ButtonState.Released && oldMouseState.LeftButton == ButtonState.Pressed)
             {
@@ -41,7 +42,6 @@ namespace RogueLike
                             Menu.fadeOut = true;
                             Menu.fadeIn = false;
                         }
-                        
                     }
                     else if (buttonName == "options" && Menu.fadeOut == false)
                     {
@@ -70,12 +70,12 @@ namespace RogueLike
                     {
                         if (MediaPlayer.IsMuted == true)
                         {
-                            Menu.buttons[1].tex = Menu.muteMusicOff;
+                            Menu.buttons[1].tex = SpriteSheetManager.muteMusicOff.texture;
                             MediaPlayer.IsMuted = false;
                         }
                         else if (MediaPlayer.IsMuted == false)
                         {
-                            Menu.buttons[1].tex = Menu.muteMusicOn;
+                            Menu.buttons[1].tex = SpriteSheetManager.muteMusicOn.texture;
                             MediaPlayer.IsMuted = true;
                         }
                     }
@@ -83,12 +83,12 @@ namespace RogueLike
                     {
                         if (isFullScreen == true)
                         {
-                            Menu.buttons[2].tex = Menu.fullScreenOff;
+                            Menu.buttons[2].tex = SpriteSheetManager.fullScreenOff.texture;
                             isFullScreen = false;
                         }
                         else if (isFullScreen == false)
                         {
-                            Menu.buttons[2].tex = Menu.fullScreenOn;
+                            Menu.buttons[2].tex = SpriteSheetManager.fullScreenOn.texture;
                             isFullScreen = true;
                         }
                     }
@@ -100,13 +100,61 @@ namespace RogueLike
                         Game1.gameState = Game1.GameState.Play;
                     }
                     //Continue on saved file
-                    else if (buttonName=="continue")
+                    else if (buttonName == "continue")
                     {
                         if (Game1.saveFileExist)
                         {
                             Level.LoadFromSave();
                             Game1.gameState = Game1.GameState.Play;
                         }
+                    }
+                    else if (buttonName == "resume")
+                    {
+                        Game1.gameState = Game1.GameState.Play;
+                    }
+                    else if (buttonName == "pauseOptions")
+                    {
+                        Menu.stateName = "pauseOptions";
+                        if (Menu.f == 255)
+                        {
+                            Menu.fadeOut = true;
+                            Menu.fadeIn = false;
+                        }
+                    }
+                    else if (buttonName == "pauseBack")
+                    {
+                        Menu.stateName = "pauseMain";
+                        if (Menu.f == 255)
+                        {
+                            Menu.fadeOut = true;
+                            Menu.fadeIn = false;
+                        }
+                    }
+                    else if (buttonName == "pauseQuit")
+                    {
+                        Menu.stateName = "main";
+                        if (Menu.f == 255)
+                        {
+                            Menu.fadeOut = true;
+                            Menu.fadeIn = false;
+                        }
+                        try
+                        {
+                            SavefileHandler.ReadFile("savefile.txt");
+                            Game1.saveFileExist = true;
+                        }
+                        catch
+                        {
+                            Game1.saveFileExist = false;
+                        }
+                        Level.Load_Level(graphics, content);
+                        Game1.gameState = Game1.GameState.Start;
+                    }
+                    else if (buttonName == "exitGame")
+                    {
+                        Game1.gameState = Game1.GameState.Start;
+                        Level.Load_Level(graphics, content);
+                       
                     }
                 }
             }

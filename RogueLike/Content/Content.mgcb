@@ -241,6 +241,20 @@
 /processorParam:TextureFormat=Color
 /build:enemy-hit.png
 
+#begin exit.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:exit.png
+
+
+
 #begin Fire.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -336,6 +350,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:FullScreenOn.png
+
+#begin gameover.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:gameover.png
 
 #begin healpotion.png
 /importer:TextureImporter
@@ -577,6 +603,18 @@
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Pandora's Box.mp3
+
+#begin PauseButton.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:PauseButton.png
 
 #begin Poseidon.mp3
 /importer:Mp3Importer

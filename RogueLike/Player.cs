@@ -288,6 +288,7 @@ namespace RogueLike
             else
             {                
             }
+
             if (!isAttacking)
             {
             }
@@ -303,22 +304,26 @@ namespace RogueLike
                         case CardinalDirection.up:
                             equippedMelee.hitbox = new Rectangle(hitbox.Center.X - equippedMelee.hitboxWidth / 2, hitbox.Top - equippedMelee.hitboxLength / 2, equippedMelee.hitboxWidth, equippedMelee.hitboxLength);
                             equippedMelee.position = new Vector2(hitbox.Center.X - equippedMelee.hitboxWidth / 4, hitbox.Top - equippedMelee.hitboxLength / 4);
+                            equippedMelee.damageHitbox = new Rectangle(hitbox.Center.X - equippedMelee.hitboxWidth / 2, hitbox.Top - equippedMelee.hitboxLength, equippedMelee.hitboxWidth, equippedMelee.hitboxLength);
 
                             break;
                         case CardinalDirection.down:
                             equippedMelee.hitbox = new Rectangle(hitbox.Center.X - equippedMelee.hitboxWidth / 2, hitbox.Bottom + equippedMelee.hitboxLength / 2, equippedMelee.hitboxWidth, equippedMelee.hitboxLength);
                             equippedMelee.position = new Vector2(hitbox.Center.X - equippedMelee.hitboxWidth / 4, hitbox.Bottom + equippedMelee.hitboxLength / 4);
+                            equippedMelee.damageHitbox = new Rectangle(hitbox.Center.X - equippedMelee.hitboxWidth / 2, hitbox.Bottom, equippedMelee.hitboxWidth, equippedMelee.hitboxLength);
 
                             break;
                         case CardinalDirection.right:
                             equippedMelee.hitbox = new Rectangle(hitbox.Right + equippedMelee.hitboxWidth, hitbox.Center.Y - equippedMelee.hitboxWidth / 2, equippedMelee.hitboxLength, equippedMelee.hitboxWidth);
                             equippedMelee.position = new Vector2(hitbox.Right + equippedMelee.hitboxWidth, hitbox.Center.Y);
 
+                            equippedMelee.damageHitbox = new Rectangle(hitbox.Right, hitbox.Center.Y - equippedMelee.hitboxWidth / 2, equippedMelee.hitboxLength, equippedMelee.hitboxWidth);
 
                             break;
                         case CardinalDirection.left:
                             equippedMelee.hitbox = new Rectangle(hitbox.Left - equippedMelee.hitboxWidth, hitbox.Center.Y - equippedMelee.hitboxWidth / 2, equippedMelee.hitboxLength, equippedMelee.hitboxWidth);
                             equippedMelee.position = new Vector2(hitbox.Left - equippedMelee.hitboxWidth, hitbox.Center.Y);
+                            equippedMelee.damageHitbox = new Rectangle(hitbox.Left - equippedMelee.hitboxLength, hitbox.Center.Y - equippedMelee.hitboxWidth / 2, equippedMelee.hitboxLength, equippedMelee.hitboxWidth);
 
                             break;
                     }
@@ -380,6 +385,13 @@ namespace RogueLike
                     }
                 }
             }
+
+
+            if (health <= 0)
+            {
+                Game1.SetGameOverScreen();
+            }
+
         }
 
         public void GetAttackingDirection()
@@ -395,6 +407,10 @@ namespace RogueLike
                         equippedRange.hitbox = new Rectangle(hitbox.Right, hitbox.Center.Y - equippedRange.hitboxWidth / 2, equippedRange.hitboxLength, equippedRange.hitboxWidth);
                         equippedRange.middlepos = equippedRange.hitbox.Center.ToVector2();
                     }
+                    else if(equippedMelee!=null)
+                    {
+                        equippedMelee.damageHitbox = new Rectangle(hitbox.Right, hitbox.Center.Y - equippedMelee.hitboxWidth / 2, equippedMelee.hitboxLength, equippedMelee.hitboxWidth);
+                    }
                 }
                 else
                 {
@@ -404,6 +420,10 @@ namespace RogueLike
                     {
                         equippedRange.hitbox = new Rectangle(hitbox.Left - equippedRange.hitboxLength, hitbox.Center.Y - equippedRange.hitboxWidth / 2, equippedRange.hitboxLength, equippedRange.hitboxWidth);
                         equippedRange.middlepos = equippedRange.hitbox.Center.ToVector2();
+                    }
+                    else if (equippedMelee != null)
+                    {
+                        equippedMelee.damageHitbox = new Rectangle(hitbox.Left - equippedMelee.hitboxLength, hitbox.Center.Y - equippedMelee.hitboxWidth / 2, equippedMelee.hitboxLength, equippedMelee.hitboxWidth);
                     }
                 }
             }
@@ -418,6 +438,10 @@ namespace RogueLike
                         equippedRange.hitbox = new Rectangle(hitbox.Center.X - equippedRange.hitboxWidth / 2, hitbox.Bottom, equippedRange.hitboxWidth, equippedRange.hitboxLength);
                         equippedRange.middlepos = equippedRange.hitbox.Center.ToVector2();
                     }
+                    else if (equippedMelee != null)
+                    {
+                        equippedMelee.damageHitbox = new Rectangle(hitbox.Center.X - equippedMelee.hitboxWidth / 2, hitbox.Bottom, equippedMelee.hitboxWidth, equippedMelee.hitboxLength);
+                    }
                 }
                 else
                 {
@@ -428,6 +452,11 @@ namespace RogueLike
                         equippedRange.hitbox = new Rectangle(hitbox.Center.X - equippedRange.hitboxWidth / 2, hitbox.Top - equippedRange.hitboxLength, equippedRange.hitboxWidth, equippedRange.hitboxLength);
                         equippedRange.middlepos = equippedRange.hitbox.Center.ToVector2();
                     }
+                    else if (equippedMelee != null)
+                    {
+                        equippedMelee.damageHitbox = new Rectangle(hitbox.Center.X - equippedMelee.hitboxWidth / 2, hitbox.Top - equippedMelee.hitboxLength, equippedMelee.hitboxWidth, equippedMelee.hitboxLength);
+                    }
+                    
                 }
             }
         }
@@ -437,7 +466,7 @@ namespace RogueLike
         {
             if (equippedMelee != null && !m.beenHit)
             {
-                if (m.hitbox.Intersects(equippedMelee.hitbox))
+                if (m.hitbox.Intersects(equippedMelee.damageHitbox))
                 {
                     m.health -= (equippedMelee.baseDamage * equippedMelee.damageMultiplyier*damageMultiplier);
                     m.beenHit = true;
@@ -616,6 +645,7 @@ namespace RogueLike
             {
                 equippedMelee.Draw(sb, mouseDirection);
 
+                //sb.Draw(SpriteSheetManager.dummy.texture, equippedMelee.damageHitbox, Color.White);
               
                 //switch (mouseDirection)
                 //{

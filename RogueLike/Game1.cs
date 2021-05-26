@@ -11,7 +11,8 @@ namespace RogueLike
         {
             Start,
             Play,
-            GameOver
+            GameOver,
+            Pause
         }
 
         public static bool saveFileExist;
@@ -74,13 +75,21 @@ namespace RogueLike
         protected override void UnloadContent()
         {
         }
+        
+
+        public static void SetGameOverScreen()
+        {
+            GameOver.LoadScreen();
+            gameState = GameState.GameOver;
+            SavefileHandler.DeleteSavefile();
+        }
 
         protected override void Update(GameTime gameTime)
         {
             switch (gameState)
             {
                 case GameState.Start:
-                    Menu.Update();
+                    Menu.Update(graphics, Content);
 
                     if (Button.isFullScreen == true)
                     {
@@ -95,15 +104,25 @@ namespace RogueLike
                     break;
                 case GameState.Play:
                     Level.Update(gameTime);
+                    Menu.Update(graphics, Content);
+                    break;
+                case GameState.Pause:
+                    Menu.Update(graphics, Content);
+
+                    if (Button.isFullScreen == true)
+                    {
+                        graphics.ToggleFullScreen();
+                        graphics.ApplyChanges();
+                        Button.isFullScreen = false;
+                    }
+                    break;
+                case GameState.GameOver:
+                    GameOver.Update(gameTime, graphics, Content);
                     break;
             }
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            //    Exit();
             
-            
-
-            
-
             Window.Title = Level.currency.ToString();   
             
             base.Update(gameTime);
@@ -112,8 +131,6 @@ namespace RogueLike
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-
-            
 
             switch (gameState)
             {
@@ -124,6 +141,15 @@ namespace RogueLike
                 case GameState.Play:
                     spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.Transform);
                     Level.Draw(spriteBatch);
+                    break;
+                case GameState.Pause:
+                    spriteBatch.Begin();
+                    Level.Draw(spriteBatch);
+                    Menu.Draw(spriteBatch);
+                    break;
+                case GameState.GameOver:
+                    spriteBatch.Begin();
+                    GameOver.Draw(spriteBatch);
                     break;
             }
 
