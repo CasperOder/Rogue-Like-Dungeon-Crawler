@@ -106,7 +106,7 @@ namespace RogueLike
                         case 'B':
 
                             tileArray[x, y] = NewWallTile(x, y, frameY, rnd);
-                            wallTiles.Add(tileArray[x, y]);
+                            //wallTiles.Add(tileArray[x, y]);
 
                             break;
                         case 'E':

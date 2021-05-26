@@ -178,18 +178,12 @@ namespace RogueLike
 
             projectile.hitbox.Location = projectilePosition.ToPoint();
 
-            foreach (Room r in Level.generatedRoomList)
+            for (int i = 0; i < Room.wallTiles.Count; i++)
             {
-                foreach (Tile t in r.tileArray)
+                if (Room.wallTiles[i].hitbox.Contains(projectile.hitbox))
                 {
-                    if (t.solid)
-                    {
-                        if (t.hitbox.Contains(projectile.hitbox))
-                        {
-                            projectileFired = false;
-                            break;
-                        }
-                    }
+                    projectileFired = false;
+                    break;
                 }
             }
 
@@ -379,26 +373,18 @@ namespace RogueLike
             Vector2 ray = origin;
 
             //Behöver vara mindre än spelare och tile hitbox men för liten skapar mycket lagg
-            int jumps = 10;
-
-            //Console.WriteLine("player" + Level.player.hitbox.Location);
-            //Console.WriteLine("enemy" + Level.enemyList[1].hitbox.Location);
+            int jumps = 25;
 
             while (true)
             {
-                foreach (Room r in Level.generatedRoomList)
+                for (int i = 0; i < Room.wallTiles.Count; i++)
                 {
-                    foreach (Tile t in r.tileArray)
+                    if (Room.wallTiles[i].hitbox.Contains(ray))
                     {
-                        if (t.solid)
-                        {
-                            if (t.hitbox.Contains(ray))
-                            {
-                                return false;
-                            }
-                        }
+                        return false;
                     }
                 }
+
                 if (Level.player.hitbox.Contains(ray))
                     return true;
 
