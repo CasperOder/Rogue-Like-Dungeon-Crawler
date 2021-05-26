@@ -98,6 +98,11 @@ namespace RogueLike
                         SavefileHandler.DeleteSavefile();
 
                         Game1.gameState = Game1.GameState.Play;
+
+                        for (int i = 0; i < Menu.buttons.Count;)
+                        {
+                            Menu.buttons.Remove(Menu.buttons[0]);
+                        }
                     }
                     //Continue on saved file
                     else if (buttonName == "continue")
@@ -106,6 +111,7 @@ namespace RogueLike
                         {
                             Level.LoadFromSave();
                             Game1.gameState = Game1.GameState.Play;
+                            Menu.LoadButtons();
                         }
                     }
                     else if (buttonName == "resume")
@@ -149,11 +155,15 @@ namespace RogueLike
                         }
                         Level.Load_Level(graphics, content);
                         Game1.gameState = Game1.GameState.Start;
+
                     }
                     else if (buttonName == "exitGame")
                     {
                         Level.enemyList.Clear();
                         Game1.gameState = Game1.GameState.Start;
+                        Menu.menuState = Menu.MenuState.MainMenuHome;
+                        Menu.LoadButtons();
+                        Menu.swap = SpriteSheetManager.backGroundTex.texture;
                         Level.Load_Level(graphics, content);
                        
                     }

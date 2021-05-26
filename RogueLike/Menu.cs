@@ -103,6 +103,9 @@ namespace RogueLike
 
                 case Game1.GameState.GameOver:
                     break;
+
+                case Game1.GameState.Play:
+                    break;
             }
         }
 
