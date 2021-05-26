@@ -69,7 +69,6 @@ namespace RogueLike
             projectilesOnScreenList = new List<Projectile>();
 
             shopRoomArray = new Room[3, 3];
-
             loadBoss = true;
 
             frontRenderTarget = new RenderTarget2D(graphics.GraphicsDevice, Constants.roomWidth * Constants.noOfRoomsX, Constants.roomHeight * Constants.noOfRoomsY);
@@ -108,6 +107,15 @@ namespace RogueLike
         {
             isBossRoom = false;
             currentCircle++;
+
+            if(currentCircle==2)
+            {
+                currentCircle = 7;
+            }
+            else if(currentCircle==8)
+            {
+                currentCircle = 9;
+            }
 
             switch (currentCircle)
             {
@@ -162,8 +170,11 @@ namespace RogueLike
             generatedRoomList.Clear();
             backgroundRoomList.Clear();
             endTileList.Clear();
+            enemySpawnTiles.Clear();
             enemyList.Clear();
             itemsList.Clear();
+            vaseList.Clear();
+            
 
             AmbientEffectManager.NewCircle();
 
@@ -278,10 +289,6 @@ namespace RogueLike
                     {
                         shopRoomArray[x, y] = new Room(new Vector2(Constants.roomWidth * x - 2000, Constants.roomHeight * y - 2000), "backRoom.txt");
                     }
-
-
-
-
                 }
             }
 
