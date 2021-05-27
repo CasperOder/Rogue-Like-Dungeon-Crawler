@@ -191,7 +191,7 @@ namespace RogueLike
             {
                 HUD.UpdateCurrentHealthHUD((int)Level.player.health - damage);
                 Level.player.health -= damage;
-
+                Level.player.damaged = true;
                 projectileFired = false;
             }
         }
@@ -216,6 +216,7 @@ namespace RogueLike
 
                     HUD.UpdateCurrentHealthHUD((int)Level.player.health - damage);
                     Level.player.health -= damage;
+                    Level.player.damaged = true;
                 }
             }
 
@@ -400,6 +401,8 @@ namespace RogueLike
 
         public override void Draw(SpriteBatch sb)
         {
+            ChangeDamagedColor();
+
             if (isAttacking)
                 hitMarker.Draw(sb);
 

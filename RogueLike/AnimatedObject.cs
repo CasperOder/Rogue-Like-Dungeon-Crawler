@@ -19,7 +19,7 @@ namespace RogueLike
         public byte sequenceIndex = 0;
 
         public Color color = Color.White;
-
+        
         public AnimatedObject(SpriteSheet spriteSheet, double timeBetweenFrames) :
             base(spriteSheet)
         {
@@ -64,6 +64,7 @@ namespace RogueLike
 
         public virtual void Draw(SpriteBatch sb)
         {
+            
             sb.Draw(spriteSheet.texture, hitbox.Location.ToVector2(), null, new Rectangle(spriteSheet.frameSize.X * currentFrame.X, spriteSheet.frameSize.Y * currentFrame.Y, spriteSheet.frameSize.X, spriteSheet.frameSize.Y), Vector2.Zero, 0, Vector2.One, color*colorOpacity, SpriteEffects.None, 1f);
         }
     }

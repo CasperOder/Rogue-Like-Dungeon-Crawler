@@ -35,6 +35,8 @@ namespace RogueLike
 
         public override void Draw(SpriteBatch sb)
         {
+            ChangeDamagedColor();
+
             sb.Draw(spriteSheet.texture, position, null, new Rectangle(spriteSheet.frameSize.X * currentFrame.X, spriteSheet.frameSize.Y * currentFrame.Y, spriteSheet.frameSize.X, spriteSheet.frameSize.Y), Vector2.Zero, 0, Vector2.One, color, SpriteEffects.None, 1f);
         }
     }

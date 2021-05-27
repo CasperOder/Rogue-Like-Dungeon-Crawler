@@ -25,7 +25,11 @@ namespace RogueLike
         /// </summary>
         public static void LoadScreen()
         {
+            exitButton = null;
             player = Level.player;
+            player.isAttacking = false;
+            timeTillfade = 0;
+            gameOverFade = 0;
             player.SetPlayerPosition(new Vector2(Constants.windowWidth / 2, Constants.windowHeight / 2));
             background = SpriteSheetManager.gameOver;
         }
@@ -38,6 +42,7 @@ namespace RogueLike
         /// <param name="content"></param>
         public static void Update(GameTime gameTime, GraphicsDeviceManager graphics, ContentManager content)
         {
+
             oldMouseState = mouseState;
             mouseState = Mouse.GetState();
 
@@ -52,6 +57,7 @@ namespace RogueLike
                 exitButton = new Button(SpriteSheetManager.exitGame.texture, new Rectangle(Constants.windowWidth / 2 - 300, Constants.windowHeight * 4 / 5, 600, 105), "exitGame");
                 exitButton.ButtonClicked(mouseState, oldMouseState, graphics, content);
             }
+
         }
 
         public static void Draw(SpriteBatch sb)

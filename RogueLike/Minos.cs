@@ -201,6 +201,7 @@ namespace RogueLike
                     hasHit = true;
                     HUD.UpdateCurrentHealthHUD((int)Level.player.health - specialDamage);
                     Level.player.health -= specialDamage;
+                    Level.player.damaged = true;
                 }
 
                 if (specialWaitElapsed >= specialWait)
@@ -230,6 +231,7 @@ namespace RogueLike
                 hasHit = true;
                 HUD.UpdateCurrentHealthHUD((int)Level.player.health - meleeDamage);
                 Level.player.health -= meleeDamage;
+                Level.player.damaged = true;
             }
 
             if (timeSinceMeleeLock >= meleeLock)
@@ -267,6 +269,7 @@ namespace RogueLike
                     hasHit = true;
                     HUD.UpdateCurrentHealthHUD((int)Level.player.health - rangeDamage);
                     Level.player.health -= rangeDamage;
+                    Level.player.damaged = true;
                     break;
                 }
             }
