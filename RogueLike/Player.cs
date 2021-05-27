@@ -37,7 +37,7 @@ namespace RogueLike
         /// <param name="timeBetweenFrames">Time between frames, measured in seconds</param>
         public Player(SpriteSheet spriteSheet, /*Vector2 startPos,*/ double timeBetweenFrames) : base(spriteSheet, timeBetweenFrames)
         {
-            hitbox.Size = spriteSheet.frameSize;
+            hitbox.Size = new Point(96,96);
 
             middlepos = new Vector2(hitbox.Center.X, hitbox.Center.Y);
             maxHealth = 100;
@@ -579,7 +579,7 @@ namespace RogueLike
         {
             ChangeDamagedColor();
 
-            sb.Draw(spriteSheet.texture, hitbox.Location.ToVector2(), null, new Rectangle(spriteSheet.frameSize.X * currentFrame.X, spriteSheet.frameSize.Y * currentFrame.Y, spriteSheet.frameSize.X, spriteSheet.frameSize.Y), Vector2.Zero, 0, Vector2.One, color, SpriteEffects.None, 1f);
+            sb.Draw(spriteSheet.texture, null, hitbox, new Rectangle(spriteSheet.frameSize.X * currentFrame.X, spriteSheet.frameSize.Y * currentFrame.Y, spriteSheet.frameSize.X, spriteSheet.frameSize.Y), Vector2.Zero, 0, Vector2.One, color, SpriteEffects.None, 1f);
 
 
             //sb.Draw(SpriteSheetManager.dummy.texture, equippedMelee.damageHitbox, Color.White);
