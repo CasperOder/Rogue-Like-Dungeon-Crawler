@@ -10,9 +10,7 @@ using System.Threading.Tasks;
 namespace RogueLike
 {
     class Player : Moveable_Object
-    {        
-        Color playerColor=Color.White;
-        
+    {                
         public static MouseState mouseState;
         
         public static CardinalDirection mouseDirection;
@@ -431,6 +429,7 @@ namespace RogueLike
             {
                 if (target.hitbox.Intersects(equippedMelee.damageHitbox))
                 {
+                    target.damaged = true;
                     target.health -= (equippedMelee.baseDamage * equippedMelee.damageMultiplyier*damageMultiplier);
                     target.beenHit = true;
                 }
@@ -578,7 +577,9 @@ namespace RogueLike
 
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(spriteSheet.texture, hitbox.Location.ToVector2(), null, new Rectangle(spriteSheet.frameSize.X * currentFrame.X, spriteSheet.frameSize.Y * currentFrame.Y, spriteSheet.frameSize.X, spriteSheet.frameSize.Y), Vector2.Zero, 0, Vector2.One, playerColor, SpriteEffects.None, 1f);
+            ChangeDamagedColor();
+
+            sb.Draw(spriteSheet.texture, hitbox.Location.ToVector2(), null, new Rectangle(spriteSheet.frameSize.X * currentFrame.X, spriteSheet.frameSize.Y * currentFrame.Y, spriteSheet.frameSize.X, spriteSheet.frameSize.Y), Vector2.Zero, 0, Vector2.One, color, SpriteEffects.None, 1f);
 
 
             //sb.Draw(SpriteSheetManager.dummy.texture, equippedMelee.damageHitbox, Color.White);

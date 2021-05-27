@@ -30,7 +30,7 @@ namespace RogueLike
         {
             fire = new Enemy(SpriteSheetManager.fire, 0.1, 400, 1000, 250, 60, 2d, 100, 100, 1, 10, new Moveable_Object(SpriteSheetManager.iceBall, 0.1d), 400);
             book = new Enemy(SpriteSheetManager.book, 0.1, 300, 1000, 150, 60, 1.2d, 100, 100, 1, 5);
-            corpse = new Enemy(SpriteSheetManager.corpse, 0.1, 400, 1000, 150, 60, 1d, 100, 100, 1, 10);
+            corpse = new Enemy(SpriteSheetManager.corpse, 0.1, 400, 1000, 150, 60, 1d, 100, 100, 1, 8);
             circleOneEnemyRoster.Add(book);
             circleSevenEnemyRoster.Add(corpse);
             circleNineEnemyRoster.Add(fire);

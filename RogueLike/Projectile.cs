@@ -121,6 +121,7 @@ namespace RogueLike
             {
                 isColliding = true;
                 target.health -= (damage*damageMultiplyier);
+                target.damaged = true;
             }
         }        
     }

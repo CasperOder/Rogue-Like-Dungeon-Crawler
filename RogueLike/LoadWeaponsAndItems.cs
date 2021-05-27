@@ -221,10 +221,12 @@ namespace RogueLike
 
                     break;
                 case 7:
+                    coinGain = -50;
                     break;
                 case 8:
                     break;
                 case 9:
+                    coinGain = -100;
                     break;
                 case 10:
                     break;

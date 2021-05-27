@@ -18,6 +18,9 @@ namespace RogueLike
         public bool beenHit;
         public bool isColliding = false;
 
+        public bool damaged;
+        int damagedCounter;
+
         public float maxHealth, health;
        
         public enum CardinalDirection
@@ -70,5 +73,25 @@ namespace RogueLike
                 }
             }
         }
+
+        /// <summary>
+        /// Called in Draw
+        /// </summary>
+        public void ChangeDamagedColor()
+        {
+            if (damaged)
+            {
+                color = Color.Red;
+                damagedCounter++;
+                if (damagedCounter >= 12)
+                {
+                    color = Color.White;
+                    damaged = false;
+                    damagedCounter = 0;
+                }
+            }
+
+        }
+
     }
 }
