@@ -62,6 +62,9 @@ namespace RogueLike
         public static SpriteSheet start, resume, quit, options, back, continue_, pause;
         public static SpriteSheet muteMusicOff, muteMusicOn;
         public static SpriteSheet fullScreenOn, fullScreenOff;
+        public static SpriteSheet titleScreenSheet;
+        public static SpriteSheet doorSheet;
+        
 
         public static SpriteSheet vase, shatteredVase;
 
@@ -174,6 +177,9 @@ namespace RogueLike
             fullScreenOn = new SpriteSheet(c.Load<Texture2D>("FullScreenOn"), sheetSize);
             continue_ = new SpriteSheet(c.Load<Texture2D>("Continue"), sheetSize);
             pause = new SpriteSheet(c.Load<Texture2D>("PauseButton"), sheetSize);
+            titleScreenSheet = new SpriteSheet(c.Load<Texture2D>("TitleScreenSheet"), sheetSize);
+            doorSheet = new SpriteSheet(c.Load<Texture2D>("door-Sheet"), sheetSize);
+
 
 
             //Minos arm

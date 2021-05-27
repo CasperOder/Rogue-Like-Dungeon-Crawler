@@ -29,9 +29,6 @@ namespace RogueLike
 
         public static List<Button> buttons = new List<Button>();
 
-        //tillfälliga
-
-
         public static Texture2D swap;
         public static Color currentFade;
         public static bool fadeIn;
@@ -39,6 +36,12 @@ namespace RogueLike
         public static int f = 255;
         static MouseState mouseState, oldMouseState;
         public static string stateName;
+
+        private static double timeSinceLastFrame = 0;
+        private static double timeBetweenFrames = 0.2;
+        private static int currentFrame = 0;
+        private static int totalFrames = 7;
+        private static Rectangle rect;
 
 
         public static void Load(ContentManager content)
@@ -109,8 +112,28 @@ namespace RogueLike
             }
         }
 
-        public static void Update(GraphicsDeviceManager graphics, ContentManager content)
+        public static void UpdateFrame(GameTime gameTime)
         {
+            timeSinceLastFrame += gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (timeSinceLastFrame >= timeBetweenFrames)
+            {
+                timeSinceLastFrame = 0;
+                currentFrame++;
+
+                if (currentFrame >= totalFrames)
+                {
+                    currentFrame = 0;
+                }
+            }
+
+            rect = new Rectangle(currentFrame * SpriteSheetManager.titleScreenSheet.texture.Width / totalFrames, 0, SpriteSheetManager.titleScreenSheet.texture.Width / totalFrames, SpriteSheetManager.titleScreenSheet.texture.Height);
+        }
+
+        public static void Update(GraphicsDeviceManager graphics, ContentManager content, GameTime gameTime)
+        {
+            UpdateFrame(gameTime);
+
             oldMouseState = mouseState;
             mouseState = Mouse.GetState();
 
@@ -173,11 +196,13 @@ namespace RogueLike
 
         public static void Draw(SpriteBatch spriteBatch)
         {
-            if (Game1.gameState == Game1.GameState.Start || Game1.gameState == Game1.GameState.Pause)
-            {
-                spriteBatch.Draw(swap, new Rectangle(0, 0, 1850, 1000), currentFade);
-            }
-            
+            //if (Game1.gameState == Game1.GameState.Start || Game1.gameState == Game1.GameState.Pause)
+            //{
+            //    spriteBatch.Draw(swap, new Rectangle(0, 0, 1850, 1000), currentFade);
+            //}
+
+            spriteBatch.Draw(SpriteSheetManager.titleScreenSheet.texture, new Vector2(0, 0), rect, Color.White);
+
             for (int i = 0; i < buttons.Count; i++)
             {
                 buttons[i].Draw(spriteBatch);

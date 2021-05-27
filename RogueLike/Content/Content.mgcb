@@ -217,6 +217,18 @@
 /processorParam:TextureFormat=Color
 /build:Door.png
 
+#begin Door-Sheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Door-Sheet.png
+
 #begin dummy.bmp
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -252,8 +264,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:exit.png
-
-
 
 #begin Fire.png
 /importer:TextureImporter
@@ -933,6 +943,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:throwitem.png
+
+#begin TitleScreenSheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:TitleScreenSheet.png
 
 #begin vase.png
 /importer:TextureImporter
