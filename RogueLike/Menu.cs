@@ -196,12 +196,16 @@ namespace RogueLike
 
         public static void Draw(SpriteBatch spriteBatch)
         {
-            //if (Game1.gameState == Game1.GameState.Start || Game1.gameState == Game1.GameState.Pause)
-            //{
-            //    spriteBatch.Draw(swap, new Rectangle(0, 0, 1850, 1000), currentFade);
-            //}
+            if (Game1.gameState == Game1.GameState.Start && menuState == MenuState.MainMenuPlay || Game1.gameState == Game1.GameState.Pause)
+            {
+                spriteBatch.Draw(swap, new Rectangle(0, 0, 1850, 1000), currentFade);
+            }
 
-            spriteBatch.Draw(SpriteSheetManager.titleScreenSheet.texture, new Vector2(0, 0), rect, Color.White);
+            if (Game1.gameState == Game1.GameState.Start && menuState == MenuState.MainMenuHome)
+            {
+                spriteBatch.Draw(SpriteSheetManager.titleScreenSheet.texture, new Vector2(0, 0), rect, currentFade);
+            }
+            
 
             for (int i = 0; i < buttons.Count; i++)
             {
