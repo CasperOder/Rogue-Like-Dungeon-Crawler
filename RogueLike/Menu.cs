@@ -196,7 +196,7 @@ namespace RogueLike
 
         public static void Draw(SpriteBatch spriteBatch)
         {
-            if (Game1.gameState == Game1.GameState.Start && menuState == MenuState.MainMenuPlay || Game1.gameState == Game1.GameState.Pause)
+            if (Game1.gameState == Game1.GameState.Start && menuState == MenuState.MainMenuPlay || Game1.gameState == Game1.GameState.Start && menuState == MenuState.MainMenuOption || Game1.gameState == Game1.GameState.Pause)
             {
                 spriteBatch.Draw(swap, new Rectangle(0, 0, 1850, 1000), currentFade);
             }
