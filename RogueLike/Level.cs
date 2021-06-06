@@ -86,6 +86,10 @@ namespace RogueLike
             currentCircle = 0;
 
             LoadNewCircle();
+
+            bossList.Add(new Minos(SpriteSheetManager.bossMinos, 0.1d, 400, 400));
+
+            bossList.Add(new Devil(SpriteSheetManager.devil, 0.1d, 450, 450));
         }
 
 
@@ -452,7 +456,7 @@ namespace RogueLike
                 {
                     case 1:
                         //Minos
-                        bossList.Add(new Minos(SpriteSheetManager.bossMinos, 0.1d, 400, 400));
+                        //bossList.Add(new Minos(SpriteSheetManager.bossMinos, 0.1d, 400, 400));
                         break;
                     case 2:
 
@@ -487,11 +491,11 @@ namespace RogueLike
 
             player.SetPlayerPosition(bossRoom.playerSpawnPoint);
 
-            if (bossList.Count != 0)
+            if (bossList.Count != 0 && currentCircle <= bossList.Count)
             {
-                bossList[currentBoss - 1].SetPosition(bossRoom.bossSpawnPoint);
+                bossList[currentCircle - 1].SetPosition(bossRoom.bossSpawnPoint);
 
-                bossList[currentBoss - 1].alive = true;
+                bossList[currentCircle - 1].alive = true;
             }
             else
             {

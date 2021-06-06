@@ -34,6 +34,8 @@ namespace RogueLike
         public static SpriteSheet arrow;
         public static SpriteSheet arrowItem;
 
+        public static SpriteSheet devil;
+
         public static SpriteSheet coin;
         public static SpriteSheet sweep;
         public static SpriteSheet sweepItem;
@@ -68,6 +70,8 @@ namespace RogueLike
         private static List<Point[]> playerPlaceHolderAnimations = new List<Point[]>();
         private static List<Point[]> minosAnimations = new List<Point[]>();
         private static List<Point[]> minosGroundAnimation = new List<Point[]>();
+
+        private static List<Point[]> devilAnimations = new List<Point[]>();
 
         private static List<Point[]> fireAnimations = new List<Point[]>();
         private static List<Point[]> bookAnimations = new List<Point[]>();
@@ -457,6 +461,18 @@ namespace RogueLike
                 new Point(5, 0),
             });
             bubbles = new SpriteSheet(c.Load<Texture2D>("bubbles"), sheetSize, bubblesAnimation);
+
+            //Devil
+
+            sheetSize = new Point(3, 0);
+            devilAnimations.Add(new Point[]
+            {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(2, 0),
+                new Point(3, 0),
+            });
+            devil = new SpriteSheet(c.Load<Texture2D>("Devil"), sheetSize, devilAnimations);
 
         }
 
